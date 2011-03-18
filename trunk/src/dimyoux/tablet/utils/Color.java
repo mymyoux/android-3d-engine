@@ -3,7 +3,7 @@ import dimyoux.tablet.utils.math.Matrix;
 /**
  * Color
  */
-public class Color {
+public class Color implements Cloneable{
 	/**
 	 * Red value
 	 */
@@ -35,27 +35,27 @@ public class Color {
 		this.a = 1;
 		if(color.getNumColumns()>=3)
 		{
-			this.r = color.get(0, 0);
-			this.g = color.get(0, 1);
-			this.b = color.get(0, 2);
+			this.r = Math.max(0,Math.min(255,color.get(0, 0)));
+			this.g = Math.max(0,Math.min(255,color.get(0, 1)));
+			this.b = Math.max(0,Math.min(255,color.get(0, 2)));
 			if(color.getNumColumns()>=4)
 			{
-				this.a = color.get(0, 3);
+				this.a = Math.max(0,Math.min(255,color.get(0, 3)));
 			}
 		}else
 		{
 			if(color.getNumRows()>=3)
 			{
-				this.r = color.get(0, 0);
-				this.g = color.get(1, 0);
-				this.b = color.get(2, 0);
+				this.r = Math.max(0,Math.min(255,color.get(0, 0)));
+				this.g = Math.max(0,Math.min(255,color.get(1, 0)));
+				this.b = Math.max(0,Math.min(255,color.get(2, 0)));
 				if(color.getNumRows()>=4)
 				{
-					this.a = color.get(3, 0);
+					this.a = Math.max(0,Math.min(255,color.get(3, 0)));
 				}
 			}else
 			{
-				Log.error("This matrix:"+color+" can't be converted to a color");
+				Log.error("This matrix:"+color+" can't be converted to a color. This color will be (0,0,0,1)");
 			}
 		}
 	}
@@ -104,14 +104,23 @@ public class Color {
 		this.g = Math.max(0,Math.min(255, this.g));
 		this.b = Math.max(0,Math.min(255, this.b));
 	}
+	
+	/**
+	 * Indicates if color and this color are equals (same red, green, blue and alpha values)
+	 * @return True or false
+	 */
+	public boolean equals(Color color)
+	{
+		return color.r == r && color.g == g && color.b == b && color.a == a;
+	}
 	/**
 	 * Clone this color
 	 * @return Cloned color
 	 */
+	@Override
 	public Color clone()
 	{
-		Color color = new Color(this);
-		return color;
+		return new Color(this);
 	}
 	/**
 	 * Return the matrix of the color. It's a row matrix
