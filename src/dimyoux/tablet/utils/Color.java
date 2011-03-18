@@ -35,9 +35,9 @@ public class Color implements Cloneable{
 		this.a = 1;
 		if(color.getNumColumns()>=3)
 		{
-			this.r = Math.max(0,Math.min(255,color.get(0, 0)));
-			this.g = Math.max(0,Math.min(255,color.get(0, 1)));
-			this.b = Math.max(0,Math.min(255,color.get(0, 2)));
+			this.r = Math.max(0,Math.min(255,(int)color.get(0, 0)));
+			this.g = Math.max(0,Math.min(255,(int)color.get(0, 1)));
+			this.b = Math.max(0,Math.min(255,(int)color.get(0, 2)));
 			if(color.getNumColumns()>=4)
 			{
 				this.a = Math.max(0,Math.min(255,color.get(0, 3)));
@@ -46,9 +46,9 @@ public class Color implements Cloneable{
 		{
 			if(color.getNumRows()>=3)
 			{
-				this.r = Math.max(0,Math.min(255,color.get(0, 0)));
-				this.g = Math.max(0,Math.min(255,color.get(1, 0)));
-				this.b = Math.max(0,Math.min(255,color.get(2, 0)));
+				this.r = Math.max(0,Math.min(255,(int)color.get(0, 0)));
+				this.g = Math.max(0,Math.min(255,(int)color.get(1, 0)));
+				this.b = Math.max(0,Math.min(255,(int)color.get(2, 0)));
 				if(color.getNumRows()>=4)
 				{
 					this.a = Math.max(0,Math.min(255,color.get(3, 0)));
