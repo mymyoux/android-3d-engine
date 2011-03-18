@@ -1,0 +1,260 @@
+package dimyoux.tablet.utils;
+import dimyoux.tablet.utils.math.Matrix;
+/**
+ * Color
+ */
+public class Color {
+	/**
+	 * Red value
+	 */
+	public int r;
+	/**
+	 * Green value
+	 */
+	public int g;
+	/**
+	 * Blue value
+	 */
+	public int b;
+	/**
+	 * Alpha value
+	 */
+	public float a;
+	/**
+	 * Constructor. Default alpha = 1
+	 */
+	public Color()
+	{
+		this.a = 1;
+	}
+	/**
+	 * Constructor
+	 */
+	public Color(Matrix color)
+	{
+		this.a = 1;
+		if(color.getNumColumns()>=3)
+		{
+			this.r = color.get(0, 0);
+			this.g = color.get(0, 1);
+			this.b = color.get(0, 2);
+			if(color.getNumColumns()>=4)
+			{
+				this.a = color.get(0, 3);
+			}
+		}else
+		{
+			if(color.getNumRows()>=3)
+			{
+				this.r = color.get(0, 0);
+				this.g = color.get(1, 0);
+				this.b = color.get(2, 0);
+				if(color.getNumRows()>=4)
+				{
+					this.a = color.get(3, 0);
+				}
+			}else
+			{
+				Log.error("This matrix:"+color+" can't be converted to a color");
+			}
+		}
+	}
+	/**
+	 * Constructor
+	 */
+	public Color(Color color)
+	{
+		this.r = color.r;
+		this.g = color.g;
+		this.b = color.b;
+		this.a = color.a;
+	}
+	/**
+	 * Constructor.
+	 * @param r Red value
+	 * @param g Green value
+	 * @param b Blue value
+	 * @param a Alpha value
+	 */
+	public Color(int r, int g, int b, float a)
+	{
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.a = a;
+		this.r = Math.max(0,Math.min(255, this.r));
+		this.g = Math.max(0,Math.min(255, this.g));
+		this.b = Math.max(0,Math.min(255, this.b));
+		this.a = Math.max(0,Math.min(1.0f, this.a));
+	}
+	/**
+	 * Constructor
+	 * Default alpha = 1
+	 * @param r Red value
+	 * @param g Green value
+	 * @param b Blue value
+	 */
+	public Color(int r, int g, int b)
+	{
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.a = 1;
+		this.r = Math.max(0,Math.min(255, this.r));
+		this.g = Math.max(0,Math.min(255, this.g));
+		this.b = Math.max(0,Math.min(255, this.b));
+	}
+	/**
+	 * Clone this color
+	 * @return Cloned color
+	 */
+	public Color clone()
+	{
+		Color color = new Color(this);
+		return color;
+	}
+	/**
+	 * Return the matrix of the color. It's a row matrix
+	 * @return Matrix
+	 */
+	public Matrix getMatrix()
+	{
+		Matrix matrix = new Matrix(0, 4);
+		matrix.set(0, 0, r);
+		matrix.set(0, 1, g);
+		matrix.set(0, 2, b);
+		matrix.set(0, 3, a);
+		return matrix;
+	}
+	/**
+	 * Return the matrix of the color
+	 * @param row If true returns a column matrix otherwise it returns a column matrix
+	 * @return Matrix
+	 */
+	public Matrix getMatrix(boolean row)
+	{
+		if(row)
+		{
+			return getMatrix();
+		}else
+		{
+			Matrix matrix = new Matrix(4, 0);
+			matrix.set(0, 0, r);
+			matrix.set(1, 0, g);
+			matrix.set(2, 0, b);
+			matrix.set(3, 0, a);
+			return matrix;
+		}
+	}
+	/**
+	 * Sums with a color (this Color is modified)
+	 * @param Color color
+	 */
+	public void add(Color color)
+	{
+		add(color.r, color.g, color.b, color.a);
+	}
+	/**
+	 * Sums with a color 
+	 * @param r Red value to add
+	 * @param g Green value to add
+	 * @param b Blue value to add
+	 * @param a Alpha value to add
+	 */
+	public void add(int r, int g, int b, float a)
+	{
+		this.r = Math.min(255, r+this.r);
+		this.g = Math.min(255, g+this.g);
+		this.b = Math.min(255, b+this.b);
+		this.a = Math.min(1.0f, a+this.a);
+	}
+	/**
+	 * Makes a composition between color and this color
+	 * @param color Color
+	 */
+	public void comp(Color color)
+	{
+		this.r = color.r*this.r/255;
+		this.g = color.g+this.g/255;
+		this.b = color.b+this.b/255;
+		this.a = color.a+this.a/255;
+	}
+	/**
+	 * Makes a composition between color and this color
+	 * @param color Color
+	 */
+	public void comp(int r, int g, int b, float a)
+	{
+		this.r = Math.max(0,Math.min(255, r*this.r/255));
+		this.g = Math.max(0,Math.min(255, g+this.g/255));
+		this.b = Math.max(0,Math.min(255, b+this.b/255));
+		this.a = Math.max(0,Math.min(1.0f, a+this.a/255));
+	}
+	/**
+	 * Multiplies this color by a scalar
+	 * @param scalar Scalar
+	 */
+	public void mul(float scalar)
+	{
+		this.r = Math.max(0, Math.min(255, (int) (r * scalar)));
+		this.g = Math.max(0, Math.min(255, (int) (g * scalar)));
+		this.b = Math.max(0, Math.min(255, (int) (b * scalar)));
+		this.a = Math.max(0, Math.min(1.0f, (int) (a * scalar)));
+	}
+	/**
+	 * Makes a composition between two colors and return the new Color result
+	 * @param color1 Color 1
+	 * @param color2 Color 2
+	 * @return Color created by composition between both colors
+	 */
+	public Color comp(Color color1, Color color2)
+	{
+		Color color = new Color(color1);
+		color.comp(color2);
+		return color;
+	}
+	/**
+	 * Multiply a color by a scalar and return a new color
+	 * @param color Color 
+	 * @param scalar Scalar
+	 * @return A new color created by the multiply of both parameters
+	 */
+	public static Color mul(Color color, float scalar)
+	{
+		color = new Color(color);
+		color.mul(scalar);
+		return color;
+	}
+	/**
+	 * Sum two colors
+	 * @param color1 Color one
+	 * @param color2 Color two
+	 * @return A new color created by the addition of both parameters
+	 */
+	public static Color sum(Color color1, Color color2)
+	{
+		Color color = new Color(color1);
+		color.add(color2);
+		return color;
+	}
+	/**
+	 * Create a new color
+	 * @param r Red value
+	 * @param g Green value
+	 * @param b Blue value
+	 * @param a Alpha valaue
+	 * @return A new color
+	 */
+	public static Color create(int r, int g, int b, float a)
+	{
+		return new Color(r, g, b, a);
+	}
+	/**
+	 * Create a new color
+	 * @param color Matrix of a color
+	 */
+	public static Color create(Matrix color)
+	{
+		return new Color(color);
+	}
+}

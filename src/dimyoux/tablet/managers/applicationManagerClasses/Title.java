@@ -16,7 +16,7 @@ public class Title
 	 */
 	private Signal<ITitleDisabled> signalTitleDisabled;
 	/**
-	 * Dispatch an signal when the satus bar is disabled or enabled
+	 * Dispatch an signal when the status bar is disabled or enabled
 	 * Signal<TitleDisabled>.dispatch(Boolean);
 	 */
 	private Signal<IStatusBarDisabled> signalStatusBarDisabled;

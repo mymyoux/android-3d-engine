@@ -1,10 +1,7 @@
 package dimyoux.tablet;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import dimyoux.tablet.core.JDBGLSurfaceView;
 import dimyoux.tablet.core.signals.ISensorOrientation;
 import dimyoux.tablet.core.signals.ISensorProximity;
 import dimyoux.tablet.managers.ApplicationManager;

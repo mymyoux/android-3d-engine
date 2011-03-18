@@ -71,15 +71,15 @@ public class Node {
 		}
 	}
 	/**
-	 * Get the childNode at indice
-	 * @param indice Indice	
-	 * @return The child or null if indice >= childNodes.size()
+	 * Get the childNode at an index
+	 * @param indice Index	
+	 * @return The child or null if index >= childNodes.size()
 	 */
-	public Node getChildNode(int indice)
+	public Node getChildNode(int index)
 	{
-		if(childNodes.size()>indice)
+		if(childNodes.size()>index)
 		{
-			return childNodes.get(indice);
+			return childNodes.get(index);
 		}
 		return null;
 	}
