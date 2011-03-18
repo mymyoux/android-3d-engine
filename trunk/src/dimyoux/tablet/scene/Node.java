@@ -28,7 +28,7 @@ public class Node {
 		childNodes = new ArrayList<Node>();
 	}
 	/**
-	 * Attach a entity to this node
+	 * Attaches a entity to this node
 	 * One entity by node
 	 * @param entity Entity to add
 	 */
@@ -37,7 +37,7 @@ public class Node {
 		this.entity = entity;
 	}
 	/**
-	 * Return the entity attached to the node if it exists
+	 * Returns the entity attached to the node if it exists
 	 * @return eEntity
 	 */
 	public Entity getEntity()
@@ -45,7 +45,7 @@ public class Node {
 		return entity;
 	}
 	/**
-	 * Test if this node has an entity
+	 * Tests if this node has an entity
 	 * @return True of false
 	 */
 	public boolean hasEntity()
@@ -53,14 +53,14 @@ public class Node {
 		return entity!=null;
 	}
 	/**
-	 * Attach a node to this current node. An error is thrown (throw LogCat) if there is a recursive link 
+	 * Attaches a node to this current node. An error is thrown (throw LogCat) if there is a recursive link 
 	 * @param node Node to attach
 	 */
 	public void attachChildNode(Node node)
 	{
 		if(!childNodes.contains(node))
 		{
-			if(!this.hasParentNode(node, true))
+			if(!this.isParentNode(node, true))
 			{
 				childNodes.add(node);
 				node.setParentNode(this);
@@ -70,6 +70,11 @@ public class Node {
 			}	
 		}
 	}
+	/**
+	 * Get the childNode at indice
+	 * @param indice Indice	
+	 * @return The child or null if indice >= childNodes.size()
+	 */
 	public Node getChildNode(int indice)
 	{
 		if(childNodes.size()>indice)
@@ -78,37 +83,72 @@ public class Node {
 		}
 		return null;
 	}
-	public int getNumNodes()
+	/**
+	 * Get the number of childNodes
+	 * @return Number of childNodes
+	 */
+	public int getNumChildNodes()
 	{
 		return childNodes.size();
 	}
+	/**
+	 * Get ChildNodes
+	 * @return ChildNodes
+	 */
 	public List<Node> getChildNodes()
 	{
 		return childNodes;
 	}
+	/**
+	 * Get Parent node
+	 * @return Parent node or null this node is the root or is not attached
+	 */
 	public Node getParentNode()
 	{
 		return parentNode;
 	}
+	/**
+	 * Set the parent node
+	 * @param node Future parent node.
+	 */
 	public void setParentNode(Node node)
 	{
-		this.parentNode = node;
+		node.attachChildNode(this);
 	}
-	public boolean isAttached()
+	/**
+	 * Indicates if this node has a parent node
+	 * @return true of false
+	 */
+	public boolean hasParentNode()
 	{
 		return parentNode != null;
 	}
-	public boolean hasParentNode()
+	/**
+	 * Indicates if this node has at least a child node
+	 * @return true of false
+	 */
+	public boolean hasChildNode()
 	{
-		return isAttached();
+		return childNodes.size()>0;
 	}
-	public boolean hasChildNode(Node node)
+	/**
+	 * Indicates if a node is a child of this one
+	 * @param node Node to test
+	 * @return true of false
+	 */
+	public boolean isChildNode(Node node)
 	{
 		return childNodes.contains(node);
 	}
-	public boolean hasChildNode(Node node, boolean recursive)
+	/**
+	 * Indicates if a node is a child or grand child of this one
+	 * @param node Node to test
+	 * @return true of false
+	 */
+
+	public boolean isChildNode(Node node, boolean recursive)
 	{
-		if(hasChildNode(node))
+		if(isChildNode(node))
 		{
 			return true;
 		}
@@ -116,7 +156,7 @@ public class Node {
 		{
 			for(final Node childNode : childNodes)
 			{
-				if(childNode.hasChildNode(node, true))
+				if(childNode.isChildNode(node, true))
 				{
 					return true;
 				}
@@ -124,19 +164,29 @@ public class Node {
 		}
 		return false;
 	}
-	public boolean hasParentNode(Node node)
+	/**
+	 * Indicates if a node is the parent of this one
+	 * @param node Node to test
+	 * @return true of false
+	 */
+	public boolean isParentNode(Node node)
 	{
 		return node == parentNode;
 	}
-	public boolean hasParentNode(Node node, boolean recursive)
+	/**
+	 * Indicates if a node is the parent or grand parent of this one
+	 * @param node Node to test
+	 * @return true of false
+	 */
+	public boolean isParentNode(Node node, boolean recursive)
 	{
-		if(hasParentNode())
+		if(isParentNode(node))
 		{
 			return true;
 		}
 		if(recursive && parentNode != null)
 		{
-			return parentNode.hasParentNode(node, true);
+			return parentNode.isParentNode(node, true);
 		}
 		return false;
 	}

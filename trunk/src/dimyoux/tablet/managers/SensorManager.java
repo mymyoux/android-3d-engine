@@ -73,7 +73,9 @@ public class SensorManager implements SensorEventListener
 	/**
 	 * Sensors Types
 	 */
-	final private static List<Integer> sensorsTypes = new ArrayList<Integer>() {{
+	final private static List<Integer> sensorsTypes = new ArrayList<Integer>() 
+	{private static final long serialVersionUID = 6436584183297172115L;
+	{
 	    add(TYPE_ACCELEROMETER);
 	    add(TYPE_GYROSCOPE);
 	    add(TYPE_LIGHT);
@@ -87,7 +89,8 @@ public class SensorManager implements SensorEventListener
 	 * Names of Sensors Types
 	 */
 	final private Map<Integer, String> sensorsNames = new Hashtable<Integer, String>()
-	{{
+	{private static final long serialVersionUID = 837648960662696146L;
+	{
 		put(TYPE_ACCELEROMETER, "accelerometer");
 		put(TYPE_GYROSCOPE, "gyroscope");
 		put(TYPE_LIGHT, "light");
@@ -121,6 +124,7 @@ public class SensorManager implements SensorEventListener
         		listener.onProximityEvent((Boolean)params[0]);
         	}
 		};
+		
 		signalOrientation = new Signal<ISensorOrientation>(){
 			@Override
         	protected void _dispatch(ISensorOrientation listener, Object... params)
