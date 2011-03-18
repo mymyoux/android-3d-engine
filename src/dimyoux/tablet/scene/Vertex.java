@@ -6,7 +6,8 @@ public class Vertex {
 	public float r,g,b,a;
 	public Vertex()
 	{
-		x=y=z=tx=ty=r=g=b=a=0;
+		//damn it was so cool...
+		//x=y=z=tx=ty=r=g=b=a=0;
 	}
 	public void setPosition(float x, float y, float z)
 	{
