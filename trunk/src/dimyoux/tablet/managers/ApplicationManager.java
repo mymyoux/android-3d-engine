@@ -4,6 +4,7 @@ import dimyoux.tablet.core.JDBGLSurfaceView;
 import dimyoux.tablet.core.signals.IStatusBarDisabled;
 import dimyoux.tablet.core.signals.ITitleDisabled;
 import dimyoux.tablet.managers.applicationManagerClasses.Title;
+import dimyoux.tablet.utils.Color;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -151,6 +152,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
         	return false;
 		}
 		openGLSurface = new JDBGLSurfaceView(activity);
+		openGLSurface.setClearColor(new Color(255,255,255,1));
         activity.setContentView(openGLSurface);
         openGLSurface.requestFocus();
         openGLSurface.setFocusableInTouchMode(true);

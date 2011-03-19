@@ -1,6 +1,7 @@
 package dimyoux.tablet.core;
 
 
+import dimyoux.tablet.utils.Color;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
@@ -22,6 +23,14 @@ public class JDBGLSurfaceView extends GLSurfaceView {
 		super(context);
 		renderer = new GLRenderer();
 		setRenderer(renderer);
+	}
+	/**
+	 * Defines the GlClearColor
+	 * @param color Color
+	 */
+	public void setClearColor(Color color)
+	{
+		renderer.setClearColor(color);
 	}
 	/**
 	 * Constructor
