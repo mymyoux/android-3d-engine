@@ -152,7 +152,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
         	return false;
 		}
 		openGLSurface = new JDBGLSurfaceView(activity);
-		openGLSurface.setClearColor(new Color(255,255,255,1));
+		openGLSurface.setClearColor(new Color(Color.YELLOW));
         activity.setContentView(openGLSurface);
         openGLSurface.requestFocus();
         openGLSurface.setFocusableInTouchMode(true);
