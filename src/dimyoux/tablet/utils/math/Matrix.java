@@ -39,6 +39,51 @@ public class Matrix implements Cloneable {
 		values = new float[nRows][nCols];
 		this.setData(data);
 	}
+	/**
+	 * Matrix constructor
+	 * @param data data to assign to the matrix
+	 * The float[] array will fill a Row Matrix size(1, data.length)
+	 */
+	public Matrix(float[] data)
+	{
+		this.nRows = 1;
+		this.nCols = data.length;
+		
+		values = new float[nRows][nCols];
+		for(int i=0; i<nCols; i++)
+		{
+			values[0][i] = data[i];
+		}
+	}
+	/**
+	 * Matrix constructor
+	 * @param data data to assign to the matrix
+	 * @param isColumnMatrix If true the float[] array will fill a Column Matrix size(data.length, 1) otherwise size(1, data.length)
+	 */
+	public Matrix(float[] data, boolean isColumnMatrix)
+	{
+		if(isColumnMatrix)
+		{
+			this.nRows = data.length;
+			this.nCols = 1;
+			
+			values = new float[nRows][nCols];
+			for(int i=0; i<nRows; i++)
+			{
+				values[i][0] = data[i];
+			}
+		}else
+		{
+			this.nRows = 1;
+			this.nCols = data.length;
+			
+			values = new float[nRows][nCols];
+			for(int i=0; i<nCols; i++)
+			{
+				values[0][i] = data[i];
+			}
+		}
+	}
 	
 	/**
 	 * Returns the number of rows
@@ -57,7 +102,22 @@ public class Matrix implements Cloneable {
 	{
 		return nCols;
 	}
-	
+	/**
+	 * Indicates if this matrix is a row matrix
+	 * @return True or false
+	 */
+	public boolean isRowMatrix()
+	{
+		return nCols>1 && nRows==1;
+	}
+	/**
+	 * Indicates if this matrix is a column matrix
+	 * @return True or false
+	 */
+	public boolean isColumnMatrix()
+	{
+		return nRows>1 && nCols==1;
+	}
 	/**
 	 * Sets the data of the current matrix
 	 * @param data data used to replace the current data
