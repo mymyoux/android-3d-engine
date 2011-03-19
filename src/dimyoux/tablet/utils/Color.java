@@ -4,20 +4,22 @@ import dimyoux.tablet.utils.math.Matrix;
  * Color
  */
 public class Color implements Cloneable{
+	public static final int BLACK=0x02;
+	public static final int WHITE=0x04;
 	/**
-	 * Red value
+	 * Red value [0,1]
 	 */
-	public int r;
+	public float r;
 	/**
-	 * Green value
+	 * Green value [0,1]
 	 */
-	public int g;
+	public float g;
 	/**
-	 * Blue value
+	 * Blue value [0,1]
 	 */
-	public int b;
+	public float b;
 	/**
-	 * Alpha value
+	 * Alpha value [0,1]
 	 */
 	public float a;
 	/**
@@ -35,23 +37,23 @@ public class Color implements Cloneable{
 		this.a = 1;
 		if(color.getNumColumns()>=3)
 		{
-			this.r = Math.max(0,Math.min(255,(int)color.get(0, 0)));
-			this.g = Math.max(0,Math.min(255,(int)color.get(0, 1)));
-			this.b = Math.max(0,Math.min(255,(int)color.get(0, 2)));
+			this.r = Math.max(0.f,Math.min(1.0f,color.get(0, 0)));
+			this.g = Math.max(0.f,Math.min(1.0f,color.get(0, 1)));
+			this.b = Math.max(0.f,Math.min(1.0f,color.get(0, 2)));
 			if(color.getNumColumns()>=4)
 			{
-				this.a = Math.max(0,Math.min(255,color.get(0, 3)));
+				this.a = Math.max(0.f,Math.min(1.0f,color.get(0, 3)));
 			}
 		}else
 		{
 			if(color.getNumRows()>=3)
 			{
-				this.r = Math.max(0,Math.min(255,(int)color.get(0, 0)));
-				this.g = Math.max(0,Math.min(255,(int)color.get(1, 0)));
-				this.b = Math.max(0,Math.min(255,(int)color.get(2, 0)));
+				this.r = Math.max(0.f,Math.min(1.0f,color.get(0, 0)));
+				this.g = Math.max(0.f,Math.min(1.0f,color.get(1, 0)));
+				this.b = Math.max(0.f,Math.min(1.0f,color.get(2, 0)));
 				if(color.getNumRows()>=4)
 				{
-					this.a = Math.max(0,Math.min(255,color.get(3, 0)));
+					this.a = Math.max(0.f,Math.min(1.0f,color.get(3, 0)));
 				}
 			}else
 			{
@@ -76,16 +78,16 @@ public class Color implements Cloneable{
 	 * @param b Blue value
 	 * @param a Alpha value
 	 */
-	public Color(int r, int g, int b, float a)
+	public Color(float r, float g, float b, float a)
 	{
 		this.r = r;
 		this.g = g;
 		this.b = b;
 		this.a = a;
-		this.r = Math.max(0,Math.min(255, this.r));
-		this.g = Math.max(0,Math.min(255, this.g));
-		this.b = Math.max(0,Math.min(255, this.b));
-		this.a = Math.max(0,Math.min(1.0f, this.a));
+		this.r = Math.max(0.f,Math.min(1.0f, this.r));
+		this.g = Math.max(0.f,Math.min(1.0f, this.g));
+		this.b = Math.max(0.f,Math.min(1.0f, this.b));
+		this.a = Math.max(0.f,Math.min(1.0f, this.a));
 	}
 	/**
 	 * Constructor
@@ -94,15 +96,15 @@ public class Color implements Cloneable{
 	 * @param g Green value
 	 * @param b Blue value
 	 */
-	public Color(int r, int g, int b)
+	public Color(float r, float g, float b)
 	{
 		this.r = r;
 		this.g = g;
 		this.b = b;
 		this.a = 1;
-		this.r = Math.max(0,Math.min(255, this.r));
-		this.g = Math.max(0,Math.min(255, this.g));
-		this.b = Math.max(0,Math.min(255, this.b));
+		this.r = Math.max(0.f,Math.min(1.0f, this.r));
+		this.g = Math.max(0.f,Math.min(1.0f, this.g));
+		this.b = Math.max(0.f,Math.min(1.0f, this.b));
 	}
 	
 	/**
@@ -170,12 +172,12 @@ public class Color implements Cloneable{
 	 * @param b Blue value to add
 	 * @param a Alpha value to add
 	 */
-	public void add(int r, int g, int b, float a)
+	public void add(float r, float g, float b, float a)
 	{
-		this.r = Math.min(255, r+this.r);
-		this.g = Math.min(255, g+this.g);
-		this.b = Math.min(255, b+this.b);
-		this.a = Math.min(1.0f, a+this.a);
+		this.r = Math.max(0.f, Math.min(1.0f, r+this.r));
+		this.g = Math.max(0.f, Math.min(1.0f, g+this.g));
+		this.b = Math.max(0.f, Math.min(1.0f, b+this.b));
+		this.a = Math.max(0.f, Math.min(1.0f, a+this.a));
 	}
 	/**
 	 * Makes a composition between color and this color
@@ -183,10 +185,10 @@ public class Color implements Cloneable{
 	 */
 	public void comp(Color color)
 	{
-		this.r = color.r*this.r/255;
-		this.g = color.g+this.g/255;
-		this.b = color.b+this.b/255;
-		this.a = color.a+this.a/255;
+		this.r = color.r*this.r;
+		this.g = color.g+this.g;
+		this.b = color.b+this.b;
+		this.a = color.a+this.a;
 	}
 	/**
 	 * Makes a composition between color and this color
@@ -194,10 +196,10 @@ public class Color implements Cloneable{
 	 */
 	public void comp(int r, int g, int b, float a)
 	{
-		this.r = Math.max(0,Math.min(255, r*this.r/255));
-		this.g = Math.max(0,Math.min(255, g+this.g/255));
-		this.b = Math.max(0,Math.min(255, b+this.b/255));
-		this.a = Math.max(0,Math.min(1.0f, a+this.a/255));
+		this.r = Math.max(0.f,Math.min(1.0f, r*this.r));
+		this.g = Math.max(0.f,Math.min(1.0f, g+this.g));
+		this.b = Math.max(0.f,Math.min(1.0f, b+this.b));
+		this.a = Math.max(0.f,Math.min(1.0f, a+this.a));
 	}
 	/**
 	 * Multiplies this color by a scalar
@@ -205,10 +207,10 @@ public class Color implements Cloneable{
 	 */
 	public void mul(float scalar)
 	{
-		this.r = Math.max(0, Math.min(255, (int) (r * scalar)));
-		this.g = Math.max(0, Math.min(255, (int) (g * scalar)));
-		this.b = Math.max(0, Math.min(255, (int) (b * scalar)));
-		this.a = Math.max(0, Math.min(1.0f, (int) (a * scalar)));
+		this.r = Math.max(0.f, Math.min(1.0f, r * scalar));
+		this.g = Math.max(0.f, Math.min(1.0f, g * scalar));
+		this.b = Math.max(0.f, Math.min(1.0f, b * scalar));
+		this.a = Math.max(0.f, Math.min(1.0f, a * scalar));
 	}
 	/**
 	 * Makes a composition between two colors and return the new Color result
