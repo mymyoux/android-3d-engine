@@ -4,8 +4,42 @@ import dimyoux.tablet.utils.math.Matrix;
  * Color
  */
 public class Color implements Cloneable{
-	public static final int BLACK=0x02;
-	public static final int WHITE=0x04;
+	/**
+	 * Black color	(float[])
+	 */
+	public static final float[] BLACK={0.f,0.f,0.f,1.f};
+	/**
+	 * White color (float[])
+	 */
+	public static final float[] WHITE={1.0f,1.0f,1.0f,1.0f};
+	/**
+	 * Red color (float[])
+	 */
+	public static final float[] RED={1.0f,0.0f,0.0f,1.0f};
+	/**
+	 * Yellow color (float[])
+	 */
+	public static final float[] YELLOW={1.0f,1.0f,0.0f,1.0f};
+	/**
+	 * Green color (float[])
+	 */
+	public static final float[] GREEN={0.0f,1.0f,0.0f,1.0f};
+	/**
+	 * Blue color (float[])
+	 */
+	public static final float[] BLUE={0.0f,0.0f,1.0f,1.0f};
+	/**
+	 * Purple color (float[])
+	 */
+	public static final float[] PURPLE={1.0f,0.0f,1.0f,1.0f};
+	/**
+	 * Cyan color (float[])
+	 */
+	public static final float[] CYAN={0.0f,1.0f,1.0f,1.0f};
+	/**
+	 * Transparent color (float[])
+	 */
+	public static final float[] TRANSPARENT={0.0f,0.0f,0.0f,0.0f};
 	/**
 	 * Red value [0,1]
 	 */
@@ -88,6 +122,18 @@ public class Color implements Cloneable{
 		this.g = Math.max(0.f,Math.min(1.0f, this.g));
 		this.b = Math.max(0.f,Math.min(1.0f, this.b));
 		this.a = Math.max(0.f,Math.min(1.0f, this.a));
+	}
+	/**
+	 * Constructor.
+	 * @param components float[red, green, blue, alpha]
+	 */
+	public Color(float[] components)
+	{
+		this.r = components[0];
+		this.g = components[1];
+		this.b = components[2];
+		if(components.length>3)
+			this.a = components[3];
 	}
 	/**
 	 * Constructor
