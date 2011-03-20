@@ -25,6 +25,7 @@ public class HouseRenderer extends GLRenderer {
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		 super.onDrawFrame(gl);
+		 gl.
 	}
 
 }
