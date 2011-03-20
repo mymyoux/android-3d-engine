@@ -27,7 +27,14 @@ public class EngineActivity extends Activity implements ISensorProximity, ISenso
         SensorManager.getInstance().getSignalProximity().add(this);
         SensorManager.getInstance().getSignalOrientation().add(this);
         //create openGLES2.0 view
-        ApplicationManager.getInstance().createOpenGL2SurfaceView(new HouseRenderer());
+        try
+        {
+        	ApplicationManager.getInstance().createOpenGL2SurfaceView(new HouseRenderer());
+        }catch(Exception error)
+        {
+        	Log.error(error);
+        }
+        
        // ApplicationManager.getInstance().showFatalErrorDialog("test");
     }
 
