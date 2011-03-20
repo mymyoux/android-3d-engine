@@ -6,9 +6,11 @@ import android.opengl.GLSurfaceView;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11Ext;
 
 import dimyoux.engine.scene.Camera;
 import dimyoux.engine.utils.Color;
+import dimyoux.engine.utils.Log;
 
 /**
  * OpenGLES2 Renderer.
@@ -26,8 +28,9 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		 gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-         gl.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+		 gl.glEnableClientState(GL10.GL_VERTEX_ARRAY); //necessary on some devices
 	}
+
 
 	
 	@Override

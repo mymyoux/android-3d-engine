@@ -308,6 +308,14 @@ public class Color implements Cloneable{
 	}
 	/**
 	 * Create a new color
+	 * @param color Color (float[])
+	 */
+	public static Color create(float[] color)
+	{
+		return new Color(color);
+	}
+	/**
+	 * Create a new color
 	 * @param color Matrix of a color
 	 */
 	public static Color create(Matrix color)
