@@ -14,14 +14,15 @@ public class JDBGLSurfaceView extends GLSurfaceView {
 	/**
 	 * Renderer
 	 */
-	private GLRenderer renderer;
+	protected GLRenderer renderer;
 	/**
 	 * Constructor
 	 * @param context Context(activity)
+	 * @param renderer Class that extends from GLRenderer 
 	 */
-	public JDBGLSurfaceView(Context context) {
+	public JDBGLSurfaceView(Context context, GLRenderer renderer) {
 		super(context);
-		renderer = new GLRenderer();
+		this.renderer = renderer;
 		setRenderer(renderer);
 	}
 	/**

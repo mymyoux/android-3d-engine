@@ -16,10 +16,11 @@ import dimyoux.engine.utils.Color;
 public class GLRenderer implements GLSurfaceView.Renderer {
 
 	private Color clearColor;
+	protected Camera camera;
 	public GLRenderer()
 	{
 		clearColor = new Color(Color.BLACK);
-		new Camera();
+		camera = new Camera();
 	}
 	
 	@Override

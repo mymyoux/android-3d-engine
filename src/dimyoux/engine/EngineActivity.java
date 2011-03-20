@@ -7,6 +7,7 @@ import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.managers.ApplicationManager;
 import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.utils.Log;
+import dimyoux.houseExplorer.HouseRenderer;
 /**
  * The Class TabletActivity.
  */
@@ -22,11 +23,11 @@ public class EngineActivity extends Activity implements ISensorProximity, ISenso
         super.onCreate(savedInstanceState);
         ApplicationManager.initialization(this);
         ApplicationManager.getInstance().getTitle().fullScreen();
-        //listen sensors
+        //listen sensors 
         SensorManager.getInstance().getSignalProximity().add(this);
         SensorManager.getInstance().getSignalOrientation().add(this);
         //create openGLES2.0 view
-        ApplicationManager.getInstance().createOpenGL2SurfaceView();
+        ApplicationManager.getInstance().createOpenGL2SurfaceView(new HouseRenderer());
        // ApplicationManager.getInstance().showFatalErrorDialog("test");
     }
 

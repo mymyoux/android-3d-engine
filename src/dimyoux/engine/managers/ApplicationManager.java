@@ -1,10 +1,10 @@
 package dimyoux.engine.managers;
 
+import dimyoux.engine.core.GLRenderer;
 import dimyoux.engine.core.JDBGLSurfaceView;
 import dimyoux.engine.core.signals.IStatusBarDisabled;
 import dimyoux.engine.core.signals.ITitleDisabled;
 import dimyoux.engine.managers.applicationManagerClasses.Title;
-import dimyoux.engine.utils.Color;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -141,9 +141,10 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	}
 	/**
 	 * Create an openGLES20 surface
+	 * @param renderer A class that extends from GLRenderer
 	 * @return True if succeeded false otherwise
 	 */
-	public boolean createOpenGL2SurfaceView()
+	public boolean createOpenGL2SurfaceView(GLRenderer renderer)
 	{
 		if(!hasGLES20())
 		{
@@ -151,8 +152,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
         	showFatalErrorDialog("Your phone has to be openGLES2.0 compatible"+(isOpenGLES10?"\nBut it is only openGLES1.0 compatible":"\nAnd it is not openGLES compatible"));
         	return false;
 		}
-		openGLSurface = new JDBGLSurfaceView(activity);
-		openGLSurface.setClearColor(new Color(Color.YELLOW));
+		openGLSurface = new JDBGLSurfaceView(activity, renderer);
         activity.setContentView(openGLSurface);
         openGLSurface.requestFocus();
         openGLSurface.setFocusableInTouchMode(true);
