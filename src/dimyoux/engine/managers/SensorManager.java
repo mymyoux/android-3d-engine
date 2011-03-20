@@ -195,6 +195,22 @@ public class SensorManager implements SensorEventListener
 		return null;
 	}
 	/**
+	 * Return true if the device has this type of sensor
+	 * @param type Type of the sensor
+	 * @return True or false
+	 */
+	public boolean hasSensor(int type)
+	{
+		for(Sensor s:sensors)
+		{
+			if(s.getType() == type)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
 	 * Number of sensors
 	 * @return Quantity of sensors
 	 */
@@ -236,7 +252,10 @@ public class SensorManager implements SensorEventListener
 				_androidSensorManager.unregisterListener(this, getSensor(TYPE_ACCELEROMETER));
 				_androidSensorManager.unregisterListener(this, getSensor(TYPE_MAGNETIC_FIELD));
 				_androidSensorManager.registerListener(this, getSensor(TYPE_ORIENTATION), android.hardware.SensorManager.SENSOR_DELAY_GAME);
-				sensors.remove(getSensor(TYPE_ACCELEROMETER));
+				if(hasSensor(TYPE_ACCELEROMETER))
+				{
+					sensors.remove(getSensor(TYPE_ACCELEROMETER));
+				}
 				Log.warning("Accelerometer sensor is a fake");
 			}
 			if(mag != null)
@@ -260,7 +279,10 @@ public class SensorManager implements SensorEventListener
 				_androidSensorManager.unregisterListener(this, getSensor(TYPE_ACCELEROMETER));
 				_androidSensorManager.unregisterListener(this, getSensor(TYPE_MAGNETIC_FIELD));
 				_androidSensorManager.registerListener(this, getSensor(TYPE_ORIENTATION), android.hardware.SensorManager.SENSOR_DELAY_GAME);
-				sensors.remove(getSensor(TYPE_MAGNETIC_FIELD));
+				if(hasSensor(TYPE_MAGNETIC_FIELD))
+				{
+					sensors.remove(getSensor(TYPE_MAGNETIC_FIELD));
+				}
 				Log.warning("Magnetic sensor is a fake");
 			}
 			if(acc != null)
