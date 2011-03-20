@@ -29,7 +29,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
          gl.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 	}
 
-
+	
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		// TODO Auto-generated method stub
