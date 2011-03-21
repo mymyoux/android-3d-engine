@@ -23,6 +23,8 @@ public class EngineActivity extends Activity implements IRenderer{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ApplicationManager.initialization(this);
+      	Log.tagName = this.getClass().getSimpleName();
+        preinitScene();
         initScene();
         //create openGLES2.0 view
         try
@@ -43,9 +45,16 @@ public class EngineActivity extends Activity implements IRenderer{
      * Switches application to fullScreen mode
      * @see dimyoux.engine.manager.ApplicationManager#getTitle()
      */
-    public void initScene()
+    public void preinitScene()
     {
     	ApplicationManager.getInstance().getTitle().fullScreen();
+    }
+    /**
+     * Can be overridden
+     */
+    public void initScene()
+    {
+    	//TODO:override
     }
 	@Override
 	public void onDrawFrame(GL10 gl) {

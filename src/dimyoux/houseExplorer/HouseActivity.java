@@ -27,7 +27,9 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	 * Called when a frame is drawn
 	 * @param gl GL10 controller
 	 */
-	public void onDrawFrame(GL10 gl) {
+	public void onDrawFrame(GL10 gl) 
+	{
+		Log.debug("frame");
 	}
 	@Override
 	public void onOrientationChanged(float yaw, float pitch, float roll) {
@@ -50,7 +52,6 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
     }
 	@Override
 	public void onLightChanged(float light) {
-		// TODO Auto-generated method stub
 		Log.info("Light level : "+light);
 	}
 }
