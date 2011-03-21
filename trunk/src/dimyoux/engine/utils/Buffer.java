@@ -12,6 +12,7 @@ import java.nio.ShortBuffer;
  * A buffer tool class
  */
 public class Buffer {
+	//source http://www.commentcamarche.net/contents/java/javatype.php3
 	/**
 	 * Char's size
 	 */
