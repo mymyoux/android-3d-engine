@@ -322,4 +322,12 @@ public class Color implements Cloneable{
 	{
 		return new Color(color);
 	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
+	@Override
+	public String toString()
+	{
+		return "[Color ("+r+";"+g+";"+b+";"+a+")]";
+	}
 }
