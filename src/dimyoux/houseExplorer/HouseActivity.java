@@ -29,11 +29,11 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	 */
 	public void onDrawFrame(GL10 gl) 
 	{
-		Log.debug("frame");
+	//Log.debug("frame");
 	}
 	@Override
 	public void onOrientationChanged(float yaw, float pitch, float roll) {
-		
+		Log.debug(yaw + ";" + pitch + ";" + roll);
 	}
 
 	@Override

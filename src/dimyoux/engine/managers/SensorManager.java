@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Hashtable;
 
 
-
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,6 +16,7 @@ import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.math.Math;
 /**
  * [Singleton]Sensor manager
  */
@@ -280,7 +280,9 @@ public class SensorManager implements SensorEventListener
 				{
 					float[] rotation = new float[3];
 					android.hardware.SensorManager.getOrientation(result, rotation);
-					signalOrientation.dispatch(rotation[0], rotation[1], rotation[2]);
+					//signalOrientation.dispatch(rotation[0], rotation[1], rotation[2]);
+					//TEST
+					signalOrientation.dispatch(rotation[0]*Math.RAD2DEG, rotation[1]*Math.RAD2DEG, rotation[2]*Math.RAD2DEG);
 					mag = null;
 					acc = null;
 				}
