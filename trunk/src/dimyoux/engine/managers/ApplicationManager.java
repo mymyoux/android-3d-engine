@@ -1,8 +1,9 @@
 package dimyoux.engine.managers;
 
 import min3d.core.RendererActivity;
-import dimyoux.engine.core.GLRenderer;
+import dimyoux.engine.EngineActivity;
 import dimyoux.engine.core.JDBGLSurfaceView;
+import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.core.signals.IStatusBarDisabled;
 import dimyoux.engine.core.signals.ITitleDisabled;
 import dimyoux.engine.managers.applicationManagerClasses.Title;
@@ -23,7 +24,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	private static ApplicationManager _instance; 
 	
 	/** Main activity. */
-	private Activity activity;
+	private EngineActivity activity;
 	
 	/** Title. */
 	private Title title;
@@ -36,7 +37,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	 *
 	 * @param activity Main activity
 	 */
-	private ApplicationManager(Activity activity)
+	private ApplicationManager(EngineActivity activity)
 	{
 		this.activity = activity;
 		this.title = new Title();
@@ -50,7 +51,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	 *
 	 * @param activity Main Activity
 	 */
-	public static void initialization(Activity activity)
+	public static void initialization(EngineActivity activity)
 	{
 		_instance = new ApplicationManager(activity);
 	}
@@ -142,10 +143,9 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	}
 	/**
 	 * Create an openGLES20 surface
-	 * @param renderer A class that extends from GLRenderer
-	 * @return True if succeeded false otherwise
+	 * @return True if it succeeded
 	 */
-	public boolean createOpenGL2SurfaceView(GLRenderer renderer)
+	public Boolean createOpenGL2SurfaceView()
 	{
 		if(!hasGLES20())
 		{
@@ -153,7 +153,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
         	showFatalErrorDialog("Your phone has to be openGLES2.0 compatible"+(isOpenGLES10?"\nBut it is only openGLES1.0 compatible":"\nAnd it is not openGLES compatible"));
         	return false;
 		}
-		openGLSurface = new JDBGLSurfaceView(activity, renderer);
+		openGLSurface = new JDBGLSurfaceView(activity, activity);
         activity.setContentView(openGLSurface);
         openGLSurface.requestFocus();
         openGLSurface.setFocusableInTouchMode(true);

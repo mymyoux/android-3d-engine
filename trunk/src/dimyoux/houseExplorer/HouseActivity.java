@@ -10,8 +10,8 @@ import javax.microedition.khronos.opengles.GL11Ext;
 
 import android.opengl.GLES20;
 
+import dimyoux.engine.EngineActivity;
 import dimyoux.engine.R;
-import dimyoux.engine.core.GLRenderer;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.managers.SensorManager;
@@ -19,17 +19,15 @@ import dimyoux.engine.utils.Color;
 /**
  * Example application : A house explorer 
  */
-public class HouseRenderer extends  GLRenderer implements ISensorProximity, ISensorOrientation {
+public class HouseActivity extends EngineActivity implements ISensorProximity, ISensorOrientation {
 	/*
 	 * Constructor
 	 */
-	public HouseRenderer()
+	public HouseActivity()
 	{
 		super();
-		this.setClearColor(new Color(Color.BLACK));
 		SensorManager.getInstance().getSignalOrientation().add(this);
 		SensorManager.getInstance().getSignalProximity().add(this);
-		Buffer f;
 	}
 
 	/**
