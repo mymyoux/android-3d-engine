@@ -1,5 +1,6 @@
 package dimyoux.engine.managers;
 
+import min3d.core.RendererActivity;
 import dimyoux.engine.core.GLRenderer;
 import dimyoux.engine.core.JDBGLSurfaceView;
 import dimyoux.engine.core.signals.IStatusBarDisabled;
@@ -158,4 +159,5 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
         openGLSurface.setFocusableInTouchMode(true);
 		return true;
 	}
+
 }

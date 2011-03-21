@@ -11,7 +11,7 @@ import dimyoux.houseExplorer.HouseRenderer;
 /**
  * The Class TabletActivity.
  */
-public class EngineActivity extends Activity implements ISensorProximity, ISensorOrientation{
+public class EngineActivity extends Activity{
     
     /**
      * Called when the activity is first created.
@@ -23,9 +23,6 @@ public class EngineActivity extends Activity implements ISensorProximity, ISenso
         super.onCreate(savedInstanceState);
         ApplicationManager.initialization(this);
         ApplicationManager.getInstance().getTitle().fullScreen();
-        //listen sensors 
-        SensorManager.getInstance().getSignalProximity().add(this);
-        SensorManager.getInstance().getSignalOrientation().add(this);
         //create openGLES2.0 view
         try
         {
@@ -37,15 +34,4 @@ public class EngineActivity extends Activity implements ISensorProximity, ISenso
         
        // ApplicationManager.getInstance().showFatalErrorDialog("test");
     }
-
-	@Override
-	public void onProximityEvent(Boolean present) {
-		Log.error("Présent : "+present);
-	}
-
-	@Override
-	public void onOrientationChanged(float yaw, float pitch, float roll) {
-		// TODO Auto-generated method stub
-	//	Log.debug(yaw+":"+pitch+":"+roll);
-	}
 } 
