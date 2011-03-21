@@ -267,7 +267,9 @@ public class SensorManager implements SensorEventListener
 				_androidSensorManager.registerListener(this, getSensor(TYPE_ORIENTATION), android.hardware.SensorManager.SENSOR_DELAY_GAME);
 				if(hasSensor(TYPE_ACCELEROMETER))
 				{
-					sensors.remove(getSensor(TYPE_ACCELEROMETER));
+					try {
+						sensors.remove(getSensor(TYPE_ACCELEROMETER));
+					} catch (UnsupportedOperationException ex) {}
 				}
 				Log.warning("Accelerometer sensor is a fake");
 			}
@@ -294,7 +296,9 @@ public class SensorManager implements SensorEventListener
 				_androidSensorManager.registerListener(this, getSensor(TYPE_ORIENTATION), android.hardware.SensorManager.SENSOR_DELAY_GAME);
 				if(hasSensor(TYPE_MAGNETIC_FIELD))
 				{
-					sensors.remove(getSensor(TYPE_MAGNETIC_FIELD));
+					try {
+						sensors.remove(getSensor(TYPE_MAGNETIC_FIELD));
+					} catch (UnsupportedOperationException ex) {}
 				}
 				Log.warning("Magnetic sensor is a fake");
 			}
@@ -312,7 +316,7 @@ public class SensorManager implements SensorEventListener
 			}
 			break;
 		case TYPE_ORIENTATION:
-			signalOrientation.dispatch(event.values);
+			signalOrientation.dispatch(event.values[0], event.values[1], event.values[2]);
 			break;
 		case TYPE_GYROSCOPE:
 			//TODO:signal with a value for compatible phones
