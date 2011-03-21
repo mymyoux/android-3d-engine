@@ -59,13 +59,13 @@ public class Buffer {
 		int len = values.length;
 		ByteBuffer buffer = ByteBuffer.allocateDirect(DOUBLE_SIZE * len);
 		buffer.order(ByteOrder.nativeOrder());
-		DoubleBuffer lBuffer = buffer.asDoubleBuffer();
+		DoubleBuffer dBuffer = buffer.asDoubleBuffer();
 		for(int i=0; i<len ; i++)
 		{
-			lBuffer.put(values[i]);
+			dBuffer.put(values[i]);
 		}
-		lBuffer.position(0);
-		return lBuffer;
+		dBuffer.position(0);
+		return dBuffer;
 	}
 	/**
 	 * Converts a double[] to a DoubleBuffer

@@ -14,22 +14,14 @@ import dimyoux.engine.EngineActivity;
 import dimyoux.engine.R;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
+import dimyoux.engine.managers.ApplicationManager;
 import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.utils.Color;
+import dimyoux.engine.utils.Log;
 /**
  * Example application : A house explorer 
  */
 public class HouseActivity extends EngineActivity implements ISensorProximity, ISensorOrientation {
-	/*
-	 * Constructor
-	 */
-	public HouseActivity()
-	{
-		super();
-		SensorManager.getInstance().getSignalOrientation().add(this);
-		SensorManager.getInstance().getSignalProximity().add(this);
-	}
-
 	/**
 	 * Called when a frame is drawn
 	 * @param gl GL10 controller
@@ -46,5 +38,10 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	 public void initScene()
+    {
+    	super.initScene();
+    	Log.info("Démarrage de l'application houseExplorer");
+    }
 }

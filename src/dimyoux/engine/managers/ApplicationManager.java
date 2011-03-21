@@ -1,9 +1,7 @@
 package dimyoux.engine.managers;
 
-import min3d.core.RendererActivity;
 import dimyoux.engine.EngineActivity;
 import dimyoux.engine.core.JDBGLSurfaceView;
-import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.core.signals.IStatusBarDisabled;
 import dimyoux.engine.core.signals.ITitleDisabled;
 import dimyoux.engine.managers.applicationManagerClasses.Title;
