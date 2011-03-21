@@ -13,6 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
 import dimyoux.engine.core.Signal;
+import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.utils.Log;
@@ -110,6 +111,11 @@ public class SensorManager implements SensorEventListener
 	 * Signal<ISensorOrientation>.dispatch(float(yaw), float(pitch), float(roll));
 	 */
 	private Signal<ISensorOrientation> signalOrientation;
+	/**
+	 * Dispatch an signal when light sensors status changed
+	 * Signal<ISensorLight>.dispatch(float(light));
+	 */
+	private Signal<ISensorLight> signalLight;
 	private float[] mag;
 	private float[] acc;
 	/**
@@ -130,6 +136,13 @@ public class SensorManager implements SensorEventListener
         	protected void _dispatch(ISensorOrientation listener, Object... params)
         	{
         		listener.onOrientationChanged((Float)params[0],(Float)params[1],(Float)params[2]);
+        	}
+		};
+		signalLight = new Signal<ISensorLight>(){
+			@Override
+        	protected void _dispatch(ISensorLight listener, Object... params)
+        	{
+        		listener.onLightChanged((Float)params[0]);
         	}
 		};
 		mag = new float[3];
@@ -309,8 +322,7 @@ public class SensorManager implements SensorEventListener
 			signalProximity.dispatch(event.values[0]==0.0?true:false);
 			break;
 		case TYPE_LIGHT:
-			//TODO:signal with a value for compatible phones
-				Log.debug("light:"+event.values[0]);
+			signalLight.dispatch(event.values[0]);
 			break;
 		}
 	}
@@ -331,6 +343,15 @@ public class SensorManager implements SensorEventListener
 	public Signal<ISensorOrientation> getSignalOrientation()
 	{
 		return signalOrientation;
+	}
+	/**
+	 * Dispatch an signal when the light is changed
+	 * Signal<ISensorLight>.dispatch(float light);
+	 * @return Signal<ISensorLight>.dispatch(float light);
+	 */
+	public Signal<ISensorLight> getSignalLight()
+	{
+		return signalLight;
 	}
 }
 
