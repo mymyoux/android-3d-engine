@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.managers.ApplicationManager;
+import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.utils.Log;
 /**
  * The Class TabletActivity.
