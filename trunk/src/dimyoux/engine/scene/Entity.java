@@ -1,4 +1,7 @@
 package dimyoux.engine.scene;
+
+import dimyoux.engine.utils.Log;
+
 /**
  * Entity
  */
@@ -38,5 +41,12 @@ public class Entity {
 	public boolean hasMesh()
 	{
 		return mesh!=null;
+	}
+	/**
+	 * Called for drawing
+	 */
+	public void draw()
+	{
+		//Log.warning("draw");
 	}
 }

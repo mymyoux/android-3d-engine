@@ -46,6 +46,18 @@ public class Buffer {
 	 */
 	static private final int BOOLEAN_SIZE = 1;
 	/**
+	 * Creates a DoubleBuffer
+	 * @param size Size of the DoubleBuffer
+	 * @return DoubleBuffer
+	 */
+	public static DoubleBuffer createDoubleBuffer(int size)
+	{
+		ByteBuffer buffer = ByteBuffer.allocateDirect(DOUBLE_SIZE * size);
+		buffer.order(ByteOrder.nativeOrder());
+		DoubleBuffer dBuffer = buffer.asDoubleBuffer();
+		return dBuffer;
+	}
+	/**
 	 * Converts a double[] to a DoubleBuffer
 	 * @param values double[]
 	 * @return DoubleBuffer
@@ -67,7 +79,18 @@ public class Buffer {
 		dBuffer.position(0);
 		return dBuffer;
 	}
-
+	/**
+	 * Creates a LongBuffer
+	 * @param size Size of the LongBuffer
+	 * @return LongBuffer
+	 */
+	public static LongBuffer createLongBuffer(int size)
+	{
+		ByteBuffer buffer = ByteBuffer.allocateDirect(LONG_SIZE * size);
+		buffer.order(ByteOrder.nativeOrder());
+		LongBuffer lBuffer = buffer.asLongBuffer();
+		return lBuffer;
+	}
 	/**
 	 * Converts a long[] to a LongBuffer
 	 * @param values long[]
@@ -89,6 +112,18 @@ public class Buffer {
 		}
 		lBuffer.position(0);
 		return lBuffer;
+	}
+	/**
+	 * Creates a IntBuffer
+	 * @param size Size of the IntBuffer
+	 * @return IntBuffer
+	 */
+	public static IntBuffer createIntBuffer(int size)
+	{
+		ByteBuffer buffer = ByteBuffer.allocateDirect(INT_SIZE * size);
+		buffer.order(ByteOrder.nativeOrder());
+		IntBuffer iBuffer = buffer.asIntBuffer();
+		return iBuffer;
 	}
 	/**
 	 * Converts a int[] to a IntBuffer
@@ -113,6 +148,18 @@ public class Buffer {
 		return iBuffer;
 	}
 	/**
+	 * Creates a ShortBuffer
+	 * @param size Size of the ShortBuffer
+	 * @return ShortBuffer
+	 */
+	public static ShortBuffer createShortBuffer(int size)
+	{
+		ByteBuffer buffer = ByteBuffer.allocateDirect(SHORT_SIZE * size);
+		buffer.order(ByteOrder.nativeOrder());
+		ShortBuffer sBuffer = buffer.asShortBuffer();
+		return sBuffer;
+	}
+	/**
 	 * Converts a short[] to a ShortBuffer
 	 * @param values short[]
 	 * @return ShortBuffer
@@ -135,6 +182,17 @@ public class Buffer {
 		return sBuffer;
 	}
 	/**
+	 * Creates a ByteBuffer
+	 * @param size Size of the ByteBuffer
+	 * @return ByteBuffer
+	 */
+	public static ByteBuffer createByteBuffer(int size)
+	{
+		ByteBuffer buffer = ByteBuffer.allocateDirect(BYTE_SIZE * size);
+		buffer.order(ByteOrder.nativeOrder());
+		return buffer;
+	}
+	/**
 	 * Converts a byte[] to a ByteBuffer
 	 * @param values byte[]
 	 * @return ByteBuffer
@@ -153,6 +211,18 @@ public class Buffer {
 			buffer.put(values[i]);
 		}
 		return buffer;
+	}
+	/**
+	 * Creates a CharBuffer
+	 * @param size Size of the CharBuffer
+	 * @return CharBuffer
+	 */
+	public static CharBuffer createCharBuffer(int size)
+	{
+		ByteBuffer buffer = ByteBuffer.allocateDirect(CHAR_SIZE * size);
+		buffer.order(ByteOrder.nativeOrder());
+		CharBuffer cBuffer = buffer.asCharBuffer();
+		return cBuffer;
 	}
 	/**
 	 * Converts a char[] to a CharBuffer
@@ -197,6 +267,18 @@ public class Buffer {
 			fBuffer.put(values[i]);
 		}
 		fBuffer.position(0);
+		return fBuffer;
+	}
+	/**
+	 * Creates a FloatBuffer
+	 * @param size Size of the FloaBuffer
+	 * @return FloatBuffer
+	 */
+	public static FloatBuffer CreateFloatBuffer(int size)
+	{
+		ByteBuffer buffer = ByteBuffer.allocateDirect(FLOAT_SIZE * size);
+		buffer.order(ByteOrder.nativeOrder());
+		FloatBuffer fBuffer = buffer.asFloatBuffer();
 		return fBuffer;
 	}
 	/**
