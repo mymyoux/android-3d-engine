@@ -3,11 +3,18 @@ package dimyoux.engine.scene;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.microedition.khronos.opengles.GL10;
+
+
 import dimyoux.engine.utils.Log;
 /**
  * Scene class
  */
 public class Scene {
+	/**
+	 * GL instance
+	 */
+	public static GL10 gl;
 	/**
 	 * Singleton Scene instance 
 	 */
@@ -121,5 +128,15 @@ public class Scene {
 			}
 		}
 		return false;
+	}
+	/**
+	 * Called for drawing
+	 */
+	public void draw()
+	{
+		for(final Node node : childNodes)
+		{
+			node.draw();
+		}
 	}
 }

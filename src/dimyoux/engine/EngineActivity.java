@@ -1,5 +1,6 @@
 package dimyoux.engine;
 
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -8,6 +9,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.managers.ApplicationManager;
+import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.scene.Scene;
 import dimyoux.engine.utils.Log;
 /**
@@ -96,16 +98,51 @@ public class EngineActivity extends Activity implements IRenderer{
 	@Override
 	public void _onDrawFrame(GL10 gl) {
 		// TODO Auto-generated method stub
+		root.draw();
 		onDrawFrame(gl);
 	}
 	@Override
 	public void _onSurfaceChanged(GL10 gl, int width, int height) {
-		// TODO Auto-generated method stub
+		//update viewport
+		gl.glViewport(0, 0, width, height);
+		gl.glMatrixMode(GL10.GL_PROJECTION);
+		gl.glLoadIdentity();
 		onSurfaceChanged(gl, width, height);
 	}
 	@Override
 	public void _onSurfaceCreated(GL10 gl, EGLConfig config) {
+		GLConstants.getConstants();
 		// TODO Auto-generated method stub
+		gl.glEnable(GL10.GL_DEPTH_TEST);									
+		gl.glClearDepthf(1.0f);
+		gl.glDepthFunc(GL10.GL_LESS);										
+		gl.glDepthRangef(0,1f);											
+		gl.glDepthMask(true);												
+
+		// Alpha enabled
+		gl.glEnable(GL10.GL_BLEND);										
+		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA); 	
+		
+		// "Transparency is best implemented using glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) 
+		// with primitives sorted from farthest to nearest."
+
+		// Texture
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST); // (OpenGL default is GL_NEAREST_MIPMAP)
+		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR); // (is OpenGL default)
+		
+		// CCW frontfaces only, by default
+		gl.glFrontFace(GL10.GL_CCW);
+	    gl.glCullFace(GL10.GL_BACK);
+	    gl.glEnable(GL10.GL_CULL_FACE);
+
+	    // Disable lights by default
+	    /*for (int i = GL10.GL_LIGHT0; i < GL10.GL_LIGHT0 + NUM_GLLIGHTS; i++) {
+	    	_gl.glDisable(i);
+	    }*/
+	    
+	    
+	    Scene.gl = gl;
+	    
 		onSurfaceCreated(gl, config);
 	}
 } 

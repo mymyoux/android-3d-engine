@@ -205,4 +205,18 @@ public class Node {
 		}
 		return false;
 	}
+	/**
+	 * Called for drawing
+	 */
+	public void draw()
+	{
+		for(final Node node : childNodes)
+		{
+			node.draw();
+		}
+		if(entity != null)
+		{
+			entity.draw();
+		}
+	}
 }

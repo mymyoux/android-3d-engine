@@ -2,12 +2,13 @@ package dimyoux.houseExplorer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-
 import dimyoux.engine.EngineActivity;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.managers.SensorManager;
+import dimyoux.engine.scene.Entity;
+import dimyoux.engine.scene.Node;
 import dimyoux.engine.utils.Log;
 /**
  * Example application : A house explorer 
@@ -45,7 +46,11 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
     }
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-	
+		Node node  = new Node();
+		root.attachChildNode(node);
+		Entity entity = new Entity();
+		node.attachEntity(entity);
+		Log.debug("Scene created");
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
