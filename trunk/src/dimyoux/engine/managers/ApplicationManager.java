@@ -1,10 +1,5 @@
 package dimyoux.engine.managers;
 
-import dimyoux.engine.EngineActivity;
-import dimyoux.engine.core.JDBGLSurfaceView;
-import dimyoux.engine.core.signals.IStatusBarDisabled;
-import dimyoux.engine.core.signals.ITitleDisabled;
-import dimyoux.engine.managers.applicationManagerClasses.Title;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -13,6 +8,13 @@ import android.content.DialogInterface;
 import android.content.pm.ConfigurationInfo;
 import android.view.Window;
 import android.view.WindowManager;
+import dimyoux.engine.EngineActivity;
+import dimyoux.engine.core.JDBGLSurfaceView;
+import dimyoux.engine.core.Renderer;
+import dimyoux.engine.core.signals.IStatusBarDisabled;
+import dimyoux.engine.core.signals.ITitleDisabled;
+import dimyoux.engine.managers.applicationManagerClasses.Title;
+import dimyoux.engine.utils.Log;
 /**
  * [Singleton] Application Manager.
  */
@@ -89,7 +91,12 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	public void onTitleDisabled(Boolean disabled) {
 		if(disabled)
 		{
-			activity.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+			try {
+				activity.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				Log.error("Title can't be disabled");
+			}
 		}
 	}
 	/* (non-Javadoc)
@@ -151,7 +158,8 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
         	showFatalErrorDialog("Your phone has to be openGLES2.0 compatible"+(isOpenGLES10?"\nBut it is only openGLES1.0 compatible":"\nAnd it is not openGLES compatible"));
         	return false;
 		}
-		openGLSurface = new JDBGLSurfaceView(activity, activity);
+		Renderer renderer = new Renderer(activity);
+		openGLSurface = new JDBGLSurfaceView(activity, renderer);
         activity.setContentView(openGLSurface);
         openGLSurface.requestFocus();
         openGLSurface.setFocusableInTouchMode(true);

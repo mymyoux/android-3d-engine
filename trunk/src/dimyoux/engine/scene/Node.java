@@ -28,6 +28,14 @@ public class Node {
 		childNodes = new ArrayList<Node>();
 	}
 	/**
+	 * Get Root scene access
+	 * @return Scene instance
+	 */
+	public Scene getRoot()
+	{
+		return Scene.getRoot();
+	}
+	/**
 	 * Attaches a entity to this node
 	 * One entity by node
 	 * @param entity Entity to add
@@ -60,13 +68,20 @@ public class Node {
 	{
 		if(!childNodes.contains(node))
 		{
-			if(!this.isParentNode(node, true))
+			if(!this.isParentNode(node, true) && !this.isChildNode(node))
 			{
 				childNodes.add(node);
 				node.setParentNode(this);
 			}else
 			{
-				Log.error("Node "+node+" has "+this+" had child or grand child\nAnd you tried to create a recursive link");
+				if(this.isChildNode(node))
+				{
+					Log.error("This Node "+node+" is already a child of "+this);
+				}
+				else
+				{
+					Log.error("Node "+node+" has "+this+" had child or grand child\nAnd you tried to create a recursive link");
+				}
 			}	
 		}
 	}

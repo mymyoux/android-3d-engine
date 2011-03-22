@@ -1,23 +1,13 @@
 package dimyoux.houseExplorer;
 
-import java.nio.Buffer;
-import java.nio.FloatBuffer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11Ext;
-
-
-import android.opengl.GLES20;
 
 import dimyoux.engine.EngineActivity;
-import dimyoux.engine.R;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
-import dimyoux.engine.managers.ApplicationManager;
 import dimyoux.engine.managers.SensorManager;
-import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
 /**
  * Example application : A house explorer 
@@ -29,27 +19,38 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	 */
 	public void onDrawFrame(GL10 gl) 
 	{
-	//Log.debug("frame");
+		//Log.debug("frame");
 	}
 	@Override
 	public void onOrientationChanged(float yaw, float pitch, float roll) {
-		Log.debug(yaw + ";" + pitch + ";" + roll);
+		//Log.info(yaw + ";" + pitch + ";" + roll);
 	}
 
 	@Override
-	public void onProximityEvent(Boolean present) {
-		// TODO Auto-generated method stub
+	public void onProximityEvent(Boolean present) 
+	{
 		Log.info("Present:"+present);
 	}
 	@Override
-	 public void initScene()
+	public void preinitScene()
     {
-    	super.initScene();
     	Log.info("Démarrage de l'application houseExplorer");
+    	
+    	// Sensors configuration
     	SensorManager.getInstance().getSignalOrientation().add(this);
     	SensorManager.getInstance().getSignalLight().add(this);
     	SensorManager.getInstance().getSignalProximity().add(this);
+    	
+
     }
+	@Override
+	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+	
+	}
+	@Override
+	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		// TODO Auto-generated method stub
+	}
 	@Override
 	public void onLightChanged(float light) {
 		Log.info("Light level : "+light);
