@@ -50,7 +50,7 @@ public class Buffer {
 	 * @param values double[]
 	 * @return DoubleBuffer
 	 */
-	public static DoubleBuffer toDoubleBuffer(double[] values)
+	public static DoubleBuffer toDoubleBuffer(double ...values)
 	{
 		if(values == null)
 		{
@@ -67,21 +67,13 @@ public class Buffer {
 		dBuffer.position(0);
 		return dBuffer;
 	}
-	/**
-	 * Converts a double[] to a DoubleBuffer
-	 * @param values double[]
-	 * @return DoubleBuffer
-	 */
-	public static DoubleBuffer toDoubleBuffer(double[] ...values)
-	{
-		return toDoubleBuffer(values);
-	}
+
 	/**
 	 * Converts a long[] to a LongBuffer
 	 * @param values long[]
 	 * @return LongBuffer
 	 */
-	public static LongBuffer toLongBuffer(long[] values)
+	public static LongBuffer toLongBuffer(long ...values)
 	{
 		if(values == null)
 		{
@@ -99,20 +91,11 @@ public class Buffer {
 		return lBuffer;
 	}
 	/**
-	 * Converts a long[] to a LongBuffer
-	 * @param values long[]
-	 * @return LongBuffer
-	 */
-	public static LongBuffer toLongBuffer(long[] ...values)
-	{
-		return toLongBuffer(values);
-	}
-	/**
 	 * Converts a int[] to a IntBuffer
 	 * @param values int[]
 	 * @return IntBuffer
 	 */
-	public static IntBuffer toIntBuffer(int[] values)
+	public static IntBuffer toIntBuffer(int ...values)
 	{
 		if(values == null)
 		{
@@ -130,20 +113,11 @@ public class Buffer {
 		return iBuffer;
 	}
 	/**
-	 * Converts a int[] to a IntBuffer
-	 * @param values int[]
-	 * @return IntBuffer
-	 */
-	public static IntBuffer toIntBuffer(int[] ...values)
-	{
-		return toIntBuffer(values);
-	}
-	/**
 	 * Converts a short[] to a ShortBuffer
 	 * @param values short[]
 	 * @return ShortBuffer
 	 */
-	public static ShortBuffer toShortBuffer(short[] values)
+	public static ShortBuffer toShortBuffer(short ...values)
 	{
 		if(values == null)
 		{
@@ -161,20 +135,11 @@ public class Buffer {
 		return sBuffer;
 	}
 	/**
-	 * Converts a short[] to a ShortBuffer
-	 * @param values short[]
-	 * @return ShortBuffer
-	 */
-	public static ShortBuffer toShortBuffer(short[] ...values)
-	{
-		return toShortBuffer(values);
-	}
-	/**
 	 * Converts a byte[] to a ByteBuffer
 	 * @param values byte[]
 	 * @return ByteBuffer
 	 */
-	public static ByteBuffer toByteBuffer(byte[] values)
+	public static ByteBuffer toByteBuffer(byte ...values)
 	{
 		if(values == null)
 		{
@@ -190,20 +155,11 @@ public class Buffer {
 		return buffer;
 	}
 	/**
-	 * Converts a byte[] to a ByteBuffer
-	 * @param values byte[]
-	 * @return ByteBuffer
-	 */
-	public static ByteBuffer toByteBuffer(byte[] ...values)
-	{
-		return toByteBuffer(values);
-	}
-	/**
 	 * Converts a char[] to a CharBuffer
 	 * @param values char[]
 	 * @return CharBuffer
 	 */
-	public static CharBuffer toCharBuffer(char[] values)
+	public static CharBuffer toCharBuffer(char ...values)
 	{
 		if(values == null)
 		{
@@ -220,21 +176,13 @@ public class Buffer {
 		cBuffer.position(0);
 		return cBuffer;
 	}
+
 	/**
-	 * Converts a char[] to a CharBuffer
-	 * @param values char[]
-	 * @return CharBuffer
-	 */
-	public static CharBuffer toCharBuffer(char[] ...values)
-	{
-		return toCharBuffer(values);
-	}
-	/**
-	 * Converts a float[] to a FloatBuffer
+	 * Converts a float[] to aFloatBuffer
 	 * @param values float[]
 	 * @return FloatBuffer
 	 */
-	public static FloatBuffer toFloatBuffer(float[] values)
+	public static FloatBuffer toFloatBuffer(float ...values)
 	{
 		if(values == null)
 		{
@@ -250,15 +198,6 @@ public class Buffer {
 		}
 		fBuffer.position(0);
 		return fBuffer;
-	}
-	/**
-	 * Converts a float[] to aFloatBuffer
-	 * @param values float[]
-	 * @return FloatBuffer
-	 */
-	public static FloatBuffer toFloatBuffer(float[] ...values)
-	{
-		return toFloatBuffer(values);
 	}
 	/**
 	 * Return the size of the value's type
