@@ -16,35 +16,35 @@ public class Buffer {
 	/**
 	 * Char's size
 	 */
-	static private final int CHAR_SIZE = 2;
+	static public final int CHAR_SIZE = 2;
 	/**
 	 * Byte's size
 	 */
-	static private final int BYTE_SIZE = 1;
+	static public final int BYTE_SIZE = 1;
 	/**
 	 * Short's size
 	 */
-	static private final int SHORT_SIZE = 2;
+	static public final int SHORT_SIZE = 2;
 	/**
 	 * Int's size
 	 */
-	static private final int INT_SIZE = 4;
+	static public final int INT_SIZE = 4;
 	/**
 	 * Long's size
 	 */
-	static private final int LONG_SIZE = 8;
+	static public final int LONG_SIZE = 8;
 	/**
 	 * Float's size
 	 */
-	static private final int FLOAT_SIZE = 4;
+	static public final int FLOAT_SIZE = 4;
 	/**
 	 * Double's size
 	 */
-	static private final int DOUBLE_SIZE = 8;
+	static public final int DOUBLE_SIZE = 8;
 	/**
 	 * Boolean's size
 	 */
-	static private final int BOOLEAN_SIZE = 1;
+	static public final int BOOLEAN_SIZE = 1;
 	/**
 	 * Creates a DoubleBuffer
 	 * @param size Size of the DoubleBuffer

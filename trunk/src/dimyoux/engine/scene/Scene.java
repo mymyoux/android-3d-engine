@@ -3,7 +3,8 @@ package dimyoux.engine.scene;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
+
 
 
 import dimyoux.engine.utils.Log;
@@ -14,7 +15,7 @@ public class Scene {
 	/**
 	 * GL instance
 	 */
-	public static GL10 gl;
+	public static GL11 gl;
 	/**
 	 * Singleton Scene instance 
 	 */
@@ -24,11 +25,16 @@ public class Scene {
 	 */
 	private List<Node> childNodes;
 	/**
+	 * Lights (can be empty)
+	 */
+	private List<Light> lights;
+	/**
 	 * Constructor
 	 */
 	private Scene()
 	{
 		childNodes = new ArrayList<Node>();
+		lights = new ArrayList<Light>();
 	}
 	/**
 	 * Get Root scene access
@@ -73,12 +79,20 @@ public class Scene {
 		return null;
 	}
 	/**
-	 * Get the number of childNodes
+	 * Gets the number of childNodes
 	 * @return Number of childNodes
 	 */
 	public int getNumChildNodes()
 	{
 		return childNodes.size();
+	}
+	/**
+	 * Gets the number of lights
+	 * @return Number of lights
+	 */
+	public int getNumLights()
+	{
+		return lights.size();
 	}
 	/**
 	 * Get ChildNodes
