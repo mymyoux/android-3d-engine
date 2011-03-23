@@ -2,11 +2,10 @@ package dimyoux.engine.opengl;
 
 import java.nio.IntBuffer;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import android.opengl.GLES10;
 import android.opengl.GLES11;
 import android.opengl.GLES20;
+
 import dimyoux.engine.utils.Buffer;
 /**
  * Calculated GL Constants
@@ -17,11 +16,11 @@ public class GLConstants {
 	/**
 	 * The recommended maximum number of vertex array indices
 	 */
-	public static int	MAX_ELEMENTS_INDICES = 0;
+	public static int MAX_ELEMENTS_INDICES = 0;
 	/**
 	 * The recommended maximum number of vertex array vertices
 	 */
-	public static int	MAX_ELEMENTS_VERTICES = 0;
+	public static int MAX_ELEMENTS_VERTICES = 0;
 	/**
 	 * Max number of lights
 	 */
@@ -29,27 +28,27 @@ public class GLConstants {
 	/**
 	 * The maximum supported depth of the modelview matrix stack
 	 */
-	public static int	MAX_MODELVIEW_STACK_DEPTH = 0;
+	public static int MAX_MODELVIEW_STACK_DEPTH = 0;
 	/**
 	 * The maximum supported depth of the projection matrix stack
 	 */
-	public static int	MAX_PROJECTION_STACK_DEPTH = 0;	
+	public static int MAX_PROJECTION_STACK_DEPTH = 0;	
 	/**
 	 * The value gives a rough estimate of the largest texture that the GL can handle
 	 */
-	public static int	MAX_TEXTURE_SIZE = 0;	
+	public static int MAX_TEXTURE_SIZE = 0;	
 	/**
 	 * The maximum supported depth of the texture matrix stack
 	 */
-	public static int	MAX_TEXTURE_STACK_DEPTH = 0;	
+	public static int MAX_TEXTURE_STACK_DEPTH = 0;	
 	/**
 	 * Indicating the number of conventional texture units supported
 	 */
-	public static int	MAX_TEXTURE_UNITS = 0;	
+	public static int MAX_TEXTURE_UNITS = 0;	
 	/**
 	 * The maximum supported width and height of the viewport
 	 */
-	public static int	MAX_VIEWPORT_DIMS = 0;
+	public static int MAX_VIEWPORT_DIMS = 0;
 	/**
 	 * The maximum number of application-defined clipping planes
 	 */

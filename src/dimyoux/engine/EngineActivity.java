@@ -3,6 +3,7 @@ package dimyoux.engine;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 
 import android.app.Activity;
@@ -136,12 +137,12 @@ public class EngineActivity extends Activity implements IRenderer{
 	    gl.glEnable(GL10.GL_CULL_FACE);
 
 	    // Disable lights by default
-	    /*for (int i = GL10.GL_LIGHT0; i < GL10.GL_LIGHT0 + NUM_GLLIGHTS; i++) {
-	    	_gl.glDisable(i);
-	    }*/
+	    for (int i = GL10.GL_LIGHT0; i < GL10.GL_LIGHT0 + root.getNumLights(); i++) {
+	    	gl.glDisable(i);
+	    }
 	    
 	    
-	    Scene.gl = gl;
+	    Scene.gl = (GL11)gl;
 	    
 		onSurfaceCreated(gl, config);
 	}
