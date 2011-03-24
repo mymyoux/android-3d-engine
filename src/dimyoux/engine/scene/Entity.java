@@ -104,8 +104,7 @@ public class Entity {
 				mesh.texCoordsBuffer.rewind();
 				Scene.gl.glBufferData(GL11.GL_ARRAY_BUFFER,mesh.texCoordsBuffer.capacity()*Buffer.FLOAT_SIZE, mesh.texCoordsBuffer, GL11.GL_STATIC_DRAW);
 			}
-			//TODO: useless ?
-			//end of binding
+			//end of array binding
 			Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
 			//indexes
 			if(mesh.hasIndexesBuffer())
@@ -113,12 +112,13 @@ public class Entity {
 				Log.verbose("Creating indexes buffer");
 				Scene.gl.glGenBuffers(1, (IntBuffer)buffer.rewind());
 				mesh.indexesBufferIndex = buffer.get(0);
-				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.indexesBufferIndex);
+				Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
 				mesh.indexesBuffer.rewind();
 				//TODO : maybe colors will be a CharVuffer so will use mesh.colorsBuffer.capacity()*Buffer.CHAR_SIZE instead
-				Scene.gl.glBufferData(GL11.GL_ARRAY_BUFFER,mesh.indexesBuffer.capacity()*Buffer.FLOAT_SIZE, mesh.indexesBuffer, GL11.GL_STATIC_DRAW);
+				Scene.gl.glBufferData(GL11.GL_ELEMENT_ARRAY_BUFFER,mesh.indexesBuffer.capacity()*Buffer.FLOAT_SIZE, mesh.indexesBuffer, GL11.GL_STATIC_DRAW);
+				//end of element array binding
+				Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
 			}
-			Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
 		//	Log.verbose("Entity is buffered");
 		}
 	}

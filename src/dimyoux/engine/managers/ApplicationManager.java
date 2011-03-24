@@ -15,6 +15,7 @@ import dimyoux.engine.core.signals.IStatusBarDisabled;
 import dimyoux.engine.core.signals.ITitleDisabled;
 import dimyoux.engine.managers.applicationManagerClasses.Title;
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.parsers.ObjParser;
 /**
  * [Singleton] Application Manager.
  */
@@ -53,6 +54,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	 */
 	public static void initialization(EngineActivity activity)
 	{
+		ObjParser.resources = activity.getResources();
 		_instance = new ApplicationManager(activity);
 	}
 	
