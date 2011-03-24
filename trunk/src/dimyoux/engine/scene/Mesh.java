@@ -14,7 +14,7 @@ public class Mesh {
 	/**
 	 * Buffer of vertices
 	 */
-	protected FloatBuffer verticesBuffer;
+	public FloatBuffer verticesBuffer;
 	/**
 	 * Index buffer of normals
 	 */
@@ -22,7 +22,7 @@ public class Mesh {
 	/**
 	 * Buffer of normals
 	 */
-	protected FloatBuffer normalsBuffer;
+	public FloatBuffer normalsBuffer;
 	/**
 	 * Index buffer of colors
 	 */
@@ -30,7 +30,7 @@ public class Mesh {
 	/**
 	 * Buffer of colors
 	 */
-	protected FloatBuffer colorsBuffer;
+	public FloatBuffer colorsBuffer;
 	/**
 	 * Index buffer of textures coordinates
 	 */
@@ -38,7 +38,7 @@ public class Mesh {
 	/**
 	 * Buffer  of textures coordinates
 	 */
-	protected FloatBuffer texCoordsBuffer;
+	public FloatBuffer texCoordsBuffer;
 	/**
 	 * Index buffer of indexes
 	 */
@@ -46,7 +46,7 @@ public class Mesh {
 	/**
 	 * Buffer of indexes
 	 */
-	protected FloatBuffer indexesBuffer;
+	public FloatBuffer indexesBuffer;
 	/**
 	 * Indicates if this mesh is already Buffered (see OpenGL VBO)
 	 * @return True or false

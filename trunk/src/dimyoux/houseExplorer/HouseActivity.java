@@ -1,8 +1,13 @@
 package dimyoux.houseExplorer;
 
+import java.io.InputStream;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import android.content.res.Resources.NotFoundException;
 import dimyoux.engine.EngineActivity;
+import dimyoux.engine.R;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
@@ -53,7 +58,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		node.attachEntity(entity);
 		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
-		parser.load("camaro_obj");
+		parser.load(R.raw.camaro_obj);
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
