@@ -120,6 +120,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	public boolean hasGLES20() {
         ActivityManager am = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
         ConfigurationInfo info = am.getDeviceConfigurationInfo();
+        Log.debug("OPENGL VERSION : "+info.reqGlEsVersion);
         return (info.reqGlEsVersion >= 0x20000);
     }
 	/**

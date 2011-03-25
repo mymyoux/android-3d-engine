@@ -172,7 +172,7 @@ public class SensorManager implements SensorEventListener
 				}
 			}
 		}
-		
+		//_androidSensorManager.registerListener(this, getSensor(TYPE_ORIENTATION), android.hardware.SensorManager.SENSOR_DELAY_GAME);
 		
 		
 	}
@@ -313,7 +313,8 @@ public class SensorManager implements SensorEventListener
 			}
 			break;
 		case TYPE_ORIENTATION:
-			signalOrientation.dispatch(event.values[0], event.values[1], event.values[2]);
+			//signalOrientation.dispatch(event.values[0], event.values[1], event.values[2]);
+			//Log.error(event.values[0] + ";" + event.values[1] + ";" + event.values[2]);
 			break;
 		case TYPE_GYROSCOPE:
 			//TODO:signal with a value for compatible phones
