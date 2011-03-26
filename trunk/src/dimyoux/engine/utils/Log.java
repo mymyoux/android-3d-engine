@@ -36,7 +36,19 @@ public class Log {
 	{
 		debug(message);
 	}
-	
+	/**
+	 * Used to display error messages to LogCat.
+	 *
+	 * @param exception exception message
+	 */
+	public static void error(Exception exception)
+	{
+		error(exception.getMessage());
+		for(final StackTraceElement element : exception.getStackTrace())
+		{
+			error(element);
+		}
+	}
 	/**
 	 * Used to display error messages to LogCat.
 	 *
