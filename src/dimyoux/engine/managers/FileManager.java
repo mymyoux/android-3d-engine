@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 
 import dimyoux.engine.R;
-import dimyoux.engine.utils.Log;
 
 /**
  * File Manager
