@@ -54,7 +54,7 @@ public class ApplicationManager implements ITitleDisabled, IStatusBarDisabled {
 	 */
 	public static void initialization(EngineActivity activity)
 	{
-		ObjParser.resources = activity.getResources();
+		FileManager.resources = activity.getResources();
 		_instance = new ApplicationManager(activity);
 	}
 	

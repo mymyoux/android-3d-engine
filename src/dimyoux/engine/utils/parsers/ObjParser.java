@@ -11,6 +11,8 @@ import java.util.Map;
 
 
 import dimyoux.engine.R;
+import dimyoux.engine.managers.ApplicationManager;
+import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.scene.Mesh;
 import dimyoux.engine.utils.Buffer;
 import dimyoux.engine.utils.Log;
@@ -24,10 +26,6 @@ import android.content.res.Resources.NotFoundException;
  * 
  */
 public class ObjParser {
-	/**
-	 * Resources
-	 */
-	public static Resources resources;
 	private static final String vertex = "v";
 	private static final String normal = "vn";
 	private static final String ignore = "#";
@@ -41,7 +39,7 @@ public class ObjParser {
 	public void load(String filename)
 	{
 		Log.verbose("Load:"+filename);
-		load(resources.getIdentifier(filename, null, null));
+		load(FileManager.getInstance().getFileID(filename));
 	}
 	/**
 	 * Load file
@@ -61,8 +59,8 @@ public class ObjParser {
 			try
 			{
 				Log.verbose("loading object:"+id);
-				Log.verbose("object["+id+"]="+resources.getString(id));
-				InputStream file = resources.openRawResource(id);
+				Log.verbose("object["+id+"]="+FileManager.resources.getString(id));
+				InputStream file = FileManager.resources.openRawResource(id);
 				BufferedReader buffer = new BufferedReader(new InputStreamReader(file));
 				String line;
 				String[] values;
@@ -145,9 +143,9 @@ public class ObjParser {
 		{
 			Log.warning(R.class.getPackage().getName());
 			Log.warning("res/raw/"+fileName.replace(".","_"));
-			int id = resources.getIdentifier(":/raw/"+fileName.replace(".","_"), null, null);
+			int id = FileManager.resources.getIdentifier(":/raw/"+fileName.replace(".","_"), null, null);
 			Log.warning(id);
-			InputStream file = resources.openRawResource(id);
+			InputStream file = FileManager.resources.openRawResource(id);
 			BufferedReader buffer = new BufferedReader(new InputStreamReader(file));
 			Log.debug("Read Filename: "+fileName);
 		}catch(Exception e)
