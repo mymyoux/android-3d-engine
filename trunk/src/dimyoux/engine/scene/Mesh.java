@@ -6,7 +6,7 @@ import java.nio.FloatBuffer;
  * Mesh
  */
 public class Mesh {
-
+	public String name;
 	/**
 	 * Index buffer of vertices
 	 */
