@@ -10,11 +10,15 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 
 import dimyoux.engine.R;
+import dimyoux.engine.utils.Log;
 
 /**
  * File Manager
  */
 public class FileManager {
+	/**
+	 * Resources Access
+	 */
 	static public Resources resources;
 	/**
 	 * Instance [Singleton]
@@ -90,10 +94,20 @@ public class FileManager {
 	{
 		return new BufferedReader(new InputStreamReader(openFile(name)));
 	}
+	/**
+	 * Open a file
+	 * @param id File's ID
+	 * @return File
+	 */
+	public BufferedReader openTextFile(int id)
+	{
+		return new BufferedReader(new InputStreamReader(openFile(id)));
+	}
 	//TODO:resources can't be in objParser !!!
 	/**
 	 * Open a file
 	 * @param name Name of file
+	 * @return File
 	 */
 	public InputStream openFile(String name) throws NotFoundException
 	{
@@ -102,8 +116,18 @@ public class FileManager {
 	}
 	/**
 	 * Open a file
+	 * @param id File's ID
+	 * @return File 
+	 */
+	public InputStream openFile(int id)
+	{
+		return resources.openRawResource(id);
+	}
+	/**
+	 * Open a file
 	 * @param name Name of file
 	 * @param folder Folder
+	 * @return File
 	 */
 	public InputStream openFile(String name, String folder) throws NotFoundException
 	{
@@ -142,13 +166,41 @@ public class FileManager {
 		}
 		if(id==0)
 		{
-			name = name.replace(".","_");
+			name = name.replaceAll("\\.","_");
 			for(final String folder : folders)
 			{
 				id = resources.getIdentifier(packageName+folder+"/"+name, null, null);
 				if(id > 0)
 				{
 					break;
+				}
+			}
+		}
+		if(id == 0)
+		{
+			id = resources.getIdentifier(packageName+"/"+name, null, null);
+			if(id==0)
+			{
+				id = resources.getIdentifier(name, null, null);
+			}
+		}
+		if(id==0)
+		{
+			name = name.substring(0, name.lastIndexOf("_"));
+			for(final String folder : folders)
+			{
+				id = resources.getIdentifier(packageName+folder+"/"+name, null, null);
+				if(id > 0)
+				{
+					break;
+				}
+			}
+			if(id == 0)
+			{
+				id = resources.getIdentifier(packageName+"/"+name, null, null);
+				if(id==0)
+				{
+					id = resources.getIdentifier(name, null, null);
 				}
 			}
 		}
@@ -173,8 +225,21 @@ public class FileManager {
 			id = resources.getIdentifier(packageName+folder+"/"+name, null, null);
 		}catch(NotFoundException e)
 		{
-			name = name.replace(".","_");
+			name = name.replaceAll("\\.","_");
 			id = resources.getIdentifier(packageName+folder+"/"+name, null, null);
+		}
+		if(id == 0)
+		{
+			id = resources.getIdentifier(folder+"/"+name, null, null);
+		}
+		if(id == 0)
+		{
+			name = name.substring(0, name.lastIndexOf("_"));
+			id = resources.getIdentifier(packageName+folder+"/"+name, null, null);
+			if(id == 0)
+			{
+				id = resources.getIdentifier(folder+"/"+name, null, null);
+			}
 		}
 		return id;
 	}
