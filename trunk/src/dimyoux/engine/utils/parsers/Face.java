@@ -75,6 +75,7 @@ public class Face
 	}
 	public Face(int[] vertices, int[] textVertices, int[] normalVertices, String material)
 	{
+		length = vertices.length;
 		this.vertices = vertices;
 		this.textVertices = textVertices;
 		this.normalVertices = normalVertices;

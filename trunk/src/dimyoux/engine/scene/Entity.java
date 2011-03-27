@@ -77,6 +77,7 @@ public class Entity {
 		}
          
 		Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
+		
 		Scene.gl.glDrawElements(GL10.GL_TRIANGLES, mesh.indexesBuffer.limit(),
                  GL11.GL_UNSIGNED_SHORT, 0);
          

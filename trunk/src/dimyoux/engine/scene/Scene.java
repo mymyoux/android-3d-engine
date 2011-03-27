@@ -148,9 +148,19 @@ public class Scene {
 	 */
 	public void draw()
 	{
+		gl.glPushMatrix();
+
+
+	    gl.glTranslatef(0, 0, 100);
+	    gl.glRotatef(10, 1, 0, 0);   
+	    gl.glRotatef(10, 0, 1, 0);   
+
 		for(final Node node : childNodes)
 		{
 			node.draw();
 		}
+		gl.glPopMatrix();
+
+	   
 	}
 }
