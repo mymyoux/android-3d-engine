@@ -49,4 +49,15 @@ public class Coord2D {
 		this.u = Float.parseFloat(coords[0]);
 		this.v = Float.parseFloat(coords[1]);
 	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
+	@Override
+	public String toString()
+	{
+		String string = "[Coord2D";
+		string+=" U="+u;
+		string+=" V="+v;
+		return string+"]";
+	}
 }
