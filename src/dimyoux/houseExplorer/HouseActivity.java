@@ -15,6 +15,8 @@ import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Entity;
 import dimyoux.engine.scene.Node;
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.math.Coord3D;
+import dimyoux.engine.utils.parsers.Face;
 import dimyoux.engine.utils.parsers.ObjParser;
 import dimyoux.engine.utils.parsers.PreMesh;
 /**
@@ -61,7 +63,24 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		ObjParser parser = new ObjParser();
 		parser.load(R.raw.camaro_obj);
 		PreMesh mesh = parser.load("camaro.obj");
-		entity.setMesh(mesh.toMesh());
+		//entity.setMesh(mesh.toMesh());
+		PreMesh test = new PreMesh();
+		test.name = "test";
+		test.vertices.add(new Coord3D(1,1,1));
+		test.vertices.add(new Coord3D(-1,1,1));
+		test.vertices.add(new Coord3D(-1,-1,1));/*
+		test.vertices.add(new Coord3D(1,-1,1));
+		test.vertices.add(new Coord3D(1,-1,-1));
+		test.vertices.add(new Coord3D(1,1,-1));
+		test.vertices.add(new Coord3D(-1,1,-1));
+		test.vertices.add(new Coord3D(-1,-1,-1));
+		*/
+		int[] t = new int[3];
+		t[0] = 1;
+		t[1] = 2;
+		t[2] = 3;
+		test.faces.add(new Face(t, null,null, "test"));
+		entity.setMesh(test.toMesh());
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
