@@ -58,4 +58,16 @@ public class Coord3D {
 		this.y = Float.parseFloat(coords[1]);
 		this.z = Float.parseFloat(coords[2]);
 	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
+	@Override
+	public String toString()
+	{
+		String string = "[Coord3D";
+		string+=" X="+x;
+		string+=" Y="+y;
+		string+=" Z="+z;
+		return string+"]";
+	}
 }

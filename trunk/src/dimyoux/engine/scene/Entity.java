@@ -2,6 +2,7 @@ package dimyoux.engine.scene;
 
 import java.nio.IntBuffer;
 
+import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import dimyoux.engine.utils.Buffer;
@@ -53,7 +54,45 @@ public class Entity {
 	public void draw()
 	{
 		bufferize();
-		
+		Scene.gl.glPushMatrix();
+         
+		Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.verticesBufferIndex);
+		Scene.gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
+         
+         // enable non-mandatory arrays if found
+		if(mesh.hasColorsBuffer()) {
+			Scene.gl.glEnableClientState(GL11.GL_COLOR_ARRAY);
+			Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.colorsBufferIndex);
+			Scene.gl.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 0, 0);
+		}
+		if(mesh.hasNormalsBuffer()) {
+			Scene.gl.glEnableClientState(GL11.GL_NORMAL_ARRAY);
+			Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.normalsBufferIndex);
+			Scene.gl.glNormalPointer(GL11.GL_FLOAT, 0, 0);
+		}
+		if(mesh.hasTexCoordsBuffer()) {
+			Scene.gl.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+			Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.texCoordsBufferIndex);
+			Scene.gl.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0);
+		}
+         
+		Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
+		Scene.gl.glDrawElements(GL10.GL_TRIANGLES, mesh.indexesBuffer.limit(),
+                 GL11.GL_UNSIGNED_SHORT, 0);
+         
+		Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
+		Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
+         
+         if(mesh.hasColorsBuffer()) {
+        	 Scene.gl.glDisableClientState(GL11.GL_COLOR_ARRAY);
+		}
+		if(mesh.hasNormalsBuffer()) {
+			Scene.gl.glDisableClientState(GL11.GL_NORMAL_ARRAY);
+		}
+		if(mesh.hasTexCoordsBuffer()) {
+			Scene.gl.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);				
+		}
+		Scene.gl.glPopMatrix();
 	}
 	/**
 	 * Bufferizes this mesh if it is not already 
@@ -62,6 +101,7 @@ public class Entity {
 	{
 		if(!mesh.isBuffered())
 		{
+			Log.warning("bufferisation");
 			IntBuffer buffer = Buffer.createIntBuffer(1);
 			//vertices
 			if(mesh.hasVerticesBuffer())
@@ -80,7 +120,7 @@ public class Entity {
 				Scene.gl.glGenBuffers(1, (IntBuffer)buffer.rewind());
 				mesh.normalsBufferIndex = buffer.get(0);
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.normalsBufferIndex);
-				mesh.colorsBuffer.rewind();
+				mesh.normalsBuffer.rewind();
 				Scene.gl.glBufferData(GL11.GL_ARRAY_BUFFER,mesh.normalsBuffer.capacity()*Buffer.FLOAT_SIZE, mesh.normalsBuffer, GL11.GL_STATIC_DRAW);
 			}
 			//colors
@@ -115,7 +155,7 @@ public class Entity {
 				Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
 				mesh.indexesBuffer.rewind();
 				//TODO : maybe colors will be a CharVuffer so will use mesh.colorsBuffer.capacity()*Buffer.CHAR_SIZE instead
-				Scene.gl.glBufferData(GL11.GL_ELEMENT_ARRAY_BUFFER,mesh.indexesBuffer.capacity()*Buffer.FLOAT_SIZE, mesh.indexesBuffer, GL11.GL_STATIC_DRAW);
+				Scene.gl.glBufferData(GL11.GL_ELEMENT_ARRAY_BUFFER,mesh.indexesBuffer.capacity()*Buffer.INT_SIZE, mesh.indexesBuffer, GL11.GL_STATIC_DRAW);
 				//end of element array binding
 				Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
 			}

@@ -1,6 +1,7 @@
 package dimyoux.engine.scene;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 /**
  * Mesh
@@ -46,7 +47,7 @@ public class Mesh {
 	/**
 	 * Buffer of indexes
 	 */
-	public FloatBuffer indexesBuffer;
+	public IntBuffer indexesBuffer;
 	/**
 	 * Indicates if this mesh is already Buffered (see OpenGL VBO)
 	 * @return True or false
@@ -94,5 +95,35 @@ public class Mesh {
 	protected boolean hasIndexesBuffer()
 	{
 		return indexesBuffer!=null;
+	}
+	@Override
+	public String toString()
+	{
+		String txt = "[Mesh";
+		if(name != null)
+		{
+			txt+="["+name+"]";
+		}
+		if(verticesBuffer!=null && verticesBuffer.limit()>0)
+		{
+			txt+=" V=\""+verticesBuffer.limit()+"\"";
+		}
+		if(normalsBuffer!=null && normalsBuffer.limit()>0)
+		{
+			txt+=" N=\""+normalsBuffer.limit()+"\"";
+		}
+		if(texCoordsBuffer!=null && texCoordsBuffer.limit()>0)
+		{
+			txt+=" T=\""+texCoordsBuffer.limit()+"\"";
+		}
+		if(colorsBuffer!=null && colorsBuffer.limit()>0)
+		{
+			txt+=" C=\""+colorsBuffer.limit()+"\"";
+		}
+		if(indexesBuffer!=null && indexesBuffer.limit()>0)
+		{
+			txt+=" I=\""+indexesBuffer.limit()+"\"";
+		}
+		return txt+"]";
 	}
 }

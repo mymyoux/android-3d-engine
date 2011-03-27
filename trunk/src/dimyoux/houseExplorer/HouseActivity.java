@@ -16,6 +16,7 @@ import dimyoux.engine.scene.Entity;
 import dimyoux.engine.scene.Node;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.parsers.ObjParser;
+import dimyoux.engine.utils.parsers.PreMesh;
 /**
  * Example application : A house explorer 
  */
@@ -59,6 +60,8 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
 		parser.load(R.raw.camaro_obj);
+		PreMesh mesh = parser.load("camaro.obj");
+		entity.setMesh(mesh.toMesh());
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
