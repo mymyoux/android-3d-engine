@@ -30,12 +30,19 @@ public class Light {
 	// Type of the light
 	private LightType lightType = LightType.POINT_LIGHT;
 	
-	// Light components (for point and directional lights)
-	// TODO: handle directionnal and spot lights
+	// Light parameters (for point and directional lights)
 	private float[] position;
 	private float[] ambient;
 	private float[] diffuse;
 	private float[] specular;
+	
+	// Light parameters (for spot lights)
+	private float[] spotDirection;
+	private boolean hasSpotCutoff = false;
+	private float spotCutoff;
+	private boolean hasSpotExponent = false;
+	private float spotExponent;
+	
 	
 	/**
 	 * Default constructor
@@ -65,6 +72,40 @@ public class Light {
 		this.ambient  = ambient.toFloatArray();
 		this.diffuse  = diffuse.toFloatArray();
 		this.specular = specular.toFloatArray();
+	}
+	
+	/**
+	 * Constructor
+	 * @param position position of the light
+	 * @param ambient ambient component of the light
+	 * @param diffuse diffuse component of the light
+	 * @param specular specular component of the light
+	 * @param spotDirection direction of the spot light
+	 * @param spotCutOff cut off of the spot light
+	 * @param spotExponent exponent of the spot light
+	 */
+	private Light(
+			Coord4D position, 
+			Color ambient, 
+			Color diffuse, 
+			Color specular,
+			Coord3D spotDirection,
+			float spotCutOff,
+			float spotExponent) {
+		numLight = getGLNumber();
+		
+		this.position = position.toFloatArray();
+		this.ambient  = ambient.toFloatArray();
+		this.diffuse  = diffuse.toFloatArray();
+		this.specular = specular.toFloatArray();
+		
+		this.spotDirection = spotDirection.toFloatArray();
+		
+		this.hasSpotCutoff = true;
+		this.spotCutoff = spotCutOff;
+		
+		this.hasSpotExponent = true;
+		this.spotExponent = spotExponent;
 	}
 	
 	/**
@@ -127,6 +168,17 @@ public class Light {
 				position[3] = 0; // w
 			else
 				position[3] = 1; // w
+		}
+		
+		if (lightType == LightType.SPOT_LIGHT) {
+			if (spotDirection == null)
+				spotDirection = new float[] {0.0f, 0.0f, 0.0f, 1.0f};
+			
+			hasSpotCutoff = true;
+			spotCutoff = 0.0f;
+			
+			hasSpotExponent = true;
+			spotExponent = 0.0f;
 		}
 	}
 	
@@ -206,6 +258,74 @@ public class Light {
 	}
 	
 	/**
+	 * Returns the spot direction
+	 * @return the spot direction
+	 */
+	public float[] getSpotDirection() {
+		return spotDirection;
+	}
+	
+	/**
+	 * Sets the spot direction
+	 * @param direction direction of the spot light
+	 */
+	public void setSpotDirection(Coord3D direction) {
+		spotDirection = direction.toFloatArray();			
+	}
+	
+	/**
+	 * Returns the spot light cutoff
+	 * @return the spot light cutoff
+	 */
+	public float getSpotCutoff() {
+		return spotCutoff;
+	}
+	
+	/**
+	 * Indicates if the spot light has spot cutoff
+	 * @return true if it has, false otherwise
+	 */
+	public boolean hasSpotCutoff() {
+		return hasSpotCutoff;
+	}
+	
+	/**
+	 * Sets the spot light cutoff
+	 * @param cutoff the spot light cutoff
+	 */
+	public void setSpotCutOff(float cutoff) {
+		this.spotCutoff = cutoff;
+		this.hasSpotCutoff = true;
+	}
+	
+	/**
+	 * Returns the spot light exponent
+	 * @return the spot light exponent
+	 */
+	public float getSpotExponent() {
+		return spotExponent;
+	}
+
+	/**
+	 * Indicates if the spot light has spot exponent
+	 * @return true if it has, false otherwise
+	 */
+	public boolean hasSpotExponent() {
+		return hasSpotExponent;
+	}
+	
+	/**
+	 * Sets the spot light exponent
+	 * @param exp the spot light exponent
+	 */
+	public void setSpotExponent(float exp) {
+		this.spotExponent = exp;
+		this.hasSpotExponent = true;
+	}
+	
+	/** Static functions **/
+	
+	/**
 	 * Adds a new light with default settings
 	 * (a white and shiny point light at {0, 0, 0})
 	 */
@@ -222,9 +342,9 @@ public class Light {
 		
 		Light l = new Light(
 				new Coord4D(0, 0, 0, w), // position 
-				new Color(1, 1, 1, 1),   // ambient
-				new Color(1, 1, 1, 1),   // diffuse
-				new Color(1, 1, 1, 1));  // specular
+				Color.WHITE,   // ambient
+				Color.WHITE,   // diffuse
+				Color.WHITE);  // specular
 		
 		lights.add(l);
 	}
@@ -295,17 +415,17 @@ public class Light {
 				gl.glLightfv(glLight, GL10.GL_DIFFUSE, l.getSpecular(), 0);
 			}
 			
-			/*
-			if(spot_dir3f != null) {
-				gl.glLightfv(glLight, GL10.GL_SPOT_DIRECTION, spot_dir3f, 0);
+			if(l.getSpotDirection() != null) {
+				gl.glLightfv(glLight, GL10.GL_SPOT_DIRECTION, l.getSpotDirection(), 0);
 			}
-			if(has_spot_cutoff) {
-				gl.glLightf(glLight, GL10.GL_SPOT_CUTOFF, spot_cutoff);
+			if(l.hasSpotCutoff()) {
+				gl.glLightf(glLight, GL10.GL_SPOT_CUTOFF, l.getSpotCutoff());
 			}
-			if(has_spot_exponent) {
-				gl.glLightf(glLight, GL10.GL_SPOT_EXPONENT, spot_exponent);
+			if(l.hasSpotExponent()) {
+				gl.glLightf(glLight, GL10.GL_SPOT_EXPONENT, l.getSpotExponent());
 			}
-			*/
+			
+			// Light activation
 			gl.glEnable(glLight);	
 		}
 	}
@@ -336,6 +456,16 @@ public class Light {
 		}
 		if(l.getSpecular() != null) {
 			gl.glLightfv(glLight, GL10.GL_DIFFUSE, l.getSpecular(), 0);
+		}
+		
+		if(l.getSpotDirection() != null) {
+			gl.glLightfv(glLight, GL10.GL_SPOT_DIRECTION, l.getSpotDirection(), 0);
+		}
+		if(l.hasSpotCutoff()) {
+			gl.glLightf(glLight, GL10.GL_SPOT_CUTOFF, l.getSpotCutoff());
+		}
+		if(l.hasSpotExponent()) {
+			gl.glLightf(glLight, GL10.GL_SPOT_EXPONENT, l.getSpotExponent());
 		}
 		
 		gl.glEnable(glLight);

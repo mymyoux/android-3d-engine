@@ -188,10 +188,9 @@ public class EngineActivity extends Activity implements IRenderer{
 	    Light.addLight(
 	    		Light.LightType.POINT_LIGHT, 
 	    		new Coord3D(0, 0, 150), // position 
-	    		new Color(0, 0, 0, 1),   // ambient color
-	    		new Color(1, 1, 1, 1),   // diffuse color
-	    		new Color(1, 1, 1, 1));  // specular color
-	    
+	    		Color.WHITE,   			// ambient color
+	    		Color.WHITE,   			// diffuse color
+	    		Color.WHITE);  			// specular color
 
 	    // Enable of the lights added to the scene by default
 	    Light.enable(gl);
