@@ -21,7 +21,7 @@ public class Light {
 	}
 	
 	// Lights of the scene [static]
-	static private ArrayList<Light> lights;
+	static private ArrayList<Light> lights = new ArrayList<Light> ();
 	static private int lightsCount = 0;
 	
 	// Number of the light
