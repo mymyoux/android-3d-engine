@@ -3,10 +3,16 @@ package dimyoux.engine.scene;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import dimyoux.engine.utils.parsers.Material;
+
 /**
  * Mesh
  */
 public class Mesh {
+	/**
+	 * Current Material
+	 */
+	public Material currentMaterial; 
 	/**
 	 * Name
 	 */
@@ -102,6 +108,14 @@ public class Mesh {
 	protected boolean hasIndexesBuffer()
 	{
 		return indexesBuffer!=null;
+	}
+	/**
+	 * Indicates if this mesh has a texture
+	 * @return True or false
+	 */
+	protected boolean hasTexture()
+	{
+		return this.currentMaterial != null && this.currentMaterial.textureBitmap != null;
 	}
 	@Override
 	public String toString()

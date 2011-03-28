@@ -6,6 +6,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.res.Resources.NotFoundException;
+import android.graphics.Bitmap;
 import dimyoux.engine.EngineActivity;
 import dimyoux.engine.R;
 import dimyoux.engine.core.signals.ISensorLight;
@@ -98,7 +99,8 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		 test.colors.add(new Color(1,0,1,1));
 		entity.setMesh(test.toMesh());
 		entity.setMesh(mesh.toMesh());
-		Log.error(FileManager.getInstance().loadBitmap("camaro"));
+		Bitmap bitmap = FileManager.getInstance().loadBitmap("camaro");
+		
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

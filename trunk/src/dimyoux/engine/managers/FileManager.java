@@ -247,13 +247,22 @@ public class FileManager {
 	}
 	/**
 	 * Open a bitmap file
+	 * @param id File's id
+	 * @return Bitmap
+	 */
+	public Bitmap loadBitmap(int id)
+	{
+		return  BitmapFactory.decodeResource(resources, id);
+	}
+	/**
+	 * Open a bitmap file
 	 * @param name Name of file
 	 * @return Bitmap
 	 */
 	public Bitmap loadBitmap(String name)
 	{
 		Log.verbose("Load bitmap["+name+"]");
-		return  BitmapFactory.decodeResource(resources,getFileID(name));
+		return  loadBitmap(getFileID(name));
 	}
 	/**
 	 * Open a bitmap file
@@ -264,6 +273,6 @@ public class FileManager {
 	public Bitmap loadBitmap(String name, String folder)
 	{
 		Log.verbose("Load bitmap["+name+"]");
-		return  BitmapFactory.decodeResource(resources,getFileID(name, folder));
+		return  loadBitmap(getFileID(name, folder));
 	}
 }

@@ -5,6 +5,7 @@ import java.nio.IntBuffer;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.utils.Buffer;
 import dimyoux.engine.utils.Log;
 
@@ -66,7 +67,7 @@ public class Entity {
 			Scene.gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
 		}
 		
-		if(vbo)
+		if(GLConstants.USE_VBO)
 		{
 			bufferize();
 			Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.verticesBufferIndex);
@@ -85,9 +86,22 @@ public class Entity {
 				Scene.gl.glNormalPointer(GL11.GL_FLOAT, 0, 0);
 			}
 			if(mesh.hasTexCoordsBuffer()) {
+				if(mesh.hasTexture())
+				{
+					if(!mesh.currentMaterial.textureSent)
+					{
+						Log.warning("Sending texture");
+						mesh.currentMaterial.sendTexture();
+					}
+					Scene.gl.glEnable(GL10.GL_TEXTURE_2D);
+				}
 				Scene.gl.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.texCoordsBufferIndex);
 				Scene.gl.glTexCoordPointer(mesh.texCoordsSize, GL11.GL_FLOAT, 0, 0);
+				if(mesh.hasTexture())
+				{
+					Scene.gl.glBindTexture(GL10.GL_TEXTURE_2D, mesh.currentMaterial.textureIndex);
+				}
 			}
 		
 			Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
@@ -117,6 +131,10 @@ public class Entity {
 		if(mesh.hasColorsBuffer())
 		{
 			Scene.gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+		}
+		if(mesh.hasTexture())
+		{
+			Scene.gl.glDisable(GL10.GL_TEXTURE_2D);
 		}
 		Scene.gl.glPopMatrix();
 	}
