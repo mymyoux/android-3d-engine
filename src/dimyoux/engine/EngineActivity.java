@@ -181,11 +181,14 @@ public class EngineActivity extends Activity implements IRenderer{
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
 	    
+	    // Activates lighting
+	    gl.glEnable(GL10.GL_LIGHTING);
+	    
 	    // Add a simple light to the scene
 	    Light.addLight(
 	    		Light.LightType.POINT_LIGHT, 
-	    		new Coord3D(0, 0, -150), // position 
-	    		new Color(1, 1, 1, 1),   // ambient color
+	    		new Coord3D(0, 0, 150), // position 
+	    		new Color(0, 0, 0, 1),   // ambient color
 	    		new Color(1, 1, 1, 1),   // diffuse color
 	    		new Color(1, 1, 1, 1));  // specular color
 	    
@@ -194,6 +197,8 @@ public class EngineActivity extends Activity implements IRenderer{
 	    Light.enable(gl);
 	    
 	    Scene.gl = (GL11)gl;
+	    
+	    Log.error(gl.glGetString(GL10.GL_EXTENSIONS));
 	    
 		onSurfaceCreated(gl, config);
 	}

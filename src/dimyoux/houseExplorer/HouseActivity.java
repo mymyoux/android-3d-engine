@@ -96,7 +96,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		 test.colors.add(new Color(0,0,1,1));
 		 test.colors.add(new Color(1,0,1,1));
 		entity.setMesh(test.toMesh());
-		//entity.setMesh(mesh.toMesh());
+		entity.setMesh(mesh.toMesh());
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
