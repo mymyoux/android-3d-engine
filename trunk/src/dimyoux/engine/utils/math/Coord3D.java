@@ -2,19 +2,8 @@ package dimyoux.engine.utils.math;
 /**
  * Coord3D
  */
-public class Coord3D {
+public class Coord3D extends Coord2D{
 
-	/**
-	 * X
-	 */
-	public float x;
-	/**
-	 * Y
-	 */
-	public float y;
-	/**
-	 * Z
-	 */
 	public float z;
 	/**
 	 * Constructor
@@ -69,5 +58,21 @@ public class Coord3D {
 		string+=" Y="+y;
 		string+=" Z="+z;
 		return string+"]";
+	}
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public int size()
+	{
+		return 3;
+	}
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public float[] toFloatArray()
+	{
+		return new float[]{x, y, z};
 	}
 }
