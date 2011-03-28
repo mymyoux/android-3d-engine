@@ -11,6 +11,7 @@ import dimyoux.engine.R;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
+import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Entity;
 import dimyoux.engine.scene.Node;
@@ -19,7 +20,7 @@ import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.parsers.Face;
 import dimyoux.engine.utils.parsers.ObjParser;
-import dimyoux.engine.utils.parsers.PreMesh;
+import dimyoux.engine.utils.parsers.MeshBuilder;
 /**
  * Example application : A house explorer 
  */
@@ -62,9 +63,9 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		node.attachEntity(entity);
 		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
-		PreMesh mesh = parser.load("camaro.obj");
+		MeshBuilder mesh = parser.load("camaro.obj");
 		//entity.setMesh(mesh.toMesh());
-		PreMesh test = new PreMesh();
+		MeshBuilder test = new MeshBuilder();
 		test.name = "test";
 		test.vertices.add(new Coord3D(-1,1,0));
 		test.vertices.add(new Coord3D(-1,-1,0));
@@ -97,6 +98,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		 test.colors.add(new Color(1,0,1,1));
 		entity.setMesh(test.toMesh());
 		entity.setMesh(mesh.toMesh());
+		Log.error(FileManager.getInstance().loadBitmap("camaro"));
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

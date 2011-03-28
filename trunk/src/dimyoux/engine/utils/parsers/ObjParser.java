@@ -51,12 +51,12 @@ public class ObjParser {
 	private static final String materialOpticalDensity = "Ni";
 	private static Map<String, Material> materials;
 	//TODO:Integer, Mesh
-	private static Map<Integer, PreMesh> meshs;
+	private static Map<Integer, MeshBuilder> meshs;
 	/**
 	 * Load file
 	 * @param filename File name 
 	 */
-	public PreMesh load(String filename)
+	public MeshBuilder load(String filename)
 	{
 		return load(FileManager.getInstance().getFileID(filename));
 	}
@@ -64,14 +64,14 @@ public class ObjParser {
 	 * Load file
 	 * @param id File id
 	 */
-	public PreMesh load(int id)
+	public MeshBuilder load(int id)
 	{
-		PreMesh mesh = new PreMesh();
+		MeshBuilder mesh = new MeshBuilder();
 		if(id != 0)
 		{
 			if(meshs == null)
 			{
-				meshs = new HashMap<Integer, PreMesh>();
+				meshs = new HashMap<Integer, MeshBuilder>();
 			}
 			if(meshs.containsKey(id))
 			{
@@ -97,7 +97,7 @@ public class ObjParser {
 					String line;
 					String[] values;
 					//TODO:can have more than one mesh by .obj file
-					mesh = new PreMesh();
+					mesh = new MeshBuilder();
 					 
 					while((line = buffer.readLine()) != null)
 					{
@@ -123,7 +123,16 @@ public class ObjParser {
 						else
 						if(values[0].equals(texCoord))
 						{
-							mesh.textureCoordinates.add(new Coord2D(Float.parseFloat(values[1]), Float.parseFloat(values[2])*-1.0f));
+							if(values.length == 3)
+							{
+								mesh.textureCoordinates.add(new Coord2D(Float.parseFloat(values[1]), Float.parseFloat(values[2])*-1.0f));
+							}else
+							{
+								if(values.length == 4)
+								{
+									mesh.textureCoordinates.add(new Coord3D(Float.parseFloat(values[1]), Float.parseFloat(values[2])*-1.0f, Float.parseFloat(values[3])));
+								}
+							}
 						}
 						else
 						if(values[0].equals(useMaterial))
@@ -145,7 +154,7 @@ public class ObjParser {
 								mesh.name = values[1];
 							}else
 							{
-								mesh = new PreMesh();
+								mesh = new MeshBuilder();
 								mesh.name = values[1];
 							}
 						}

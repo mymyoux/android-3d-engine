@@ -10,7 +10,7 @@ import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord2D;
 import dimyoux.engine.utils.math.Coord3D;
 
-public class PreMesh
+public class MeshBuilder
 {
 	public List<Coord3D> vertices;
 	public List<Coord3D> normals;
@@ -18,7 +18,7 @@ public class PreMesh
 	public List<Color> colors;
 	public List<Face> faces;
 	public String name;
-	public PreMesh()
+	public MeshBuilder()
 	{
 		vertices = new ArrayList<Coord3D>();
 		normals = new ArrayList<Coord3D>();
@@ -79,13 +79,19 @@ public class PreMesh
 		}
 		if(textureCoordinates.size()>0)
 		{
-			mesh.texCoordsBuffer = Buffer.createFloatBuffer(textureCoordinates.size()*2);
+			mesh.texCoordsSize = textureCoordinates.get(0).size();
+			mesh.texCoordsBuffer = Buffer.createFloatBuffer(textureCoordinates.size()*mesh.texCoordsSize);
 			for(final Coord2D text : textureCoordinates)
 			{
 				mesh.texCoordsBuffer.put(text.x);
 				mesh.texCoordsBuffer.put(text.y);
+				if(text.size() == 3)
+				{
+					mesh.texCoordsBuffer.put(((Coord3D)text).z);
+				}
 			}
 			mesh.texCoordsBuffer.position(0);
+			
 		}
 		if(faces.size()>0)
 		{

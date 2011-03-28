@@ -8,8 +8,11 @@ import java.util.List;
 
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import dimyoux.engine.R;
+import dimyoux.engine.utils.Log;
 
 /**
  * File Manager
@@ -241,5 +244,26 @@ public class FileManager {
 			}
 		}
 		return id;
+	}
+	/**
+	 * Open a bitmap file
+	 * @param name Name of file
+	 * @return Bitmap
+	 */
+	public Bitmap loadBitmap(String name)
+	{
+		Log.verbose("Load bitmap["+name+"]");
+		return  BitmapFactory.decodeResource(resources,getFileID(name));
+	}
+	/**
+	 * Open a bitmap file
+	 * @param name Name of file
+	 * @param folder Folder
+	 * @return Bitmap
+	 */
+	public Bitmap loadBitmap(String name, String folder)
+	{
+		Log.verbose("Load bitmap["+name+"]");
+		return  BitmapFactory.decodeResource(resources,getFileID(name, folder));
 	}
 }

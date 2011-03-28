@@ -87,7 +87,7 @@ public class Entity {
 			if(mesh.hasTexCoordsBuffer()) {
 				Scene.gl.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.texCoordsBufferIndex);
-				Scene.gl.glTexCoordPointer(2, GL11.GL_FLOAT, 0, 0);
+				Scene.gl.glTexCoordPointer(mesh.texCoordsSize, GL11.GL_FLOAT, 0, 0);
 			}
 		
 			Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);

@@ -7,6 +7,9 @@ import java.nio.ShortBuffer;
  * Mesh
  */
 public class Mesh {
+	/**
+	 * Name
+	 */
 	public String name;
 	/**
 	 * Index buffer of vertices
@@ -40,6 +43,10 @@ public class Mesh {
 	 * Buffer  of textures coordinates
 	 */
 	public FloatBuffer texCoordsBuffer;
+	/**
+	 * Indicates it texCoords are based on 2 or 3 coordinates
+	 */
+	public int texCoordsSize = 2;
 	/**
 	 * Index buffer of indexes
 	 */
