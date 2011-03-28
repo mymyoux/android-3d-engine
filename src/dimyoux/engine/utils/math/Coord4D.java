@@ -72,16 +72,21 @@ public class Coord4D extends Coord3D {
 		this.w = Float.parseFloat(coords[4]);
 	}
 	
-	public float[] toFloatArray() 
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public int size()
 	{
-		float[] array = new float[4];
-		
-		array[0] = this.x;
-		array[1] = this.y;
-		array[2] = this.z;
-		array[3] = this.w;
-		
-		return array;
+		return 4;
+	}
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public float[] toFloatArray()
+	{
+		return new float[]{x, y, z, w};
 	}
 	
 	/**

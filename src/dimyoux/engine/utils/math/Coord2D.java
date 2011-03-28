@@ -5,13 +5,13 @@ package dimyoux.engine.utils.math;
 public class Coord2D {
 
 	/**
-	 * U
+	 * X
 	 */
-	public float u;
+	public float x;
 	/**
-	 * V
+	 * Y
 	 */
-	public float v;
+	public float y;
 	/**
 	 * Constructor
 	 */
@@ -21,33 +21,41 @@ public class Coord2D {
 	}
 	/**
 	 * Constructor
-	 * @param u U
-	 * @param v V
+	 * @param x X
+	 * @param y Y
 	 */
-	public Coord2D(float u, float v)
+	public Coord2D(float x, float y)
 	{
-		this.u = u;
-		this.v = v;
+		this.x = x;
+		this.y = y;
 	}
 	/**
 	 * Constructor
-	 * @param u U
-	 * @param v V
+	 * @param x X
+	 * @param y Y
 	 */
-	public Coord2D(String u, String v)
+	public Coord2D(String x, String y)
 	{
-		this.u = Float.parseFloat(u);
-		this.v = Float.parseFloat(v);
+		this.x = Float.parseFloat(x);
+		this.x = Float.parseFloat(y);
 	}
 	/**
 	 * Constructor
-	 * @param coord2D Syntax : "x y z"
+	 * @param coord2D Syntax : "x y"
 	 */
 	public Coord2D(String coord2D)
 	{
 		String[]coords = coord2D.split(" ");
-		this.u = Float.parseFloat(coords[0]);
-		this.v = Float.parseFloat(coords[1]);
+		this.x = Float.parseFloat(coords[0]);
+		this.y = Float.parseFloat(coords[1]);
+	}
+	/**
+	 * Returns the number of coordinates
+	 * @return Returns the number of coordinates
+	 */
+	public int size()
+	{
+		return 2;
 	}
 	/**
 	 * Returns a string containing a concise, human-readable description of this object.
@@ -56,8 +64,16 @@ public class Coord2D {
 	public String toString()
 	{
 		String string = "[Coord2D";
-		string+=" U="+u;
-		string+=" V="+v;
+		string+=" X="+x;
+		string+=" Y="+y;
 		return string+"]";
+	}
+	/**
+	 * Returns the corresponding float array
+	 * @return the float array [r, g, b, a]
+	 */
+	public float[] toFloatArray()
+	{
+		return new float[]{x, y};
 	}
 }

@@ -82,8 +82,8 @@ public class PreMesh
 			mesh.texCoordsBuffer = Buffer.createFloatBuffer(textureCoordinates.size()*2);
 			for(final Coord2D text : textureCoordinates)
 			{
-				mesh.texCoordsBuffer.put(text.u);
-				mesh.texCoordsBuffer.put(text.v);
+				mesh.texCoordsBuffer.put(text.x);
+				mesh.texCoordsBuffer.put(text.y);
 			}
 			mesh.texCoordsBuffer.position(0);
 		}
