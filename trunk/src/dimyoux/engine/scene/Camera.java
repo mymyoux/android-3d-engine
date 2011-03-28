@@ -1,12 +1,29 @@
 package dimyoux.engine.scene;
 
-import dimyoux.engine.utils.Log;
+import java.util.Hashtable;
+import java.util.Map;
+
+import javax.microedition.khronos.opengles.GL11;
+
+import android.opengl.GLU;
+import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.utils.math.Matrix;
 /**
  * Camera class
  * 
  */
 public class Camera {
+	
+	/**
+	 * Cameras map (key = name, value = Camera)
+	 */
+	static private Map<String, Camera> cameras = new Hashtable<String, Camera> ();
+	
+	/**
+	 * Name of the camera
+	 */
+	private String camName;
+	
 	/**
 	 * Projection matrix
 	 */
@@ -19,18 +36,49 @@ public class Camera {
 	 * Camera's position [x ,y, z]
 	 */
 	private float[] position;
+	/**
+	 * Camera's up vector
+	 */
+	private float[] upVector;
 	
 	/**
 	 * Constructor
+	 * @param name name of the camera
 	 */
-	public Camera()
+	public Camera(String name)
 	{
-		projection = new Matrix(4,4);
+		camName = name;
+		
+		projection = new Matrix(4, 4);
 		projection.setIdentity();
 		modelView = new Matrix(4, 4);
 		modelView.setIdentity();
-		Log.error(modelView);
+		
+		position = new float[] {0.0f, 0.0f, 0.0f}; // camera initial position
+		upVector = new float[] {0.0f, 1.0f, 0.0f}; // camera pointing upward
+		
+		cameras.put(camName, this);
 	}
+	
+	/**
+	 * Returns the specified camera, or null if it doesn't exist
+	 * @param name the name of the camera
+	 * @return the specified camera
+	 */
+	static public Camera get(String name)
+	{
+		return cameras.get(name);
+	}
+	
+	/**
+	 * Removes the specified camera, or does nothing if the name doesn't exist
+	 * @param name name of the camera to be removed
+	 */
+	static public void remove(String name)
+	{
+		cameras.remove(name);
+	}
+	
 	/**
 	 * Translates the camera by this vector 
 	 * @param x value to add to the position[x] value of the camera
@@ -139,7 +187,16 @@ public class Camera {
 	 */
 	public void lookAt(float x, float y, float z)
 	{
+		GL11 gl = Scene.gl;
 		
+		if (position != null && upVector != null)
+		{
+			GLU.gluLookAt(
+					gl, 									// OpenGL context
+					position[0], position[1], position[2], 	// cam position
+					x, y, z, 								// cam reference point
+					upVector[0], upVector[1], upVector[2]); // cam up vector
+		}
 	}
 	/**
 	 * Guides the camera to a point [x, y, z]
@@ -147,7 +204,7 @@ public class Camera {
 	 */
 	public void lookAt(float[] point)
 	{
-		
+		// TODO
 	}
 	/**
 	 * Guides the camera to a point [x, y, z]
@@ -155,6 +212,6 @@ public class Camera {
 	 */
 	public void lookAt(Matrix destination)
 	{
-		
+		// TODO
 	}
 }
