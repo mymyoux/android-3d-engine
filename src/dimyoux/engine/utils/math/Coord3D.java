@@ -10,7 +10,7 @@ public class Coord3D extends Coord2D{
 	 */
 	public Coord3D()
 	{
-		
+		length = 3;
 	}
 	/**
 	 * Constructor
@@ -20,6 +20,7 @@ public class Coord3D extends Coord2D{
 	 */
 	public Coord3D(float x, float y, float z)
 	{
+		length = 3;
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -32,6 +33,7 @@ public class Coord3D extends Coord2D{
 	 */
 	public Coord3D(String x, String y, String z)
 	{
+		length = 3;
 		this.x = Float.parseFloat(x);
 		this.y = Float.parseFloat(y);
 		this.z = Float.parseFloat(z);
@@ -42,6 +44,7 @@ public class Coord3D extends Coord2D{
 	 */
 	public Coord3D(String coord3D)
 	{
+		length = 3;
 		String[]coords = coord3D.split(" ");
 		this.x = Float.parseFloat(coords[0]);
 		this.y = Float.parseFloat(coords[1]);
@@ -58,14 +61,6 @@ public class Coord3D extends Coord2D{
 		string+=" Y="+y;
 		string+=" Z="+z;
 		return string+"]";
-	}
-	/**
-	 * @inheritDoc
-	 */
-	@Override
-	public int size()
-	{
-		return 3;
 	}
 	/**
 	 * @inheritDoc

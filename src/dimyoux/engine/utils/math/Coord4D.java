@@ -12,7 +12,7 @@ public class Coord4D extends Coord3D {
 	 */
 	public Coord4D()
 	{
-		
+		length = 4;
 	}
 	
 	/**
@@ -24,6 +24,7 @@ public class Coord4D extends Coord3D {
 	 */
 	public Coord4D(float x, float y, float z, float w)
 	{
+		length = 4;
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -36,6 +37,7 @@ public class Coord4D extends Coord3D {
 	 */
 	public Coord4D(float[] values)
 	{
+		length = 4;
 		if (values.length == 4) 
 		{
 			this.x = values[0];
@@ -54,6 +56,7 @@ public class Coord4D extends Coord3D {
 	 */
 	public Coord4D(String x, String y, String z, String w)
 	{
+		length = 4;
 		this.x = Float.parseFloat(x);
 		this.y = Float.parseFloat(y);
 		this.z = Float.parseFloat(z);
@@ -65,20 +68,12 @@ public class Coord4D extends Coord3D {
 	 */
 	public Coord4D(String coord4D)
 	{
+		length = 4;
 		String[]coords = coord4D.split(" ");
 		this.x = Float.parseFloat(coords[0]);
 		this.y = Float.parseFloat(coords[1]);
 		this.z = Float.parseFloat(coords[2]);
 		this.w = Float.parseFloat(coords[4]);
-	}
-	
-	/**
-	 * @inheritDoc
-	 */
-	@Override
-	public int size()
-	{
-		return 4;
 	}
 	/**
 	 * @inheritDoc

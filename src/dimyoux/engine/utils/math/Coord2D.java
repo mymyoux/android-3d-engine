@@ -5,6 +5,10 @@ package dimyoux.engine.utils.math;
 public class Coord2D {
 
 	/**
+	 * Indicates if it is a 2D, 3D or 4D coordinates
+	 */
+	protected int length;
+	/**
 	 * X
 	 */
 	public float x;
@@ -17,7 +21,7 @@ public class Coord2D {
 	 */
 	public Coord2D()
 	{
-		
+		length = 2;
 	}
 	/**
 	 * Constructor
@@ -26,6 +30,7 @@ public class Coord2D {
 	 */
 	public Coord2D(float x, float y)
 	{
+		length = 2;
 		this.x = x;
 		this.y = y;
 	}
@@ -36,6 +41,7 @@ public class Coord2D {
 	 */
 	public Coord2D(String x, String y)
 	{
+		length = 2;
 		this.x = Float.parseFloat(x);
 		this.x = Float.parseFloat(y);
 	}
@@ -45,6 +51,7 @@ public class Coord2D {
 	 */
 	public Coord2D(String coord2D)
 	{
+		length = 2;
 		String[]coords = coord2D.split(" ");
 		this.x = Float.parseFloat(coords[0]);
 		this.y = Float.parseFloat(coords[1]);
@@ -55,7 +62,7 @@ public class Coord2D {
 	 */
 	public int size()
 	{
-		return 2;
+		return length;
 	}
 	/**
 	 * Returns a string containing a concise, human-readable description of this object.
@@ -70,7 +77,7 @@ public class Coord2D {
 	}
 	/**
 	 * Returns the corresponding float array
-	 * @return the float array [r, g, b, a]
+	 * @return the float array
 	 */
 	public float[] toFloatArray()
 	{
