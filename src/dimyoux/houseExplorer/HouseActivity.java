@@ -14,6 +14,7 @@ import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Entity;
 import dimyoux.engine.scene.Node;
+import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.parsers.Face;
@@ -61,14 +62,15 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		node.attachEntity(entity);
 		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
-		parser.load(R.raw.camaro_obj);
 		PreMesh mesh = parser.load("camaro.obj");
 		//entity.setMesh(mesh.toMesh());
 		PreMesh test = new PreMesh();
 		test.name = "test";
-		test.vertices.add(new Coord3D(1,1,1));
-		test.vertices.add(new Coord3D(-1,1,1));
-		test.vertices.add(new Coord3D(-1,-1,1));/*
+		test.vertices.add(new Coord3D(-1,1,0));
+		test.vertices.add(new Coord3D(-1,-1,0));
+		test.vertices.add(new Coord3D(1,-1,0));
+		test.vertices.add(new Coord3D(1,1,0));
+		/*
 		test.vertices.add(new Coord3D(1,-1,1));
 		test.vertices.add(new Coord3D(1,-1,-1));
 		test.vertices.add(new Coord3D(1,1,-1));
@@ -80,7 +82,21 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		t[1] = 2;
 		t[2] = 3;
 		test.faces.add(new Face(t, null,null, "test"));
+		t[1] = 3;
+		t[2] = 4;
+		test.faces.add(new Face(t, null,null, "test"));
+		 float[] colors = {
+	                1f, 0f, 0f, 1f, // vertex 0 red
+	                0f, 1f, 0f, 1f, // vertex 1 green
+	                0f, 0f, 1f, 1f, // vertex 2 blue
+	                1f, 0f, 1f, 1f, // vertex 3 magenta	
+	        };
+		 test.colors.add(new Color(1.0f,0.0f,0.0f,1.0f));
+		 test.colors.add(new Color(0,1,0,1));
+		 test.colors.add(new Color(0,0,1,1));
+		 test.colors.add(new Color(1,0,1,1));
 		entity.setMesh(test.toMesh());
+		//entity.setMesh(mesh.toMesh());
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
