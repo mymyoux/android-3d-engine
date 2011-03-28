@@ -9,15 +9,45 @@ import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord2D;
 import dimyoux.engine.utils.math.Coord3D;
-
+/**
+ * Mesh builder
+ * It's a "pre-mesh" that can be use has a constructor of mesh
+ * It's easier to build
+ *
+ */
 public class MeshBuilder
 {
+	/**
+	 * Vertices List
+	 */
 	public List<Coord3D> vertices;
+	/**
+	 * Normals List
+	 */
 	public List<Coord3D> normals;
+	/**
+	 * Texture coordinates List
+	 */
 	public List<Coord2D> textureCoordinates;
+	/**
+	 * Colors List
+	 */
 	public List<Color> colors;
+	/**
+	 * Facs List
+	 */
 	public List<Face> faces;
+	/**
+	 * Name
+	 */
 	public String name;
+	/**
+	 * Material
+	 */
+	public Material material;
+	/**
+	 * Constructor
+	 */
 	public MeshBuilder()
 	{
 		vertices = new ArrayList<Coord3D>();
@@ -26,6 +56,9 @@ public class MeshBuilder
 		faces = new ArrayList<Face>();
 		colors = new ArrayList<Color>();
 	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
 	@Override
 	public String toString()
 	{
@@ -50,8 +83,16 @@ public class MeshBuilder
 		{
 			txt+=" F=\""+faces.size()+"\"";
 		}
+		if(material != null)
+		{
+			txt+=" Mat=\""+material+"\"";
+		}
 		return txt+"]";
 	}
+	/**
+	 * Converts this MeshBuilder to a Mesh
+	 * @return Mesh
+	 */
 	public Mesh toMesh()
 	{
 		Mesh mesh = new Mesh();
@@ -114,6 +155,7 @@ public class MeshBuilder
 			}
 			mesh.colorsBuffer.position(0);
 		}
+		mesh.currentMaterial = material;
 		return mesh;
 	}
 }

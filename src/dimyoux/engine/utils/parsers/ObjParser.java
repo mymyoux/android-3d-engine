@@ -49,7 +49,7 @@ public class ObjParser {
 	private static final String materialIlluminationModel = "illum";
 	private static final String materialTexture = "map_Kd";
 	private static final String materialOpticalDensity = "Ni";
-	private static Map<String, Material> materials;
+	
 	//TODO:Integer, Mesh
 	private static Map<Integer, MeshBuilder> meshs;
 	/**
@@ -83,10 +83,6 @@ public class ObjParser {
 				int vertices = 0;
 				int normals = 0;
 				int texCoords = 0;
-				if(materials == null)
-				{
-					materials = new HashMap<String, Material>();
-				}
 				Material currentMaterial = new Material();
 				try
 				{
@@ -108,7 +104,7 @@ public class ObjParser {
 						}
 						if(values[0].equals(materialFile))
 						{
-							readMaterialFile(values[1]);
+							Material.parse(values[1]);//readMaterialFile(values[1]);
 						}
 						else
 						if(values[0].equals(vertex))
@@ -137,6 +133,9 @@ public class ObjParser {
 						else
 						if(values[0].equals(useMaterial))
 						{
+							currentMaterial = Material.parse(values[1]);
+							mesh.material = currentMaterial;
+							/*
 							if(materials.containsKey(values[1]))
 							{
 								currentMaterial = materials.get(values[1]);
@@ -144,7 +143,7 @@ public class ObjParser {
 							}else
 							{
 								Log.warning("During parsing "+FileManager.getInstance().getFileName(id)+" material "+values[1]+" has not been found");
-							}
+							}*/
 						}
 						else
 						if(values[0].equals(object))
@@ -191,6 +190,7 @@ public class ObjParser {
 		Log.verbose("End loading "+FileManager.getInstance().getFileName(id));
 		return mesh;
 	}
+	/*
 	private void readMaterialFile(String fileName)
 	{
 		try
@@ -270,7 +270,7 @@ public class ObjParser {
 			Log.error(e);
 		}
 
-	}
+	}*/
 
 	
 
