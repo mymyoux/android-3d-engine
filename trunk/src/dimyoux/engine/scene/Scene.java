@@ -3,6 +3,7 @@ package dimyoux.engine.scene;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 
@@ -149,19 +150,52 @@ public class Scene {
 	 * Called for drawing
 	 */
 	public void draw()
-	{
-		gl.glPushMatrix();
+	{// Clears the screen and depth buffer.
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+		// Replace the current matrix with the identity matrix
+		gl.glLoadIdentity();
+		// Translates 4 units into the screen.
+		gl.glTranslatef(0, 0, -10); 
+		// Draw our square.
+		gl.glFrontFace(GL10.GL_CCW);
+		// Enable face culling.
+		gl.glEnable(GL10.GL_CULL_FACE);
+		// What faces to remove with the face culling.
+		gl.glCullFace(GL10.GL_BACK);
+		
+		// Enabled the vertices buffer for writing and to be used during 
+		// rendering.
+	
+		for(final Node node : childNodes)
+		{
+			node.draw();
+		}
+		// Disable face culling.
+		gl.glDisable(GL10.GL_CULL_FACE);
+		/*
+		gl.glEnable(GL10.GL_TEXTURE_2D);
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+		gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+		//gl.glPushMatrix();
+		gl.glLoadIdentity();
 
-
-	    gl.glTranslatef(0, 0, 100);
-	    gl.glRotatef(10, 1, 0, 0);   
-	    gl.glRotatef(10, 0, 1, 0);   
+	    gl.glTranslatef(0, 0, -4);
+	 //   gl.glRotatef(10, 1, 0, 0);   
+	  //  gl.glRotatef(10, 0, 1, 0);   
 
 		for(final Node node : childNodes)
 		{
 			node.draw();
 		}
-		gl.glPopMatrix();
+	//	gl.glPopMatrix();
+        
+		gl.glDisable(GL10.GL_TEXTURE_2D);
+       	gl.glDisableClientState(GL11.GL_COLOR_ARRAY);
+		gl.glDisableClientState(GL11.GL_NORMAL_ARRAY);		
+		gl.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);				
+		*/
 
 	   
 	}

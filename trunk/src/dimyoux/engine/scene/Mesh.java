@@ -1,7 +1,7 @@
 package dimyoux.engine.scene;
 
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 
 /**
  * Mesh
@@ -47,7 +47,7 @@ public class Mesh {
 	/**
 	 * Buffer of indexes
 	 */
-	public IntBuffer indexesBuffer;
+	public ShortBuffer indexesBuffer;
 	/**
 	 * Indicates if this mesh is already Buffered (see OpenGL VBO)
 	 * @return True or false

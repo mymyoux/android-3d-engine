@@ -69,13 +69,8 @@ public class Buffer {
 			return null;
 		}
 		int len = values.length;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(DOUBLE_SIZE * len);
-		buffer.order(ByteOrder.nativeOrder());
-		DoubleBuffer dBuffer = buffer.asDoubleBuffer();
-		for(int i=0; i<len ; i++)
-		{
-			dBuffer.put(values[i]);
-		}
+		DoubleBuffer dBuffer = createDoubleBuffer(len);
+		dBuffer.put(values);
 		dBuffer.position(0);
 		return dBuffer;
 	}
@@ -103,13 +98,8 @@ public class Buffer {
 			return null;
 		}
 		int len = values.length;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(LONG_SIZE * len);
-		buffer.order(ByteOrder.nativeOrder());
-		LongBuffer lBuffer = buffer.asLongBuffer();
-		for(int i=0; i<len ; i++)
-		{
-			lBuffer.put(values[i]);
-		}
+		LongBuffer lBuffer = createLongBuffer(len);
+		lBuffer.put(values);
 		lBuffer.position(0);
 		return lBuffer;
 	}
@@ -137,13 +127,8 @@ public class Buffer {
 			return null;
 		}
 		int len = values.length;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(INT_SIZE * len);
-		buffer.order(ByteOrder.nativeOrder());
-		IntBuffer iBuffer = buffer.asIntBuffer();
-		for(int i=0; i<len ; i++)
-		{
-			iBuffer.put(values[i]);
-		}
+		IntBuffer iBuffer = createIntBuffer(len);
+		iBuffer.put(values);
 		iBuffer.position(0);
 		return iBuffer;
 	}
@@ -171,13 +156,8 @@ public class Buffer {
 			return null;
 		}
 		int len = values.length;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(SHORT_SIZE * len);
-		buffer.order(ByteOrder.nativeOrder());
-		ShortBuffer sBuffer = buffer.asShortBuffer();
-		for(int i=0; i<len ; i++)
-		{
-			sBuffer.put(values[i]);
-		}
+		ShortBuffer sBuffer = createShortBuffer(len);
+		sBuffer.put(values);
 		sBuffer.position(0);
 		return sBuffer;
 	}
@@ -204,12 +184,8 @@ public class Buffer {
 			return null;
 		}
 		int len = values.length;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(BYTE_SIZE * len);
-		buffer.order(ByteOrder.nativeOrder());
-		for(int i=0; i<len ; i++)
-		{
-			buffer.put(values[i]);
-		}
+		ByteBuffer buffer = createByteBuffer(len);
+		buffer.put(values);
 		return buffer;
 	}
 	/**
@@ -236,13 +212,8 @@ public class Buffer {
 			return null;
 		}
 		int len = values.length;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(CHAR_SIZE * len);
-		buffer.order(ByteOrder.nativeOrder());
-		CharBuffer cBuffer = buffer.asCharBuffer();
-		for(int i=0; i<len ; i++)
-		{
-			cBuffer.put(values[i]);
-		}
+		CharBuffer cBuffer = createCharBuffer(len);
+		cBuffer.put(values);
 		cBuffer.position(0);
 		return cBuffer;
 	}
@@ -259,13 +230,8 @@ public class Buffer {
 			return null;
 		}
 		int len = values.length;
-		ByteBuffer buffer = ByteBuffer.allocateDirect(FLOAT_SIZE * len);
-		buffer.order(ByteOrder.nativeOrder());
-		FloatBuffer fBuffer = buffer.asFloatBuffer();
-		for(int i=0; i<len ; i++)
-		{
-			fBuffer.put(values[i]);
-		}
+		FloatBuffer fBuffer = createFloatBuffer(len);
+		fBuffer.put(values);
 		fBuffer.position(0);
 		return fBuffer;
 	}
@@ -274,7 +240,7 @@ public class Buffer {
 	 * @param size Size of the FloaBuffer
 	 * @return FloatBuffer
 	 */
-	public static FloatBuffer CreateFloatBuffer(int size)
+	public static FloatBuffer createFloatBuffer(int size)
 	{
 		ByteBuffer buffer = ByteBuffer.allocateDirect(FLOAT_SIZE * size);
 		buffer.order(ByteOrder.nativeOrder());
