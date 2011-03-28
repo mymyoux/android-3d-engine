@@ -5,8 +5,11 @@ import android.opengl.GLSurfaceView;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import dimyoux.engine.core.interfaces.IRenderer;
+import dimyoux.engine.opengl.GLConstants;
+import dimyoux.engine.scene.Scene;
 /**
  * OpenGLES2 Renderer.
  */
@@ -46,6 +49,9 @@ public class Renderer implements GLSurfaceView.Renderer{
     
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+    	Scene.gl = (GL11)gl;
+    	GLConstants.getConstants();
+	    
     	listener._onSurfaceChanged(gl, width, height);
     }
 

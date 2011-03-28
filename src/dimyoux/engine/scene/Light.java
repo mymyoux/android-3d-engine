@@ -3,6 +3,7 @@ package dimyoux.engine.scene;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.utils.Color;
@@ -398,7 +399,9 @@ public class Light {
 	 * Enables all the lights added to the scene
 	 * @param gl the OpenGL context
 	 */
-	static public void enable(GL10 gl) {
+	static public void enable() {
+		GL11 gl = Scene.gl;
+		
 		for (Light l : lights) {
 			int glLight = l.getNumber();
 			
@@ -435,11 +438,13 @@ public class Light {
 	 * @param gl the OpenGL context
 	 * @param numLight the number of the light)
 	 */
-	static public void enable(GL10 gl, int numLight) {
+	static public void enable(int numLight) {
 		if (numLight < 0 || numLight >= lights.size()) {
 			Log.error("Incorrect light number");
 			return;
 		}
+		
+		GL11 gl = Scene.gl;
 		
 		Light l = lights.get(numLight);
 		
@@ -475,7 +480,9 @@ public class Light {
 	 * Disables all the lights attached to the scene
 	 * @param gl the OpenGL context
 	 */
-	static public void disable(GL10 gl) {
+	static public void disable() {
+		GL11 gl = Scene.gl;
+		
 		for (Light l : lights) {
 			gl.glDisable(l.getNumber());
 		}
@@ -486,11 +493,14 @@ public class Light {
 	 * @param gl the OpenGL context
 	 * @param numLight the number of the light
 	 */
-	static public void disable(GL10 gl, int numLight) {
+	static public void disable(int numLight) {
 		if (numLight < 0 || numLight >= lights.size()) {
 			Log.error("Incorrect light number");
 			return;
 		}
+		
+		GL11 gl = Scene.gl;
+		
 		Light l = lights.get(numLight);
 		gl.glDisable(l.getNumber());
 	}

@@ -2,10 +2,12 @@ package dimyoux.engine.opengl;
 
 import java.nio.IntBuffer;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import android.opengl.GLES10;
 import android.opengl.GLES11;
 import android.opengl.GLES20;
-
+import dimyoux.engine.scene.Scene;
 import dimyoux.engine.utils.Buffer;
 /**
  * Calculated GL Constants
@@ -109,6 +111,12 @@ public class GLConstants {
 	 * The maximum supported texture image units that can be used to access texture maps from the vertex shader
 	 */
 	public static int MAX_VERTEX_TEXTURE_IMAGE_UNITS = 0;
+	
+	/**
+	 * Defines if the device supports VBOs or not
+	 */
+	public static boolean USE_VBO = false;
+	
 	/**
 	 * Gets GL constants
 	 */
@@ -163,5 +171,12 @@ public class GLConstants {
 	    GLES20.glGetIntegerv(GLES20.GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, (IntBuffer)params.rewind());
 	    MAX_VERTEX_TEXTURE_IMAGE_UNITS = params.get(0);
 	    params.clear();
+	    
+	    // VBOs support
+	    String specs = Scene.gl.glGetString(GL10.GL_EXTENSIONS);
+	    if (specs.contains("GL_ARB_vertex_buffer_object")) 
+	    {
+	    	USE_VBO = true;
+	    }
 	}
 }
