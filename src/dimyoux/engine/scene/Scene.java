@@ -27,14 +27,14 @@ public class Scene {
 	/**
 	 * Lights (can be empty)
 	 */
-	private List<Light> lights;
+	//private List<Light> lights;
 	/**
 	 * Constructor
 	 */
 	private Scene()
 	{
 		childNodes = new ArrayList<Node>();
-		lights = new ArrayList<Light>();
+		//lights = new ArrayList<Light>();
 	}
 	/**
 	 * Get Root scene access
@@ -90,10 +90,12 @@ public class Scene {
 	 * Gets the number of lights
 	 * @return Number of lights
 	 */
+	/*
 	public int getNumLights()
 	{
 		return lights.size();
 	}
+	*/
 	/**
 	 * Get ChildNodes
 	 * @return ChildNodes

@@ -5,14 +5,16 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.managers.ApplicationManager;
 import dimyoux.engine.opengl.GLConstants;
+import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Scene;
+import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.math.Coord3D;
 /**
  * The Class TabletActivity.
  */
@@ -137,10 +139,22 @@ public class EngineActivity extends Activity implements IRenderer{
 	    gl.glEnable(GL10.GL_CULL_FACE);
 
 	    // Disable lights by default
+	    /*
 	    for (int i = GL10.GL_LIGHT0; i < GL10.GL_LIGHT0 + root.getNumLights(); i++) {
 	    	gl.glDisable(i);
 	    }
+	    */
 	    
+	    // Add a simple light to the scene
+	    Light.addLight(
+	    		Light.LightType.POINT_LIGHT, 
+	    		new Coord3D(0, 0, -150), // position 
+	    		new Color(1, 1, 1, 1),   // ambient color
+	    		new Color(1, 1, 1, 1),   // diffuse color
+	    		new Color(1, 1, 1, 1));  // specular color
+	    
+	    // Enable of the lights added to the scene by default
+	    Light.enable(gl);
 	    
 	    Scene.gl = (GL11)gl;
 	    

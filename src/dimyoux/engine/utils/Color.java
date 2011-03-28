@@ -330,4 +330,20 @@ public class Color implements Cloneable{
 	{
 		return "[Color ("+r+";"+g+";"+b+";"+a+")]";
 	}
+	
+	/**
+	 * Returns the corresponding float array
+	 * @return the float array
+	 */
+	public float[] toFloatArray()
+	{
+		float[] array = new float[4];
+		
+		array[0] = this.r;
+		array[1] = this.g;
+		array[2] = this.b;
+		array[3] = this.a;
+		
+		return array;
+	}
 }
