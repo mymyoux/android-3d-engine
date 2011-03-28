@@ -19,6 +19,10 @@ public class Camera {
 	 * Camera's position [x ,y, z]
 	 */
 	private float[] position;
+	
+	/**
+	 * Constructor
+	 */
 	public Camera()
 	{
 		projection = new Matrix(4,4);

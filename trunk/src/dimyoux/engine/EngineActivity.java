@@ -131,7 +131,6 @@ public class EngineActivity extends Activity implements IRenderer{
 	@Override
 	public void _onSurfaceCreated(GL10 gl, EGLConfig config) {
 		
-		GLConstants.getConstants();
 		/*
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		gl.glShadeModel(GL10.GL_SMOOTH);
@@ -180,7 +179,6 @@ public class EngineActivity extends Activity implements IRenderer{
 		// Really nice perspective calculations.
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
-	    
 	    // Activates lighting
 	    gl.glEnable(GL10.GL_LIGHTING);
 	    
@@ -193,12 +191,8 @@ public class EngineActivity extends Activity implements IRenderer{
 	    		Color.WHITE);  			// specular color
 
 	    // Enable of the lights added to the scene by default
-	    Light.enable(gl);
+	    Light.enable();
 	    
-	    Scene.gl = (GL11)gl;
-	    
-	    Log.error(gl.glGetString(GL10.GL_EXTENSIONS));
-	    
-		onSurfaceCreated(gl, config);
+	    onSurfaceCreated(gl, config);
 	}
 } 
