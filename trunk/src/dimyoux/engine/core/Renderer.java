@@ -49,14 +49,14 @@ public class Renderer implements GLSurfaceView.Renderer{
     
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-    	Scene.gl = (GL11)gl;
-    	GLConstants.getConstants();
-	    
     	listener._onSurfaceChanged(gl, width, height);
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+    	Scene.gl = (GL11)gl;
+    	GLConstants.getConstants();
+    	
     	listener._onSurfaceCreated(gl, config);
     }
 }
