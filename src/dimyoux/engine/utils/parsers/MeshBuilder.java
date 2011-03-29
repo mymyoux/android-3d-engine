@@ -90,6 +90,10 @@ public class MeshBuilder
 		}
 		return txt+"]";
 	}
+	/**
+	 * Converts this MeshBuilder to a Mesh
+	 * @return Mesh
+	 */
 	public Mesh toMesh()
 	{
 		Mesh mesh = new Mesh();
@@ -195,6 +199,7 @@ public class MeshBuilder
 	 * Converts this MeshBuilder to a Mesh
 	 * @return Mesh
 	 */
+	@Deprecated
 	public Mesh toMesh2()
 	{
 		Mesh mesh = new Mesh();

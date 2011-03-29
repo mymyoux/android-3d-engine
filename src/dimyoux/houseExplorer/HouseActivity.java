@@ -67,56 +67,8 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
 		MeshBuilder mesh = parser.load("camaro_obj");
-		//entity.setMesh(mesh.toMesh());
-		MeshBuilder test = new MeshBuilder();
-		test.name = "test";
-		test.vertices.add(new Coord3D(-0.5f,-0.5f,0));
-		test.vertices.add(new Coord3D(0.5f,-0.5f,0));
-		test.vertices.add(new Coord3D(-0.5f,0.5f,0));
-		test.vertices.add(new Coord3D(0.5f,0.5f,0));
-		/*
-		test.vertices.add(new Coord3D(1,-1,1));
-		test.vertices.add(new Coord3D(1,-1,-1));
-		test.vertices.add(new Coord3D(1,1,-1));
-		test.vertices.add(new Coord3D(-1,1,-1));
-		test.vertices.add(new Coord3D(-1,-1,-1));
-		*/
-		
-		int[] t = new int[3];
-		t[0] = 1;
-		t[1] = 2;
-		t[2] = 3;
-		test.faces.add(new Face(t, null,null, "test"));
-		t[0] = 2;
-		t[1] = 4;
-		t[2] = 3;
-		test.faces.add(new Face(t, null,null, "test"));
-		/*
-		 float[] colors = {
-	                1f, 0f, 0f, 1f, // vertex 0 red
-	                0f, 1f, 0f, 1f, // vertex 1 green
-	                0f, 0f, 1f, 1f, // vertex 2 blue
-	                1f, 0f, 1f, 1f, // vertex 3 magenta	
-	        };
-		 test.colors.add(new Color(1.0f,0.0f,0.0f,1.0f));
-		 test.colors.add(new Color(0,1,0,1));
-		 test.colors.add(new Color(0,0,1,1));
-		 test.colors.add(new Color(1,0,1,1));*/
-		test.textureCoordinates.add(new Coord2D(0,1));
-		test.textureCoordinates.add(new Coord2D(1,1));
-		test.textureCoordinates.add(new Coord2D(0,0));
-		test.textureCoordinates.add(new Coord2D(1,0));
-		test.material = new Material();
-		test.material.name = "test";
-		Material.addMaterial(test.material);
-		test.material.textureBitmap = FileManager.getInstance().loadBitmap("camaro");
-		test.material.idTextureFile = FileManager.getInstance().getFileID("camaro");
-		entity.setMesh(test.toMesh());
-		//Log.warning(test.toMesh());
+		Log.error(mesh.faces.get(1).toLongString());
 		entity.setMesh(mesh.toMesh());
-		Bitmap bitmap = FileManager.getInstance().loadBitmap("camaro");
-		Log.error(bitmap.getHeight());
-		Log.error(bitmap.getConfig());
 			
 	}
 	@Override

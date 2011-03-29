@@ -132,68 +132,25 @@ public class EngineActivity extends Activity implements IRenderer{
 	public void _onSurfaceCreated(GL10 gl, EGLConfig config) {
 		Log.warning("Surface created");
 		Light.removeAll();
-		/*
-		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-		gl.glShadeModel(GL10.GL_SMOOTH);
-		gl.glEnable(GL10.GL_DEPTH_TEST);									
-		gl.glClearDepthf(1.0f);
-		gl.glDepthFunc(GL10.GL_LEQUAL);
-		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
-		
-												
-/*		gl.glDepthRangef(0,1f);											
-		gl.glDepthMask(true);												
-*/
-		// Alpha enabled
-		//gl.glEnable(GL10.GL_BLEND);										
-		//gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA); 	
-		
-		// "Transparency is best implemented using glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA) 
-		// with primitives sorted from farthest to nearest."
-/*
-		// Texture
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST); // (OpenGL default is GL_NEAREST_MIPMAP)
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR); // (is OpenGL default)
-		/*
-		// CCW frontfaces only, by default
-		gl.glFrontFace(GL10.GL_CCW);
-	    gl.glCullFace(GL10.GL_BACK);
-	    gl.glEnable(GL10.GL_CULL_FACE);
 
-	    // Disable lights by default
-	    /*
-	    for (int i = GL10.GL_LIGHT0; i < GL10.GL_LIGHT0 + root.getNumLights(); i++) {
-	    	gl.glDisable(i);
-	    }
-
-	    */
-		// Set the background color to black ( rgba ).
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-		// Enable Smooth Shading, default not really needed.
+
 		gl.glShadeModel(GL10.GL_SMOOTH);
-		// Depth buffer setup.
 		gl.glClearDepthf(1.0f);
-		// Enables depth testing.
 		gl.glEnable(GL10.GL_DEPTH_TEST);
-		// The type of depth testing to do.
 		gl.glDepthFunc(GL10.GL_LEQUAL);
-		// Really nice perspective calculations.
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
-	    // Activates lighting
+		//lighting
 	    gl.glEnable(GL10.GL_LIGHTING);
-	    
-	    // Add a simple light to the scene
 	    Light.addLight(
 	    		Light.LightType.POINT_LIGHT, 
 	    		new Coord3D(0, 0, 150), // position 
 	    		Color.WHITE,   			// ambient color
 	    		Color.WHITE,   			// diffuse color
 	    		Color.WHITE);  			// specular color
-
-	    // Enable of the lights added to the scene by default
 	    Light.enable();
-	    
+	    //call to overridden function
 	    onSurfaceCreated(gl, config);
 	}
 } 

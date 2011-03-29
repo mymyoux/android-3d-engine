@@ -45,8 +45,11 @@ public class Face
 					{
 						try
 						{
-							textVertices[id] = Integer.parseInt(faceCoords[i]);	
-							hasTextVertices = true;
+							if(faceCoords[i].length()>0)
+							{
+								textVertices[id] = Integer.parseInt(faceCoords[i]);	
+								hasTextVertices = true;
+							}
 						}
 						catch(NumberFormatException e)
 						{
@@ -59,8 +62,11 @@ public class Face
 						{
 							try
 							{
-								normalVertices[id] = Integer.parseInt(faceCoords[i]);	
-								hasNormalVertices = true;
+								if(faceCoords[i].length()>0)
+								{
+									normalVertices[id] = Integer.parseInt(faceCoords[i]);	
+									hasNormalVertices = true;
+								}
 							}
 							catch(NumberFormatException e)
 							{
@@ -111,6 +117,57 @@ public class Face
 			txt+=" mat=\""+material+"\"";
 		}
 		return txt+"]";
+	}
+	public String toLongString()
+	{
+		String txt = "[Face";
+		if(hasVertices)
+		{
+			txt+=" V=\""+vertices.length+"\"";
+		}
+		if(hasTextVertices)
+		{
+			txt+=" T=\""+textVertices.length+"\"";
+		}
+		if(hasNormalVertices)
+		{
+			txt+=" N=\""+normalVertices.length+"\"";
+		}
+		if(material != null)
+		{
+			txt+=" mat=\""+material+"\"";
+		}
+		txt+="]\n";
+		int i;
+		if(hasTextVertices)
+		{
+			txt+="[Vertices ";
+			for(i=0; i<vertices.length; i++)
+			{
+				txt+=","+vertices[i];
+			}
+			txt+="]\n";
+		}
+		if(hasTextVertices)
+		{
+			txt+="[Text ";
+			for(i=0; i<textVertices.length; i++)
+			{
+				txt+=","+textVertices[i];
+			}
+			txt+="]\n";
+		}
+		if(hasNormalVertices)
+		{
+			txt+="[Normal ";
+			for(i=0; i<normalVertices.length; i++)
+			{
+				txt+=","+normalVertices[i];
+			}
+			txt+="]";
+		}
+		return txt;
+		
 	}
 	public int size()
 	{
