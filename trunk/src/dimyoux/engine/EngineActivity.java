@@ -130,7 +130,8 @@ public class EngineActivity extends Activity implements IRenderer{
 	}
 	@Override
 	public void _onSurfaceCreated(GL10 gl, EGLConfig config) {
-		
+		Log.warning("Surface created");
+		Light.removeAll();
 		/*
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 		gl.glShadeModel(GL10.GL_SMOOTH);
