@@ -1,6 +1,7 @@
 package dimyoux.engine.managers;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -255,7 +256,22 @@ public class FileManager {
 	 */
 	public Bitmap loadBitmap(int id)
 	{
-		return  BitmapFactory.decodeResource(resources, id);
+		//need to use BitmapFactory.decodeStream because BitmapFactory.decodeBitmap load a picture with height and width 64 pixels higher !??
+		InputStream is = resources.openRawResource(id);
+		Bitmap bitmap;
+		try {
+		   bitmap = BitmapFactory.decodeStream(is);
+		} finally {
+		   try {
+			   Log.error("ID["+id+"] bitmap has not been loaded");
+			   Log.error("ID["+id+"]=>"+getFileName(id));
+		      is.close();
+		   } catch(IOException e) {
+		      // Ignore.
+		   }
+		}
+		
+		return bitmap;
 	}
 	/**
 	 * Open a bitmap file
