@@ -7,6 +7,7 @@ import javax.microedition.khronos.opengles.GL11;
 
 import android.opengl.GLU;
 import dimyoux.engine.opengl.GLConstants;
+import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.math.Matrix;
 /**
  * Camera class
@@ -179,6 +180,29 @@ public class Camera {
 	{
 		return new Matrix(position);
 	}
+	
+	/**
+	 * Guides the camera to a point
+	 * @param point the point to look at
+	 */
+	public void lookAt(Coord3D point)
+	{
+		if (point == null)
+		{
+			return;
+		}
+		
+		GL11 gl = Scene.gl;
+		
+		if (position != null && upVector != null)
+		{
+			GLU.gluLookAt(
+					gl, 									// OpenGL context
+					position[0], position[1], position[2], 	// cam position
+					point.x, point.y, point.z, 								// cam reference point
+					upVector[0], upVector[1], upVector[2]); // cam up vector
+		}
+	}
 	/**
 	 * Guides the camera to a point
 	 * @param x X point
@@ -204,7 +228,21 @@ public class Camera {
 	 */
 	public void lookAt(float[] point)
 	{
-		// TODO
+		if (point == null || point.length != 3)
+		{
+			return;
+		}
+		
+		GL11 gl = Scene.gl;
+		
+		if (position != null && upVector != null)
+		{
+			GLU.gluLookAt(
+					gl, 									// OpenGL context
+					position[0], position[1], position[2], 	// cam position
+					point[0], point[1], point[2], 			// cam reference point
+					upVector[0], upVector[1], upVector[2]); // cam up vector
+		}
 	}
 	/**
 	 * Guides the camera to a point [x, y, z]
@@ -212,6 +250,36 @@ public class Camera {
 	 */
 	public void lookAt(Matrix destination)
 	{
-		// TODO
+		if (destination == null)
+		{
+			return;
+		}
+		
+		if (destination.isRowMatrix())
+		{
+			GL11 gl = Scene.gl;
+			
+			if (position != null && upVector != null)
+			{
+				GLU.gluLookAt(
+					gl, 																 // OpenGL context
+					position[0], position[1], position[2], 								 // cam position
+					destination.get(0, 0), destination.get(0, 1), destination.get(0, 2), // cam reference point
+					upVector[0], upVector[1], upVector[2]); 							 // cam up vector
+			}	
+		}
+		else if (destination.isColumnMatrix())
+		{
+			GL11 gl = Scene.gl;
+			
+			if (position != null && upVector != null)
+			{
+				GLU.gluLookAt(
+					gl, 																 // OpenGL context
+					position[0], position[1], position[2], 								 // cam position
+					destination.get(0, 0), destination.get(1, 0), destination.get(2, 0), // cam reference point
+					upVector[0], upVector[1], upVector[2]); 							 // cam up vector
+			}
+		}
 	}
 }
