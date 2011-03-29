@@ -394,6 +394,7 @@ public class Light {
 	static public void removeLight(int index) {
 		disable(index);
 		lights.remove(index);
+		lightsCount--;
 	}
 	
 	/**
@@ -402,6 +403,7 @@ public class Light {
 	static public void removeAll() {
 		disable();
 		lights.clear();
+		lightsCount = 0;
 	}
 	
 	/**
