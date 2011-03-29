@@ -392,7 +392,24 @@ public class Light {
 	 * @param index index of the light to be removed
 	 */
 	static public void removeLight(int index) {
+		disable(index);
 		lights.remove(index);
+	}
+	
+	/**
+	 * Removes all the light
+	 */
+	static public void removeAll() {
+		disable();
+		lights.clear();
+	}
+	
+	/**
+	 * Returns the number of lights attached to the scene
+	 * @return the number of lights attached to the scene
+	 */
+	static public int getLightCount() {
+		return lights.size();
 	}
 
 	/**
