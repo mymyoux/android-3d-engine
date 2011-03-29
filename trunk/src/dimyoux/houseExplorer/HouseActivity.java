@@ -18,8 +18,10 @@ import dimyoux.engine.scene.Entity;
 import dimyoux.engine.scene.Node;
 import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.math.Coord2D;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.parsers.Face;
+import dimyoux.engine.utils.parsers.Material;
 import dimyoux.engine.utils.parsers.ObjParser;
 import dimyoux.engine.utils.parsers.MeshBuilder;
 /**
@@ -64,14 +66,14 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		node.attachEntity(entity);
 		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
-		MeshBuilder mesh = parser.load("camaro.obj");
+		MeshBuilder mesh = parser.load("camaro_obj");
 		//entity.setMesh(mesh.toMesh());
 		MeshBuilder test = new MeshBuilder();
 		test.name = "test";
-		test.vertices.add(new Coord3D(-1,1,0));
-		test.vertices.add(new Coord3D(-1,-1,0));
-		test.vertices.add(new Coord3D(1,-1,0));
-		test.vertices.add(new Coord3D(1,1,0));
+		test.vertices.add(new Coord3D(-0.5f,-0.5f,0));
+		test.vertices.add(new Coord3D(0.5f,-0.5f,0));
+		test.vertices.add(new Coord3D(-0.5f,0.5f,0));
+		test.vertices.add(new Coord3D(0.5f,0.5f,0));
 		/*
 		test.vertices.add(new Coord3D(1,-1,1));
 		test.vertices.add(new Coord3D(1,-1,-1));
@@ -79,14 +81,17 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		test.vertices.add(new Coord3D(-1,1,-1));
 		test.vertices.add(new Coord3D(-1,-1,-1));
 		*/
+		
 		int[] t = new int[3];
 		t[0] = 1;
 		t[1] = 2;
 		t[2] = 3;
 		test.faces.add(new Face(t, null,null, "test"));
-		t[1] = 3;
-		t[2] = 4;
+		t[0] = 2;
+		t[1] = 4;
+		t[2] = 3;
 		test.faces.add(new Face(t, null,null, "test"));
+		/*
 		 float[] colors = {
 	                1f, 0f, 0f, 1f, // vertex 0 red
 	                0f, 1f, 0f, 1f, // vertex 1 green
@@ -96,11 +101,23 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		 test.colors.add(new Color(1.0f,0.0f,0.0f,1.0f));
 		 test.colors.add(new Color(0,1,0,1));
 		 test.colors.add(new Color(0,0,1,1));
-		 test.colors.add(new Color(1,0,1,1));
+		 test.colors.add(new Color(1,0,1,1));*/
+		test.textureCoordinates.add(new Coord2D(0,1));
+		test.textureCoordinates.add(new Coord2D(1,1));
+		test.textureCoordinates.add(new Coord2D(0,0));
+		test.textureCoordinates.add(new Coord2D(1,0));
+		test.material = new Material();
+		test.material.name = "test";
+		Material.addMaterial(test.material);
+		test.material.textureBitmap = FileManager.getInstance().loadBitmap("camaro");
+		test.material.idTextureFile = FileManager.getInstance().getFileID("camaro");
 		entity.setMesh(test.toMesh());
+		//Log.warning(test.toMesh());
 		entity.setMesh(mesh.toMesh());
 		Bitmap bitmap = FileManager.getInstance().loadBitmap("camaro");
-		
+		Log.error(bitmap.getHeight());
+		Log.error(bitmap.getConfig());
+			
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

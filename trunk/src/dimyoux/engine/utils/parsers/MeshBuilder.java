@@ -104,6 +104,9 @@ public class MeshBuilder
 				mesh.verticesBuffer.put(vertex.x);
 				mesh.verticesBuffer.put(vertex.y);
 				mesh.verticesBuffer.put(vertex.z);
+				Log.info(vertex.x);
+				Log.info(vertex.y);
+				Log.info(vertex.z);
 			}
 			mesh.verticesBuffer.position(0);
 		}
@@ -115,6 +118,7 @@ public class MeshBuilder
 				mesh.normalsBuffer.put(normal.x);
 				mesh.normalsBuffer.put(normal.y);
 				mesh.normalsBuffer.put(normal.z);
+				
 			}
 			mesh.normalsBuffer.position(0);
 		}
