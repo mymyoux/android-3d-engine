@@ -56,10 +56,6 @@ public class Material {
 	 */
 	public float opticalDensity = 1.0f;
 	/**
-	 * Texture
-	 */
-	public Bitmap texture;
-	/**
 	 * Texture sent to openGL ?
 	 */
 	public boolean textureSent = false;
@@ -116,9 +112,10 @@ public class Material {
 				GL10.GL_CLAMP_TO_EDGE);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T,
 				GL10.GL_REPEAT);
-
+		Log.warning(textureBitmap.getWidth());
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, textureBitmap, 0);
 		textureSent = true;
+		Log.warning("texture sended");
 	}
 	/**
 	 * Returns a string containing a concise, human-readable description of this object.
@@ -247,6 +244,17 @@ public class Material {
 			return Material.parse(id);
 		}
 		return null;
+	}
+	/**
+	 * Adds a material to the list
+	 * @param material Material
+	 */
+	public static void addMaterial(Material material)
+	{
+		if(!materials.containsKey(material.name))
+		{
+			materials.put(material.name, material);
+		}
 	}
 	/**
 	 * Parses a material

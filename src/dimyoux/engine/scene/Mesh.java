@@ -83,6 +83,7 @@ public class Mesh {
 	 */
 	protected boolean hasNormalsBuffer()
 	{
+		//return false;
 		return normalsBuffer!=null;
 	}
 	/**
@@ -91,6 +92,7 @@ public class Mesh {
 	 */
 	protected boolean hasColorsBuffer()
 	{
+		//return false;
 		return colorsBuffer!=null;
 	}
 	/**
@@ -144,6 +146,10 @@ public class Mesh {
 		if(indexesBuffer!=null && indexesBuffer.limit()>0)
 		{
 			txt+=" I=\""+indexesBuffer.limit()+"\"";
+		}
+		if(currentMaterial != null)
+		{
+			txt+=" mat=\""+currentMaterial+"\"";
 		}
 		return txt+"]";
 	}

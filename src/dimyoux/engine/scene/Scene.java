@@ -162,7 +162,7 @@ public class Scene {
 		gl.glEnable(GL10.GL_CULL_FACE);
 		// What faces to remove with the face culling.
 		gl.glCullFace(GL10.GL_BACK);
-		
+		gl.glColor4f(1, 1, 1, 1);
 		// Enabled the vertices buffer for writing and to be used during 
 		// rendering.
 	

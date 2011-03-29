@@ -188,13 +188,16 @@ public class FileManager {
 		}
 		if(id==0)
 		{
-			name = name.substring(0, name.lastIndexOf("_"));
-			for(final String folder : folders)
+			if(name.lastIndexOf("_")>-1)
 			{
-				id = resources.getIdentifier(packageName+folder+"/"+name, null, null);
-				if(id > 0)
+				name = name.substring(0, name.lastIndexOf("_"));
+				for(final String folder : folders)
 				{
-					break;
+					id = resources.getIdentifier(packageName+folder+"/"+name, null, null);
+					if(id > 0)
+					{
+						break;
+					}
 				}
 			}
 			if(id == 0)
