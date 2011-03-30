@@ -56,6 +56,7 @@ public class Entity {
 	 */
 	public void draw()
 	{
+		GL11 gl = Scene.gl;
 		
 		Scene.gl.glPushMatrix();
 		if(mesh.hasVerticesBuffer())
@@ -74,6 +75,27 @@ public class Entity {
 		{
 			Scene.gl.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 			Scene.gl.glEnable(GL10.GL_TEXTURE_2D);
+		}
+		if(mesh.hasMaterial())
+		{
+			Scene.gl.glEnable(GL10.GL_COLOR_MATERIAL);
+		}
+		if(mesh.hasMaterial())
+		{
+			if(mesh.currentMaterial.hasDiffuseColor())
+			{
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, mesh.currentMaterial.diffuseColor.toFloatBuffer());
+			}
+			if(mesh.currentMaterial.hasAmbientColor())
+			{
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, mesh.currentMaterial.ambientColor.toFloatBuffer());
+			}
+			if(mesh.currentMaterial.hasSpecularColor())
+			{
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, mesh.currentMaterial.specularColor.toFloatBuffer());
+			}
+			
+			gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, Buffer.toFloatBuffer(mesh.currentMaterial.shininess));
 		}
 		if(GLConstants.USE_VBO)
 		{
@@ -102,7 +124,6 @@ public class Entity {
 				Scene.gl.glBindTexture(GL10.GL_TEXTURE_2D, mesh.currentMaterial.textureIndex);
 				
 			}
-		
 			Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
 			
 			Scene.gl.glDrawElements(GL10.GL_TRIANGLES, mesh.indexesBuffer.capacity(), GL11.GL_UNSIGNED_SHORT, 0);
@@ -137,6 +158,10 @@ public class Entity {
 			Scene.gl.glDrawElements(GL10.GL_TRIANGLES, mesh.indexesBuffer.capacity(), 
 					GL10.GL_UNSIGNED_SHORT, mesh.indexesBuffer);
 		}	
+		if(mesh.hasMaterial())
+		{
+			Scene.gl.glDisable(GL10.GL_COLOR_MATERIAL);
+		}
 		if(mesh.hasVerticesBuffer())
 		{
 			Scene.gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);

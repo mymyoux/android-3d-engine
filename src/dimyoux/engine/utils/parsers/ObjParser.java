@@ -337,6 +337,10 @@ public class ObjParser {
 				for(final MeshBuilder _mesh : meshes.values())
 				{
 					_mesh.optimize();
+					countVertices +=_mesh.vertices.size();
+					countNormals +=_mesh.normals.size();
+					countTextures +=_mesh.textureCoordinates.size();
+					countColors +=_mesh.colors.size();
 				}
 				Log.verbose("Result :");
 				Log.warning("Vertices:"+countVertices);

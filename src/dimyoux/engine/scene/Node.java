@@ -3,11 +3,16 @@ package dimyoux.engine.scene;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.microedition.khronos.opengles.GL11;
+
 import dimyoux.engine.utils.Log;
 /**
  * Node
  */
 public class Node {
+	public float x;
+	public float y;
+	public float z;
 	/**
 	 * Entity (can be null)
 	 */
@@ -70,8 +75,10 @@ public class Node {
 		{
 			if(!this.isParentNode(node, true) && !this.isChildNode(node))
 			{
+				Log.warning("Add "+node+" to "+this);
 				childNodes.add(node);
 				node.setParentNode(this);
+				node.parentNode = this;
 			}else
 			{
 				if(this.isChildNode(node))
@@ -210,6 +217,9 @@ public class Node {
 	 */
 	public void draw()
 	{
+		GL11 gl = Scene.gl;
+		gl.glPushMatrix();
+		gl.glTranslatef(x, y, z);
 		for(final Node node : childNodes)
 		{
 			node.draw();
@@ -218,5 +228,6 @@ public class Node {
 		{
 			entity.draw();
 		}
+		gl.glPopMatrix();
 	}
 }
