@@ -1,4 +1,6 @@
 package dimyoux.engine.utils;
+import java.nio.FloatBuffer;
+
 import dimyoux.engine.utils.math.Matrix;
 /**
  * Color
@@ -337,5 +339,13 @@ public class Color implements Cloneable{
 	public float[] toFloatArray()
 	{
 		return new float[]{r, g,b, a};
+	}
+	/**
+	 * Returns the corresponding float bufer
+	 * @return the float array [r, g, b, a]
+	 */
+	public FloatBuffer toFloatBuffer()
+	{
+		return Buffer.toFloatBuffer(toFloatArray());
 	}
 }

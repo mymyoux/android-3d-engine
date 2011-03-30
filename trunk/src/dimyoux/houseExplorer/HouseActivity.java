@@ -32,8 +32,13 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	 * Called when a frame is drawn
 	 * @param gl GL10 controller
 	 */
+	private Node node;
+	private int id;
 	public void onDrawFrame(GL10 gl) 
 	{
+			node.x +=0.01;
+			node.getParentNode().y +=0.01;
+			node.getParentNode().z+=0.05;
 		//Log.debug("frame");
 	}
 	@Override
@@ -60,8 +65,8 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
     }
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		/*
-		Node node  = new Node();
+		
+		/*  = new Node();
 		root.attachChildNode(node);
 		Entity entity = new Entity();
 	//	node.attachEntity(entity);
@@ -72,10 +77,12 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		//entity.setMesh(mesh.toMesh());
 			*/
 		ObjParser parser = new ObjParser();
-		Node node = parser.load("house_obj");
-		root.attachChildNode(node);
+		/*node = parser.load("house_obj");
+		root.attachChildNode(node);*/
 		node = parser.load("camaro_obj");
 		root.attachChildNode(node);
+		node.attachChildNode(parser.load("test_obj"));
+		node = node.getChildNode(0);
 		
 	}
 	@Override

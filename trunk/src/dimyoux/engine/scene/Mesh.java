@@ -112,6 +112,14 @@ public class Mesh {
 		return indexesBuffer!=null;
 	}
 	/**
+	 * Indicates if this mesh has a material
+	 * @return True or false
+	 */
+	protected boolean hasMaterial()
+	{
+		return currentMaterial != null;
+	}
+	/**
 	 * Indicates if this mesh has a texture
 	 * @return True or false
 	 */
