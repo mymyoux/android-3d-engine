@@ -70,4 +70,19 @@ public class Coord3D extends Coord2D{
 	{
 		return new float[]{x, y, z};
 	}
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public boolean equals(Object object)
+	{
+		try
+		{
+			Coord3D coord = (Coord3D)object;
+			return coord!=null && coord.x == x && coord.y == y && coord.z == z;
+		}catch(Exception e)
+		{
+			return false;
+		}
+	}
 }

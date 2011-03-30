@@ -1,176 +1,197 @@
 package dimyoux.engine.utils.parsers;
 
-import dimyoux.engine.utils.Log;
+import java.util.ArrayList;
+import java.util.List;
 
+import dimyoux.engine.utils.Color;
+import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.math.Coord2D;
+import dimyoux.engine.utils.math.Coord3D;
+/**
+ * Face object
+ *
+ */
 public class Face
 {
-	private int length;
-	public int[] vertices;
-	public int[] textVertices;
-	public int[] normalVertices;
-	public String material;
-	public boolean hasVertices = false;
-	public boolean hasTextVertices = false;
-	public boolean hasNormalVertices = false;
-	public Face(String face, String material)
+	/**
+	 * Vertices
+	 */
+	public List<Integer> vertices;
+	/**
+	 * Normals
+	 */
+	public List<Integer> normals;
+	/**
+	 * Textures
+	 */
+	public List<Integer> textures;
+	/**
+	 * Colors
+	 */
+	public List<Integer> colors;
+	/**
+	 * Constructor
+	 * @param face "v[/t][/n][/c] v2..."
+	 */
+	public Face(String face)
 	{
-		int i, id;
-		String f;
-		String[] faces = face.split(" ");
-		String[] faceCoords;
-		vertices = new int[faces.length];
-		textVertices = new int[faces.length];
-		normalVertices = new int[faces.length];
-		length = faces.length;
-		for(id=0; id<faces.length; id++)
+		int id;
+		String[] metaVertices = face.split(" ");
+		vertices = new ArrayList<Integer>();
+		normals = new ArrayList<Integer>();
+		textures = new ArrayList<Integer>();
+		colors = new ArrayList<Integer>();
+		//foreach "metaVertex"
+		for(id=0; id<metaVertices.length; id++)
 		{
-			f = faces[id];
-			faceCoords = f.split("/");
-			for(i=0; i<faceCoords.length; i++)
+			add(metaVertices[id]);
+		}
+	}
+	/**
+	 * Adds a metaVertex to the face
+	 * @param metaVertex MetaVertex : "v[/t][/n][/c]"
+	 */
+	public void add(String metaVertex)
+	{
+		String[] metaVertexParts;
+		int i;
+		int[] indices = new int[4];
+		for(i=0; i<4; i++)
+		{
+			indices[i] = -1;
+		}
+		metaVertexParts = metaVertex.split("/");		
+		for(i=0; i<metaVertexParts.length; i++)
+		{
+			try
 			{
-				if(i==0)
+				if(metaVertexParts[i].length()>0)
 				{
-					try
-					{
-						vertices[id] = Integer.parseInt(faceCoords[i]);
-						hasVertices = true;
-					}
-					catch(NumberFormatException e)
-					{
-						Log.warning(e);
-					}
-				}else
+					indices[i] = Integer.parseInt(metaVertexParts[i]);
+				}
+			}
+			catch(NumberFormatException e)
+			{
+				Log.warning(e);
+			}
+		}
+		add(indices);
+	}
+	/**
+	 * Adds a metaVertex to the face
+	 * @param vertexIndice Vertex Indice (-1 if it doesn't exist)
+	 * @param textureIndice Texture Coordinates Indice (-1 if it doesn't exist)
+	 * @param normalIndice Normal Indice (-1 if it doesn't exist)
+	 * @param colorIndice Color Indice (-1 if it doesn't exist)
+	 */
+	public void add(int vertexIndice, int textureIndice, int normalIndice, int colorIndice)
+	{
+		if(vertexIndice>-1)
+		{
+			vertices.add(vertexIndice);
+		}
+		if(textureIndice>-1)
+		{
+			textures.add(textureIndice);
+		}
+		if(normalIndice>-1)
+		{
+			normals.add(normalIndice);
+		}
+		if(colorIndice>-1)
+		{
+			colors.add(colorIndice);
+		}
+	}
+	/**
+	 * Adds a metaVertex to the face
+	 * @param indices Indices [vertex, texture, normal, color] if a value is equal to -1, this element is ignored
+	 */
+	public void add(int[] indices)
+	{
+		int indexVertice, indexTexture, indexNormal, indexColor;
+		indexVertice = indexTexture = indexNormal = indexColor = -1;
+		if(indices.length>0)
+		{
+			indexVertice = indices[0];
+			if(indices.length>1)
+			{
+				indexTexture = indices[1];
+				if(indices.length>2)
 				{
-					if(i==1)
+					indexNormal = indices[2];
+					if(indices.length>3)
 					{
-						try
-						{
-							if(faceCoords[i].length()>0)
-							{
-								textVertices[id] = Integer.parseInt(faceCoords[i]);	
-								hasTextVertices = true;
-							}
-						}
-						catch(NumberFormatException e)
-						{
-							Log.warning(e);
-						}
-						
-					}else
-					{
-						if(i==2)
-						{
-							try
-							{
-								if(faceCoords[i].length()>0)
-								{
-									normalVertices[id] = Integer.parseInt(faceCoords[i]);	
-									hasNormalVertices = true;
-								}
-							}
-							catch(NumberFormatException e)
-							{
-								Log.warning(e);
-							}								
-						}
+						indexColor = indices[3];
 					}
 				}
 			}
 		}
-		this.material = material;
+		add(indexVertice, indexTexture, indexNormal, indexColor);
 	}
-	public Face(int[] vertices, int[] textVertices, int[] normalVertices, String material)
+	/**
+	 * Indicates if this face contains vertices indexes
+	 * @return True or false
+	 */
+	public boolean hasVertices()
 	{
-		length = vertices.length;
-		if(vertices!=null)
-		{
-			this.vertices = vertices.clone();
-		}
-		if(textVertices != null)
-		{
-			this.textVertices = textVertices.clone();
-		}
-		if(normalVertices != null)
-		{
-			this.normalVertices = normalVertices.clone();
-		}
-		this.material = material;
+		return vertices.size() > 0;
 	}
+	/**
+	 * Indicates if this face contains textures coordinates indexes
+	 * @return True or false
+	 */
+	public boolean hasTexturesCoordinates()
+	{
+		return textures.size() > 0;
+	}
+	/**
+	 * Indicates if this face contains normals indexes
+	 * @return True or false
+	 */
+	public boolean hasNormals()
+	{
+		return normals.size() > 0;
+	}
+	/**
+	 * Indicates if this face contains colors indexes
+	 * @return True or false
+	 */
+	public boolean hasColors()
+	{
+		return colors.size() > 0;
+	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
 	@Override
 	public String toString()
 	{
 		String txt = "[Face";
-		if(hasVertices)
+		if(hasVertices())
 		{
-			txt+=" V=\""+vertices.length+"\"";
+			txt+=" V=\""+vertices.size()+"\"";
 		}
-		if(hasTextVertices)
+		if(hasTexturesCoordinates())
 		{
-			txt+=" T=\""+textVertices.length+"\"";
+			txt+=" T=\""+textures.size()+"\"";
 		}
-		if(hasNormalVertices)
+		if(hasNormals())
 		{
-			txt+=" N=\""+normalVertices.length+"\"";
+			txt+=" N=\""+normals.size()+"\"";
 		}
-		if(material != null)
+		if(hasColors())
 		{
-			txt+=" mat=\""+material+"\"";
+			txt+=" C=\""+colors.size()+"\"";
 		}
 		return txt+"]";
 	}
-	public String toLongString()
-	{
-		String txt = "[Face";
-		if(hasVertices)
-		{
-			txt+=" V=\""+vertices.length+"\"";
-		}
-		if(hasTextVertices)
-		{
-			txt+=" T=\""+textVertices.length+"\"";
-		}
-		if(hasNormalVertices)
-		{
-			txt+=" N=\""+normalVertices.length+"\"";
-		}
-		if(material != null)
-		{
-			txt+=" mat=\""+material+"\"";
-		}
-		txt+="]\n";
-		int i;
-		if(hasTextVertices)
-		{
-			txt+="[Vertices ";
-			for(i=0; i<vertices.length; i++)
-			{
-				txt+=","+vertices[i];
-			}
-			txt+="]\n";
-		}
-		if(hasTextVertices)
-		{
-			txt+="[Text ";
-			for(i=0; i<textVertices.length; i++)
-			{
-				txt+=","+textVertices[i];
-			}
-			txt+="]\n";
-		}
-		if(hasNormalVertices)
-		{
-			txt+="[Normal ";
-			for(i=0; i<normalVertices.length; i++)
-			{
-				txt+=","+normalVertices[i];
-			}
-			txt+="]";
-		}
-		return txt;
-		
-	}
+	/**
+	 * Return the number of MetaVertex of the face
+	 * @return Size
+	 */
 	public int size()
 	{
-		return length;
+		return vertices.size();
 	}
 }

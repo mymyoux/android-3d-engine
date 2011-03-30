@@ -164,13 +164,12 @@ public class Entity {
 	{
 		if(!mesh.isBuffered())
 		{
-			Log.warning("bufferisation");
 			//IntBuffer buffer = Buffer.createIntBuffer(1);
 			int[] buffer = new int[1];
 			//vertices
 			if(mesh.hasVerticesBuffer())
 			{
-				Log.verbose("Creating vertices buffer");
+				//Log.verbose("Creating vertices buffer");
 				Scene.gl.glGenBuffers(1, buffer, 0);
 				mesh.verticesBufferIndex = buffer[0];
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.verticesBufferIndex);
@@ -180,7 +179,7 @@ public class Entity {
 			//normals
 			if(mesh.hasNormalsBuffer())
 			{
-				Log.verbose("Creating normals buffer");
+			//	Log.verbose("Creating normals buffer");
 				Scene.gl.glGenBuffers(1, buffer, 0);
 				mesh.normalsBufferIndex = buffer[0];
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.normalsBufferIndex);
@@ -190,7 +189,7 @@ public class Entity {
 			//colors
 			if(mesh.hasColorsBuffer())
 			{
-				Log.verbose("Creating colors buffer");
+				//Log.verbose("Creating colors buffer");
 				Scene.gl.glGenBuffers(1, buffer, 0);
 				mesh.colorsBufferIndex = buffer[0];
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.colorsBufferIndex);
@@ -201,7 +200,7 @@ public class Entity {
 			//texture coordinates
 			if(mesh.hasTexCoordsBuffer())
 			{
-				Log.verbose("Creating texture coordinates buffer");
+			//	Log.verbose("Creating texture coordinates buffer");
 				Scene.gl.glGenBuffers(1, buffer, 0);
 				mesh.texCoordsBufferIndex = buffer[0];
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.texCoordsBufferIndex);
@@ -212,7 +211,7 @@ public class Entity {
 			//indexes
 			if(mesh.hasIndexesBuffer())
 			{
-				Log.verbose("Creating indexes buffer");
+			//	Log.verbose("Creating indexes buffer");
 				Scene.gl.glGenBuffers(1, buffer, 0);
 				mesh.indexesBufferIndex = buffer[0];
 				Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
