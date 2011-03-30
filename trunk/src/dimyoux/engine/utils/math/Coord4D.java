@@ -97,4 +97,19 @@ public class Coord4D extends Coord3D {
 		string += " W=" + w;
 		return string + "]";
 	}
+	/**
+	 * @inheritDoc
+	 */
+	@Override
+	public boolean equals(Object object)
+	{
+		try
+		{
+			Coord4D coord = (Coord4D)object;
+			return coord!=null && coord.x == x && coord.y == y && coord.z == z && coord.w == w;
+		}catch(Exception e)
+		{
+			return false;
+		}
+	}
 }

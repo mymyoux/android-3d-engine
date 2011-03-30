@@ -60,16 +60,23 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
     }
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+		/*
 		Node node  = new Node();
 		root.attachChildNode(node);
 		Entity entity = new Entity();
-		node.attachEntity(entity);
+	//	node.attachEntity(entity);
 		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
-		MeshBuilder mesh = parser.load("camaro_obj");
-		Log.error(mesh.faces.get(1).toLongString());
-		entity.setMesh(mesh.toMesh());
-			
+		node = parser.load("camaro_obj");
+		//Log.error(mesh.faces.get(1).toLongString());
+		//entity.setMesh(mesh.toMesh());
+			*/
+		ObjParser parser = new ObjParser();
+		Node node = parser.load("house_obj");
+		root.attachChildNode(node);
+		node = parser.load("camaro_obj");
+		root.attachChildNode(node);
+		
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

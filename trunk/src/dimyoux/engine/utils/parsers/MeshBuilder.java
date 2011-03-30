@@ -1,5 +1,6 @@
 package dimyoux.engine.utils.parsers;
 
+import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord2D;
 import dimyoux.engine.utils.math.Coord3D;
+import dimyoux.engine.utils.math.Coord4D;
 /**
  * Mesh builder
  * It's a "pre-mesh" that can be use has a constructor of mesh
@@ -94,6 +96,7 @@ public class MeshBuilder
 	 * Converts this MeshBuilder to a Mesh
 	 * @return Mesh
 	 */
+	/*
 	public Mesh toMesh()
 	{
 		Mesh mesh = new Mesh();
@@ -116,10 +119,12 @@ public class MeshBuilder
 				{
 					if(face.hasVertices)
 					{
+						
 						nVertex.add(vertices.get(face.vertices[i]-1));
 					}
 					if(face.hasNormalVertices)
 					{
+						Log.info(i+"/"+normals.size()+" => "+face.normalVertices[i]+"/"+face.normalVertices.length);
 						nNormals.add(normals.get(face.normalVertices[i]-1));
 					}
 					if(face.hasTextVertices)
@@ -194,79 +199,121 @@ public class MeshBuilder
 		Log.info(mesh.currentMaterial.textureBitmap);
 		Log.info(mesh.indexesBuffer.get(0));
 		return mesh;
-	}
-	/**
-	 * Converts this MeshBuilder to a Mesh
-	 * @return Mesh
-	 */
-	@Deprecated
-	public Mesh toMesh2()
+	}*/
+	public Mesh toMesh()
 	{
+		Log.verbose("Buffering "+name);
 		Mesh mesh = new Mesh();
-		if(vertices.size()>0)
-		{
-			mesh.verticesBuffer = Buffer.createFloatBuffer(vertices.size()*3);
-			for(final Coord3D vertex : vertices)
-			{
-				mesh.verticesBuffer.put(vertex.x);
-				mesh.verticesBuffer.put(vertex.y);
-				mesh.verticesBuffer.put(vertex.z);
-				/*Log.info(vertex.x);
-				Log.info(vertex.y);
-				Log.info(vertex.z);*/
-			}
-			mesh.verticesBuffer.position(0);
-		}
-		if(normals.size()>0)
-		{
-			mesh.normalsBuffer = Buffer.createFloatBuffer(normals.size()*3);
-			for(final Coord3D normal : normals)
-			{
-				mesh.normalsBuffer.put(normal.x);
-				mesh.normalsBuffer.put(normal.y);
-				mesh.normalsBuffer.put(normal.z);
-				
-			}
-			mesh.normalsBuffer.position(0);
-		}
-		if(textureCoordinates.size()>0)
-		{
-			mesh.texCoordsSize = textureCoordinates.get(0).size();
-			mesh.texCoordsBuffer = Buffer.createFloatBuffer(textureCoordinates.size()*mesh.texCoordsSize);
-			for(final Coord2D text : textureCoordinates)
-			{
-				mesh.texCoordsBuffer.put(text.x);
-				mesh.texCoordsBuffer.put(text.y);
-				if(text.size() == 3)
-				{
-					mesh.texCoordsBuffer.put(((Coord3D)text).z);
-				}
-			}
-			mesh.texCoordsBuffer.position(0);
-			
-		}
 		if(faces.size()>0)
 		{
 			mesh.indexesBuffer = Buffer.createShortBuffer(faces.size()*faces.get(0).size());
+			if(vertices.size()>0)
+			{
+				mesh.verticesBuffer = Buffer.createFloatBuffer(vertices.size()*vertices.get(0).size());
+			}
+			if(this.normals.size()>0)
+			{
+				mesh.normalsBuffer = Buffer.createFloatBuffer(normals.size()*normals.get(0).size());
+			}
+			if(this.textureCoordinates.size()>0)
+			{
+				mesh.texCoordsBuffer = Buffer.createFloatBuffer(textureCoordinates.size()*textureCoordinates.get(0).size());
+			}
+			if(this.colors.size()>0)
+			{
+				mesh.colorsBuffer = Buffer.createFloatBuffer(colors.size()*4);
+			}
 			for(final Face face : faces)
 			{
-				for(final Integer index : face.vertices)
+				for(Integer index : face.vertices)
 				{
-					mesh.indexesBuffer.put((short) (index-1));
+				/*	mesh.indexesBuffer.put((short)face.x);
+					mesh.indexesBuffer.put((short)face.y);
+					mesh.indexesBuffer.put((short)face.z);*/
+					mesh.indexesBuffer.put((short)((int)index));
 				}
 			}
-			mesh.indexesBuffer.position(0);
-		}
-		if(colors.size()>0)
-		{
-			mesh.colorsBuffer = Buffer.createFloatBuffer(colors.size()*4);
-			for(final Color color : colors)
+			for(final Coord3D vertex : vertices)
 			{
-				mesh.colorsBuffer.put(color.toFloatArray());
+					mesh.verticesBuffer.put(vertex.x);
+					mesh.verticesBuffer.put(vertex.y);
+					mesh.verticesBuffer.put(vertex.z);
 			}
-			mesh.colorsBuffer.position(0);
+			for(final Coord3D normal : normals)
+			{
+					mesh.normalsBuffer.put(normal.x);
+					mesh.normalsBuffer.put(normal.y);
+					mesh.normalsBuffer.put(normal.z);
+			}
+			for(final Coord2D text : textureCoordinates)
+			{
+					mesh.texCoordsBuffer.put(text.x);
+					mesh.texCoordsBuffer.put(text.y);
+					if(mesh.texCoordsSize>2)
+					{
+						mesh.texCoordsBuffer.put(((Coord3D)text).z);
+					}
+			}
+			mesh.indexesBuffer.position(0);
+			if(this.normals.size()>0)
+			{
+				mesh.normalsBuffer.position(0);
+			}
+			if(this.textureCoordinates.size()>0)
+			{
+				mesh.texCoordsBuffer.position(0);
+			}
+			mesh.verticesBuffer.position(0);
+			
+			mesh.currentMaterial = this.material;
+			mesh.name = this.name;			
 		}
-		mesh.currentMaterial = material;
 		return mesh;
+	}
+	//TODO:optimize function
+	public void optimize()
+	{
+		/*
+		List<Coord4D> quadruplets = new ArrayList<Coord4D>();
+		Coord4D quadruplet;
+		for(final Face face : faces)
+		{
+			for(final Integer i : face.vertices)
+			{
+				quadruplet = new Coord4D(-1, -1, 1, -1);
+				quadruplet.x = i;
+				if(face.hasTexturesCoordinates())
+				{
+					quadruplet.y = face.textures.get(i);
+				}
+				if(face.hasNormals())
+				{
+					quadruplet.z = face.normals.get(i);
+				}
+				if(face.hasTexturesCoordinates())
+				{
+					quadruplet.w = face.colors.get(i);
+				}
+			}
+		}*/
+	}
+	/**
+	 * Indicates if the building mesh has correct indexes
+	 * @return True or false
+	 */
+	public boolean isCorrect()
+	{
+		boolean correct = false;
+		for(final Face face : faces)
+		{
+			for(final Integer index : face.vertices)
+			{
+				if(index == 0)
+				{
+					return true;
+				}
+			}
+		}
+		return correct;
 	}
 }

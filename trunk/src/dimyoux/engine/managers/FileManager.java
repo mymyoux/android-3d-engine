@@ -261,7 +261,8 @@ public class FileManager {
 		Bitmap bitmap;
 		try {
 		   bitmap = BitmapFactory.decodeStream(is);
-		} finally {
+		   return bitmap;
+		} catch(Exception error) {
 		   try {
 			   Log.error("ID["+id+"] bitmap has not been loaded");
 			   Log.error("ID["+id+"]=>"+getFileName(id));
@@ -271,7 +272,7 @@ public class FileManager {
 		   }
 		}
 		
-		return bitmap;
+		return null;
 	}
 	/**
 	 * Open a bitmap file

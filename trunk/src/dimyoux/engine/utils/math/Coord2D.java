@@ -83,4 +83,21 @@ public class Coord2D {
 	{
 		return new float[]{x, y};
 	}
+	/**
+	 * Indicates if object is equals to this
+	 * @param object
+	 * @return True or false
+	 */
+	@Override
+	public boolean equals(Object object)
+	{
+		try
+		{
+			Coord2D coord = (Coord2D)object;
+			return coord!=null && coord.x == x && coord.y == y;
+		}catch(Exception e)
+		{
+			return false;
+		}
+	}
 }

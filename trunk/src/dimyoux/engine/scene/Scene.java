@@ -155,7 +155,7 @@ public class Scene {
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
 		// Translates 4 units into the screen.
-		gl.glTranslatef(0, 0, -10); 
+		gl.glTranslatef(0, 0, -20); 
 		// Draw our square.
 		gl.glFrontFace(GL10.GL_CCW);
 		// Enable face culling.
