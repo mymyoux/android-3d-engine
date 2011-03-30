@@ -199,6 +199,7 @@ public class Light {
 		position[0] = pos.x;
 		position[1] = pos.y;
 		position[2] = pos.z;
+		enable(this);
 	}
 	
 	/** 
@@ -218,6 +219,7 @@ public class Light {
 		ambient[1] = col.g;
 		ambient[2] = col.b;
 		ambient[3] = col.a;
+		enable(this);
 	}
 
 	/** 
@@ -237,6 +239,7 @@ public class Light {
 		diffuse[1] = col.g;
 		diffuse[2] = col.b;
 		diffuse[3] = col.a;
+		enable(this);
 	}
 	
 	/** 
@@ -256,6 +259,7 @@ public class Light {
 		specular[1] = col.g;
 		specular[2] = col.b;
 		specular[3] = col.a;
+		enable(this);
 	}
 	
 	/**
@@ -271,7 +275,8 @@ public class Light {
 	 * @param direction direction of the spot light
 	 */
 	public void setSpotDirection(Coord3D direction) {
-		spotDirection = direction.toFloatArray();			
+		spotDirection = direction.toFloatArray();	
+		enable(this);
 	}
 	
 	/**
@@ -297,6 +302,7 @@ public class Light {
 	public void setSpotCutOff(float cutoff) {
 		this.spotCutoff = cutoff;
 		this.hasSpotCutoff = true;
+		enable(this);
 	}
 	
 	/**
@@ -322,6 +328,7 @@ public class Light {
 	public void setSpotExponent(float exp) {
 		this.spotExponent = exp;
 		this.hasSpotExponent = true;
+		enable(this);
 	}
 	
 	/** Static functions **/
@@ -451,45 +458,50 @@ public class Light {
 			gl.glEnable(glLight);	
 		}
 	}
-	
 	/**
 	 * Enables the specified light
 	 * @param gl the OpenGL context
-	 * @param numLight the number of the light)
+	 * @param id the number of the light
 	 */
-	static public void enable(int numLight) {
-		if (numLight < 0 || numLight >= lights.size()) {
+	static public void enable(int id) 
+	{
+		if (id < 0 || id >= lights.size()) {
 			Log.error("Incorrect light number");
 			return;
 		}
-		
+		enable(lights.get(id));
+	}
+	/**
+	 * Enables the specified light
+	 * @param gl the OpenGL context
+	 * @param light Light
+	 */
+	static public void enable(Light light) {
 		GL11 gl = Scene.gl;
 		
-		Light l = lights.get(numLight);
+		int glLight = light.getNumber();
 		
-		int glLight = l.getNumber();
-		
-		if(l.getPosition() != null) {
-			gl.glLightfv(glLight, GL10.GL_POSITION, l.getPosition(), 0);
+		if(light.getPosition() != null) {
+			gl.glLightfv(glLight, GL10.GL_POSITION, light.getPosition(), 0);
 		}
-		if(l.getAmbient() != null) {
-			gl.glLightfv(glLight, GL10.GL_AMBIENT, l.getAmbient(), 0);
+		if(light.getAmbient() != null) {
+			gl.glLightfv(glLight, GL10.GL_AMBIENT, light.getAmbient(), 0);
 		}
-		if(l.getDiffuse() != null) {
-			gl.glLightfv(glLight, GL10.GL_SPECULAR, l.getDiffuse(), 0);
+		if(light.getDiffuse() != null) {
+			gl.glLightfv(glLight, GL10.GL_SPECULAR, light.getDiffuse(), 0);
 		}
-		if(l.getSpecular() != null) {
-			gl.glLightfv(glLight, GL10.GL_DIFFUSE, l.getSpecular(), 0);
+		if(light.getSpecular() != null) {
+			gl.glLightfv(glLight, GL10.GL_DIFFUSE, light.getSpecular(), 0);
 		}
 		
-		if(l.getSpotDirection() != null) {
-			gl.glLightfv(glLight, GL10.GL_SPOT_DIRECTION, l.getSpotDirection(), 0);
+		if(light.getSpotDirection() != null) {
+			gl.glLightfv(glLight, GL10.GL_SPOT_DIRECTION, light.getSpotDirection(), 0);
 		}
-		if(l.hasSpotCutoff()) {
-			gl.glLightf(glLight, GL10.GL_SPOT_CUTOFF, l.getSpotCutoff());
+		if(light.hasSpotCutoff()) {
+			gl.glLightf(glLight, GL10.GL_SPOT_CUTOFF, light.getSpotCutoff());
 		}
-		if(l.hasSpotExponent()) {
-			gl.glLightf(glLight, GL10.GL_SPOT_EXPONENT, l.getSpotExponent());
+		if(light.hasSpotExponent()) {
+			gl.glLightf(glLight, GL10.GL_SPOT_EXPONENT, light.getSpotExponent());
 		}
 		
 		gl.glEnable(glLight);
@@ -522,5 +534,18 @@ public class Light {
 		
 		Light l = lights.get(numLight);
 		gl.glDisable(l.getNumber());
+	}
+	/**
+	 * Return a light
+	 * @param id Light id
+	 * @return Light id or null
+	 */
+	static public Light getLight(int id)
+	{
+		if(lights.size()>id)
+		{
+			return lights.get(id);
+		}
+		return null;
 	}
 }

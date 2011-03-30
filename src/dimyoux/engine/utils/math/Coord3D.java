@@ -18,6 +18,28 @@ public class Coord3D extends Coord2D{
 	 * @param y Y
 	 * @param z Z
 	 */
+	public Coord3D(float[] coordinates)
+	{
+		length = 3;
+		if(coordinates.length>0)
+		{
+			this.x = coordinates[0];
+			if(coordinates.length>1)
+			{
+				this.y = coordinates[1];
+			}
+			if(coordinates.length>2)
+			{
+				this.z = coordinates[2];
+			}
+		}
+	}
+	/**
+	 * Constructor
+	 * @param x X 
+	 * @param y Y
+	 * @param z Z
+	 */
 	public Coord3D(float x, float y, float z)
 	{
 		length = 3;

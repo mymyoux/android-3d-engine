@@ -76,12 +76,14 @@ public class Entity {
 			Scene.gl.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
 			Scene.gl.glEnable(GL10.GL_TEXTURE_2D);
 		}
+		
+		/*
 		if(mesh.hasMaterial())
 		{
-			Scene.gl.glEnable(GL10.GL_COLOR_MATERIAL);
-		}
-		if(mesh.hasMaterial())
-		{
+			if(mesh.hasMaterial())
+			{
+				Scene.gl.glEnable(GL10.GL_COLOR_MATERIAL);
+			}
 			if(mesh.currentMaterial.hasDiffuseColor())
 			{
 				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, mesh.currentMaterial.diffuseColor.toFloatBuffer());
@@ -96,7 +98,7 @@ public class Entity {
 			}
 			
 			gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, Buffer.toFloatBuffer(mesh.currentMaterial.shininess));
-		}
+		}*/
 		if(GLConstants.USE_VBO)
 		{
 			bufferize();
