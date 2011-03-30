@@ -145,7 +145,7 @@ public class EngineActivity extends Activity implements IRenderer{
 	    gl.glEnable(GL10.GL_LIGHTING);
 	    Light.addLight(
 	    		Light.LightType.POINT_LIGHT, 
-	    		new Coord3D(0, 0, 150), // position 
+	    		new Coord3D(200, -300, 150), // position 
 	    		Color.WHITE,   			// ambient color
 	    		Color.WHITE,   			// diffuse color
 	    		Color.WHITE);  			// specular color

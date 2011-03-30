@@ -15,6 +15,7 @@ import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Entity;
+import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Node;
 import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
@@ -36,9 +37,14 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	private int id;
 	public void onDrawFrame(GL10 gl) 
 	{
-			node.x +=0.01;
-			node.getParentNode().y +=0.01;
-			node.getParentNode().z+=0.05;
+		node.x +=0.001;
+			node.getParentNode().y +=0.001;
+			node.getParentNode().z+=0.005;
+			float[] pos =Light.getLight(0).getPosition();
+			Log.verbose(pos[0]);
+			pos[0]--;
+			pos[1]++;
+			Light.getLight(0).setPosition(new Coord3D(pos));
 		//Log.debug("frame");
 	}
 	@Override
