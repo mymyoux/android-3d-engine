@@ -37,12 +37,12 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	private int id;
 	public void onDrawFrame(GL10 gl) 
 	{
+		/*
 		node.x +=0.001;
 			node.getParentNode().y +=0.001;
-			node.getParentNode().z+=0.005;
+			node.getParentNode().z+=0.005;*/
 			float[] pos =Light.getLight(0).getPosition();
-			Log.verbose(pos[0]);
-			pos[0]--;
+			pos[0]-=0.5;
 			pos[1]++;
 			Light.getLight(0).setPosition(new Coord3D(pos));
 		//Log.debug("frame");
@@ -82,13 +82,21 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		//Log.error(mesh.faces.get(1).toLongString());
 		//entity.setMesh(mesh.toMesh());
 			*/
+		/*
 		ObjParser parser = new ObjParser();
 		/*node = parser.load("house_obj");
-		root.attachChildNode(node);*/
+		root.attachChildNode(node);
 		node = parser.load("camaro_obj");
 		root.attachChildNode(node);
+		root.attachChildNode( parser.load("camaro_obj"));
+		root.getChildNode(1).x += 2;
+		//root.getChildNode(1).getEntity().getMesh().currentMaterial = null;
 		node.attachChildNode(parser.load("test_obj"));
-		node = node.getChildNode(0);
+		node = node.getChildNode(0);*/
+		ObjParser parser = new ObjParser();
+		node = parser.load("house_obj");
+		node.y -=5;
+		root.attachChildNode(node);
 		
 	}
 	@Override
