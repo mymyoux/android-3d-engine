@@ -3,10 +3,7 @@ package dimyoux.engine.utils.parsers;
 import java.util.ArrayList;
 import java.util.List;
 
-import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
-import dimyoux.engine.utils.math.Coord2D;
-import dimyoux.engine.utils.math.Coord3D;
 /**
  * Face object
  *

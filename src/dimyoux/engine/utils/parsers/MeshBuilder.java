@@ -1,9 +1,7 @@
 package dimyoux.engine.utils.parsers;
 
-import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import dimyoux.engine.scene.Mesh;
 import dimyoux.engine.utils.Buffer;
@@ -11,7 +9,6 @@ import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord2D;
 import dimyoux.engine.utils.math.Coord3D;
-import dimyoux.engine.utils.math.Coord4D;
 /**
  * Mesh builder
  * It's a "pre-mesh" that can be use has a constructor of mesh
@@ -265,7 +262,7 @@ public class MeshBuilder
 			}
 			mesh.verticesBuffer.position(0);
 			
-			mesh.currentMaterial = this.material;
+			mesh.setCurrentMaterial(this.material);
 			mesh.name = this.name;			
 		}
 		return mesh;

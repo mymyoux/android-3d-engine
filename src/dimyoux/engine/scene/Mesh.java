@@ -1,18 +1,31 @@
 package dimyoux.engine.scene;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
+import dimyoux.engine.utils.Buffer;
 import dimyoux.engine.utils.parsers.Material;
 
 /**
  * Mesh
  */
-public class Mesh {
+public class Mesh implements Serializable {
+	/**
+	 * Serial version
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Current Material
 	 */
-	public Material currentMaterial; 
+	private String currentMaterial;
+	/**
+	 * List of materials
+	 */
+	private List<String> materials;
 	/**
 	 * Name
 	 */
@@ -125,8 +138,11 @@ public class Mesh {
 	 */
 	protected boolean hasTexture()
 	{
-		return this.currentMaterial != null && this.currentMaterial.textureBitmap != null;
+		return this.currentMaterial != null && this.getCurrentMaterial() != null && this.getCurrentMaterial().textureBitmap != null;
 	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
 	@Override
 	public String toString()
 	{
@@ -159,6 +175,104 @@ public class Mesh {
 		{
 			txt+=" mat=\""+currentMaterial+"\"";
 		}
+			txt+=" matCount=\""+materials.size()+"\"";
+	
 		return txt+"]";
+	}
+	/**
+	 * Serializes the object
+	 * @param out ObjectOutputStream
+	 * @throws IOException Error
+	 */
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.writeUTF(name);
+		/*public Material currentMaterial; */
+		out.writeInt(texCoordsSize);
+		out.writeUTF(currentMaterial!=null?currentMaterial:"");
+		out.writeObject(materials);
+		Buffer.serialize(verticesBuffer, out);
+		Buffer.serialize(normalsBuffer, out);
+		Buffer.serialize(colorsBuffer, out);
+		Buffer.serialize(texCoordsBuffer, out);
+		Buffer.serialize(indexesBuffer, out);
+	}
+	/**
+	 * Deserializes the object
+	 * @param out ObjectOutputStream
+	 * @throws IOException Error
+	 */
+	@SuppressWarnings("unchecked")
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		this.name = in.readUTF();
+		this.texCoordsSize = in.readInt();
+		currentMaterial = in.readUTF();
+		if(currentMaterial.length()==0)
+		{
+			currentMaterial = null;
+		}
+		this.materials = (ArrayList<String>)in.readObject();
+		verticesBuffer = Buffer.deserializeFloatBuffer(in);
+		normalsBuffer = Buffer.deserializeFloatBuffer(in);
+		colorsBuffer = Buffer.deserializeFloatBuffer(in);
+		texCoordsBuffer = Buffer.deserializeFloatBuffer(in);
+		indexesBuffer = Buffer.deserializeShortBuffer(in);
+	}
+	/**
+	 * Constructor
+	 */
+	public Mesh()
+	{
+		materials = new ArrayList<String>();
+	}
+	/**
+	 * Return the current material
+	 * @return Current Material
+	 */
+	public Material getCurrentMaterial()
+	{
+		return Material.getMaterial(currentMaterial);
+	}
+	/**
+	 * Adds a new material to the mesh
+	 * @param material Material name
+	 * @return True if the material name is an existing material
+	 */
+	public boolean addMaterial(String material)
+	{
+		if(!materials.contains(material) && Material.hasMaterial(material))
+		{
+			materials.add(material);
+			return true;
+		}
+		return Material.hasMaterial(material);
+	}
+	/**
+	 * Sets the current material 
+	 * @param material Material name
+	 * @return True if the material name is correct
+	 */
+	public boolean setCurrentMaterial(String material)
+	{
+		if(addMaterial(material))
+		{
+			currentMaterial = material;
+			return true;
+		}
+		return false;
+	}
+	/**
+	 * Sets the current material 
+	 * @param material Material
+	 * @return True if the material name is correct
+	 */
+	public boolean setCurrentMaterial(Material material)
+	{
+		if(material == null)
+		{
+			return false;
+		}
+		return setCurrentMaterial(material.name);
 	}
 }

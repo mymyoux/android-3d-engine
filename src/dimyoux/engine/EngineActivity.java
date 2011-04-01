@@ -10,7 +10,6 @@ import android.opengl.GLU;
 import android.os.Bundle;
 import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.managers.ApplicationManager;
-import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Scene;
 import dimyoux.engine.utils.Color;

@@ -1,9 +1,15 @@
 package dimyoux.engine.managers;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +17,6 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import dimyoux.engine.R;
 import dimyoux.engine.utils.Log;
 
@@ -294,5 +299,72 @@ public class FileManager {
 	{
 		Log.verbose("Load bitmap["+name+"]");
 		return  loadBitmap(getFileID(name, folder));
+	}
+	
+	/**
+	 * Serializes an object
+	 * @param object Object
+	 * @param name Name
+	 * @return True if the serializing has succeeded
+	 */
+	public boolean serialize(Serializable object, String name)
+	{
+		if(name != null && name.length()>0)
+		{
+	        try {
+	        	ObjectOutputStream serialise;
+	        	File cache = ApplicationManager.getInstance().getActivity().getExternalFilesDir(null);
+	        	if(cache == null)
+	        	{
+	        		ApplicationManager.getInstance().getActivity().getCacheDir();
+	        	}
+	        	 File file = new File(cache, name+".serialized");
+	        	 
+	        	 serialise = new ObjectOutputStream(new FileOutputStream(file));
+		            serialise.writeObject(object);
+		            serialise.flush();            
+		            serialise.close();
+		            Log.verbose("Serialized file : "+name);
+		            return true;
+	        }catch(Exception e) {
+	        	Log.error(e.getMessage());
+	        	Log.error(e);
+	        	
+			}
+		}
+        return false;
+	}
+	
+	/**
+	 * Deserializes an object
+	 * @param object Object
+	 * @param name Name
+	 * @return Deserialized oject
+	 */
+	public Object deserialize(String name)
+	{
+		if(name != null && name.length()>0)
+		{
+	        try {
+	        	ObjectInputStream deserialise;
+	        	File cache = ApplicationManager.getInstance().getActivity().getExternalFilesDir(null);
+	        	
+	        	if(cache == null)
+	        	{
+	        		ApplicationManager.getInstance().getActivity().getCacheDir();
+	        	}
+	        	 File file = new File(cache, name+".serialized");
+	        	 deserialise = new ObjectInputStream(new FileInputStream(file));
+	        	 Object object = deserialise.readObject();         
+	        	 deserialise.close();
+		            Log.verbose("Deserialized file : "+name);
+		            return object;
+	        }catch(Exception e) {
+	        	Log.error(e.getMessage());
+	        	Log.error(e);
+	        	
+			}
+		}
+        return null;
 	}
 }
