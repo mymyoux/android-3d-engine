@@ -1,5 +1,6 @@
 package dimyoux.engine.scene;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,11 @@ import dimyoux.engine.utils.Log;
 /**
  * Node
  */
-public class Node {
+public class Node implements Serializable {
+	/**
+	 * Serial version
+	 */
+	private static final long serialVersionUID = 1L;
 	public float x;
 	public float y;
 	public float z;
@@ -229,5 +234,13 @@ public class Node {
 			entity.draw();
 		}
 		gl.glPopMatrix();
+	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
+	@Override
+	public String toString()
+	{
+		return "[Node childrens=\""+childNodes.size()+"\" Entity=\""+entity+"\"]";
 	}
 }

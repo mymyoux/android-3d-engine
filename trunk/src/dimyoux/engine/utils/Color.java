@@ -1,11 +1,16 @@
 package dimyoux.engine.utils;
+import java.io.Serializable;
 import java.nio.FloatBuffer;
 
 import dimyoux.engine.utils.math.Matrix;
 /**
  * Color
  */
-public class Color implements Cloneable{
+public class Color implements Cloneable, Serializable{
+	/**
+	 * serial version
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Black color	(float[])
 	 */

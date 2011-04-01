@@ -15,7 +15,6 @@ import dimyoux.engine.core.signals.IStatusBarDisabled;
 import dimyoux.engine.core.signals.ITitleDisabled;
 import dimyoux.engine.managers.applicationManagerClasses.Title;
 import dimyoux.engine.utils.Log;
-import dimyoux.engine.utils.parsers.ObjParser;
 /**
  * [Singleton] Application Manager.
  */

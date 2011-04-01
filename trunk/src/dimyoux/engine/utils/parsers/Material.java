@@ -1,6 +1,8 @@
 package dimyoux.engine.utils.parsers;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +11,6 @@ import javax.microedition.khronos.opengles.GL11;
 
 import android.graphics.Bitmap;
 import android.opengl.GLUtils;
-
 import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.scene.Scene;
 import dimyoux.engine.utils.Color;
@@ -18,7 +19,11 @@ import dimyoux.engine.utils.Log;
 /**
  * Material
  */
-public class Material {
+public class Material implements Serializable {
+	/**
+	 * Serial version
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Diffuse color
 	 */
@@ -50,7 +55,7 @@ public class Material {
 	/**
 	 * OpenGL index of the texture
 	 */
-	public int textureIndex = 0;
+	transient public int textureIndex = 0;
 	/**
 	 * Optical Density or index of refraction. 1.0f means there is no refraction.
 	 */
@@ -58,11 +63,11 @@ public class Material {
 	/**
 	 * Texture sent to openGL ?
 	 */
-	public boolean textureSent = false;
+	transient public boolean textureSent = false;
 	/**
 	 * Texture Bitmap
 	 */
-	public Bitmap textureBitmap;
+	transient public Bitmap textureBitmap;
 	/**
 	 * Indicates if the material has a diffuse color
 	 * @return True or false
@@ -347,5 +352,37 @@ public class Material {
 			Log.error(e);
 		}
 		return null;
+	}
+	/**
+	 * Return materials list
+	 * @return Material list
+	 */
+	public static Map<String, Material> getMaterialList()
+	{
+		return materials;
+	}
+	/**
+	 * Serializes the object
+	 * @param out ObjectOutputStream
+	 * @throws IOException Error
+	 */
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.defaultWriteObject();
+		out.writeInt(idTextureFile);
+	}
+	/**
+	 * Deserializes the object
+	 * @param out ObjectOutputStream
+	 * @throws IOException Error
+	 */
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		idTextureFile = in.readInt();
+		if(idTextureFile > 0)
+		{
+			this.textureBitmap = FileManager.getInstance().loadBitmap(idTextureFile);
+		}
 	}
 }

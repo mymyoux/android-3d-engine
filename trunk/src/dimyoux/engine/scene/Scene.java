@@ -1,26 +1,33 @@
 package dimyoux.engine.scene;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-
-
+import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.parsers.Material;
 /**
  * Scene class
  */
-public class Scene {
+public class Scene implements Serializable {
+	/**
+	 * serial version
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * GL instance
 	 */
-	public static GL11 gl;
+	transient public static GL11 gl;
 	/**
 	 * Singleton Scene instance 
 	 */
-	private static Scene _instance;
+	transient private static Scene _instance;
 	/**
 	 * ChildNodes (can be empty)
 	 */
@@ -198,5 +205,58 @@ public class Scene {
 		*/
 
 	   
+	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
+	@Override
+	public String toString()
+	{
+		return "[Scene childNodes=\""+childNodes.size()+"\"]";
+	}
+	/**
+	 * Serializes the object
+	 * @param out ObjectOutputStream
+	 * @throws IOException Error
+	 */
+	private void writeObject(java.io.ObjectOutputStream out) throws IOException
+	{
+		out.defaultWriteObject();
+		out.writeObject(Material.getMaterialList());
+	}
+
+	/**
+	 * Deserializes the object
+	 * @param out ObjectOutputStream
+	 * @throws IOException Error
+	 */
+	@SuppressWarnings("unchecked")
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		Material.getMaterialList().putAll((Map<String, Material>)in.readObject());
+	}
+	/**
+	 * Saves the current scene
+	 * @param name Name for the current scene
+	 */
+	public void save(String name)
+	{
+		FileManager.getInstance().serialize(this, name);
+	}
+	/**
+	 * Load a saved scene
+	 * @param name Name of the scene
+	 * @return True if the load is a success false otherwise.
+	 */
+	public boolean load(String name)
+	{
+		Scene scene = (Scene)FileManager.getInstance().deserialize(name);
+		if(scene == null)
+		{
+			return false;
+		}
+		this.childNodes = scene.childNodes;
+		return true;
 	}
 }

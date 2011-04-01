@@ -1,30 +1,18 @@
 package dimyoux.houseExplorer;
-
-import java.io.InputStream;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.res.Resources.NotFoundException;
-import android.graphics.Bitmap;
 import dimyoux.engine.EngineActivity;
-import dimyoux.engine.R;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
 import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.managers.SensorManager;
-import dimyoux.engine.scene.Entity;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Node;
-import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
-import dimyoux.engine.utils.math.Coord2D;
 import dimyoux.engine.utils.math.Coord3D;
-import dimyoux.engine.utils.parsers.Face;
-import dimyoux.engine.utils.parsers.Material;
 import dimyoux.engine.utils.parsers.ObjParser;
-import dimyoux.engine.utils.parsers.MeshBuilder;
 /**
  * Example application : A house explorer 
  */
@@ -34,7 +22,6 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	 * @param gl GL10 controller
 	 */
 	private Node node;
-	private int id;
 	public void onDrawFrame(GL10 gl) 
 	{
 		/*
@@ -82,7 +69,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		//Log.error(mesh.faces.get(1).toLongString());
 		//entity.setMesh(mesh.toMesh());
 			*/
-		/*
+		
 		ObjParser parser = new ObjParser();
 		/*node = parser.load("house_obj");
 		root.attachChildNode(node);
@@ -92,12 +79,25 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		root.getChildNode(1).x += 2;
 		//root.getChildNode(1).getEntity().getMesh().currentMaterial = null;
 		node.attachChildNode(parser.load("test_obj"));
-		node = node.getChildNode(0);*/
-		ObjParser parser = new ObjParser();
-		node = parser.load("house_obj");
-		node.y -=5;
-		root.attachChildNode(node);
-		
+		node = node.getChildNode(0);
+		ObjParser parser = new ObjParser();*/
+		long debut = System.currentTimeMillis();
+		long fin = debut;
+		if(!root.load("house"))
+		{
+			Log.error("no loading");
+			node =parser.load("house_obj");
+			node.y -=5;
+			root.attachChildNode(node);
+			fin = System.currentTimeMillis();
+			root.save("house");
+			Log.verbose(FileManager.getInstance().deserialize("house"));
+		}else
+		{
+			fin = System.currentTimeMillis();
+			Log.warning("house scene loaded!!!!!!");
+		}
+		Log.verbose("Total load time : "+(fin - debut)/1000);
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

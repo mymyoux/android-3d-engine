@@ -1,21 +1,25 @@
 package dimyoux.engine.scene;
 
-import java.nio.IntBuffer;
+import java.io.Serializable;
+
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-import android.opengl.GLUtils;
 
 import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.utils.Buffer;
-import dimyoux.engine.utils.Log;
+
 
 /**
  * Entity
  */
-public class Entity {
+public class Entity implements Serializable{
 
+	/**
+	 * Serial version
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Mesh
 	 */
@@ -81,21 +85,21 @@ public class Entity {
 		if(mesh.hasMaterial())
 		{
 			
-			if(mesh.currentMaterial.hasDiffuseColor())
+			if(mesh.getCurrentMaterial().hasDiffuseColor())
 			{
 			    
-				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, mesh.currentMaterial.diffuseColor.toFloatBuffer());
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, mesh.getCurrentMaterial().diffuseColor.toFloatBuffer());
 			}
-			if(mesh.currentMaterial.hasAmbientColor())
+			if(mesh.getCurrentMaterial().hasAmbientColor())
 			{
-				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, mesh.currentMaterial.ambientColor.toFloatBuffer());
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, mesh.getCurrentMaterial().ambientColor.toFloatBuffer());
 			}
-			if(mesh.currentMaterial.hasSpecularColor())
+			if(mesh.getCurrentMaterial().hasSpecularColor())
 			{	 
-				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, mesh.currentMaterial.specularColor.toFloatBuffer());
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, mesh.getCurrentMaterial().specularColor.toFloatBuffer());
 			}
 			
-			gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, Buffer.toFloatBuffer(mesh.currentMaterial.shininess));
+			gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, Buffer.toFloatBuffer(mesh.getCurrentMaterial().shininess));
 			if(mesh.hasMaterial())
 			{
 			//	Scene.gl.glEnable(GL10.GL_COLOR_MATERIAL);
@@ -119,14 +123,14 @@ public class Entity {
 				Scene.gl.glNormalPointer(GL11.GL_FLOAT, 0, 0);
 			}
 			if(mesh.hasTexCoordsBuffer() && mesh.hasTexture()) {
-				if(!mesh.currentMaterial.textureSent)
+				if(!mesh.getCurrentMaterial().textureSent)
 				{
-					mesh.currentMaterial.sendTexture();
+					mesh.getCurrentMaterial().sendTexture();
 				}
 				
 				Scene.gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, mesh.texCoordsBufferIndex);
 				Scene.gl.glTexCoordPointer(mesh.texCoordsSize, GL11.GL_FLOAT, 0, 0);
-				Scene.gl.glBindTexture(GL10.GL_TEXTURE_2D, mesh.currentMaterial.textureIndex);
+				Scene.gl.glBindTexture(GL10.GL_TEXTURE_2D, mesh.getCurrentMaterial().textureIndex);
 				
 			}
 			Scene.gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, mesh.indexesBufferIndex);
@@ -153,11 +157,11 @@ public class Entity {
 			if(mesh.hasTexCoordsBuffer() && mesh.hasTexture())
 			{
 				Scene.gl.glTexCoordPointer(mesh.texCoordsSize, GL10.GL_FLOAT, 0, mesh.texCoordsBuffer);
-				if(!mesh.currentMaterial.textureSent)
+				if(!mesh.getCurrentMaterial().textureSent)
 				{
-					mesh.currentMaterial.sendTexture();
+					mesh.getCurrentMaterial().sendTexture();
 				}
-					Scene.gl.glBindTexture(GL10.GL_TEXTURE_2D, mesh.currentMaterial.textureIndex);
+					Scene.gl.glBindTexture(GL10.GL_TEXTURE_2D, mesh.getCurrentMaterial().textureIndex);
 			}
 		
 			Scene.gl.glDrawElements(GL10.GL_TRIANGLES, mesh.indexesBuffer.capacity(), 
@@ -258,5 +262,13 @@ public class Entity {
 			
 		//	Log.verbose("Entity is buffered");
 		}
+	}
+	/**
+	 * Returns a string containing a concise, human-readable description of this object.
+	 */
+	@Override
+	public String toString()
+	{
+		return "[Entity Mesh=\""+mesh+"\"]";
 	}
 }

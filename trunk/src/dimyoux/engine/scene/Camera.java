@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.microedition.khronos.opengles.GL11;
 
 import android.opengl.GLU;
-import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.math.Matrix;
 /**

@@ -1,5 +1,8 @@
 package dimyoux.engine.utils;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.CharBuffer;
@@ -318,5 +321,99 @@ public class Buffer {
 	public static int getSize(boolean value)
 	{
 		return BOOLEAN_SIZE;
+	}
+	/**
+	 * Serializes a FloatBuffer
+	 * @param buffer Floatbuffer
+	 * @param out ObjectOutputSteam
+	 * @throws IOException
+	 */
+	public static void serialize(FloatBuffer buffer, ObjectOutputStream out) throws IOException
+	{
+		if(out != null)
+		{
+			if(buffer!=null)
+			{
+				out.writeInt(buffer.capacity());
+				for(int i=0; i<buffer.capacity(); i++)
+				{
+					out.writeFloat(buffer.get(i));
+				}
+			}else
+			{
+				out.writeInt(-1);
+			}
+		}
+	}
+	/**
+	 * Serializes a ShortBuffer
+	 * @param buffer ShortBuffer
+	 * @param out ObjectOutputSteam
+	 * @throws IOException
+	 */
+	public static void serialize(ShortBuffer buffer, ObjectOutputStream out) throws IOException
+	{
+		if(out != null)
+		{
+			if(buffer!=null)
+			{
+				out.writeInt(buffer.capacity());
+				for(int i=0; i<buffer.capacity(); i++)
+				{
+					out.writeShort(buffer.get(i));
+				}
+			}else
+			{
+				out.writeInt(-1);
+			}
+		}
+	}
+	/**
+	 * Deserializes a FloatBuffer
+	 * @param buffer Floatbuffer
+	 * @param out ObjectOutputSteam
+	 * @throws IOException
+	 */
+	public static FloatBuffer deserializeFloatBuffer(ObjectInputStream in) throws IOException
+	{
+		if(in != null)
+		{
+			int bufferSize = in.readInt();
+			if(bufferSize>=0)
+			{
+				FloatBuffer buffer = Buffer.createFloatBuffer(bufferSize);
+				for(int i=0; i<buffer.capacity(); i++)
+				{
+					buffer.put(in.readFloat());
+				}
+				buffer.rewind();
+				return buffer;
+			}
+		}
+		return null;
+	}
+	/**
+	 * Deserializes a ShortBuffer
+	 * @param buffer ShortBuffer
+	 * @param out ObjectOutputSteam
+	 * @throws IOException
+	 */
+	public static ShortBuffer deserializeShortBuffer(ObjectInputStream in) throws IOException
+	{
+		if(in != null)
+		{
+			int bufferSize = in.readInt();
+			if(bufferSize>=0)
+			{
+				ShortBuffer buffer = Buffer.createShortBuffer(bufferSize);
+				for(int i=0; i<buffer.capacity(); i++)
+				{
+					buffer.put(in.readShort());
+				}
+				buffer.rewind();
+				return buffer;
+			}
+		}
+		return null;
 	}
 }
