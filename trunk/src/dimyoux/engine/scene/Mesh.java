@@ -33,35 +33,35 @@ public class Mesh implements Serializable {
 	/**
 	 * Index buffer of vertices
 	 */
-	protected int verticesBufferIndex = 0;
+	transient protected int verticesBufferIndex = 0;
 	/**
 	 * Buffer of vertices
 	 */
-	public FloatBuffer verticesBuffer;
+	transient public FloatBuffer verticesBuffer;
 	/**
 	 * Index buffer of normals
 	 */
-	protected int normalsBufferIndex = 0;
+	transient protected int normalsBufferIndex = 0;
 	/**
 	 * Buffer of normals
 	 */
-	public FloatBuffer normalsBuffer;
+	transient public FloatBuffer normalsBuffer;
 	/**
 	 * Index buffer of colors
 	 */
-	protected int colorsBufferIndex = 0;
+	transient protected int colorsBufferIndex = 0;
 	/**
 	 * Buffer of colors
 	 */
-	public FloatBuffer colorsBuffer;
+	transient public FloatBuffer colorsBuffer;
 	/**
 	 * Index buffer of textures coordinates
 	 */
-	protected int texCoordsBufferIndex = 0;
+	transient protected int texCoordsBufferIndex = 0;
 	/**
 	 * Buffer  of textures coordinates
 	 */
-	public FloatBuffer texCoordsBuffer;
+	transient public FloatBuffer texCoordsBuffer;
 	/**
 	 * Indicates it texCoords are based on 2 or 3 coordinates
 	 */
@@ -69,11 +69,11 @@ public class Mesh implements Serializable {
 	/**
 	 * Index buffer of indexes
 	 */
-	protected int indexesBufferIndex = 0;
+	transient protected int indexesBufferIndex = 0;
 	/**
 	 * Buffer of indexes
 	 */
-	public ShortBuffer indexesBuffer;
+	transient public ShortBuffer indexesBuffer;
 	/**
 	 * Indicates if this mesh is already Buffered (see OpenGL VBO)
 	 * @return True or false
@@ -186,11 +186,7 @@ public class Mesh implements Serializable {
 	 */
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
-		out.writeUTF(name);
-		/*public Material currentMaterial; */
-		out.writeInt(texCoordsSize);
-		out.writeUTF(currentMaterial!=null?currentMaterial:"");
-		out.writeObject(materials);
+		out.defaultWriteObject();
 		Buffer.serialize(verticesBuffer, out);
 		Buffer.serialize(normalsBuffer, out);
 		Buffer.serialize(colorsBuffer, out);
@@ -202,17 +198,9 @@ public class Mesh implements Serializable {
 	 * @param out ObjectOutputStream
 	 * @throws IOException Error
 	 */
-	@SuppressWarnings("unchecked")
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
-		this.name = in.readUTF();
-		this.texCoordsSize = in.readInt();
-		currentMaterial = in.readUTF();
-		if(currentMaterial.length()==0)
-		{
-			currentMaterial = null;
-		}
-		this.materials = (ArrayList<String>)in.readObject();
+		in.defaultReadObject();
 		verticesBuffer = Buffer.deserializeFloatBuffer(in);
 		normalsBuffer = Buffer.deserializeFloatBuffer(in);
 		colorsBuffer = Buffer.deserializeFloatBuffer(in);

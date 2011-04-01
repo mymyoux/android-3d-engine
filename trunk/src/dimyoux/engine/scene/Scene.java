@@ -1,6 +1,7 @@
 package dimyoux.engine.scene;
 
 import java.io.IOException;
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -258,5 +259,14 @@ public class Scene implements Serializable {
 		}
 		this.childNodes = scene.childNodes;
 		return true;
+	}
+
+	/**
+	 * Deletes a save
+	 * @param name Save's name
+	 */
+	public void clearSave(String name)
+	{
+		FileManager.getInstance().deleteSerializedFile(name);
 	}
 }

@@ -367,4 +367,29 @@ public class FileManager {
 		}
         return null;
 	}
+	/**
+	 * Deletes a serialized file
+	 * @param name File's name
+	 */
+	public void deleteSerializedFile(String name)
+	{
+		if(name != null && name.length()>0)
+		{
+	        try {
+	        	ObjectInputStream deserialise;
+	        	File cache = ApplicationManager.getInstance().getActivity().getExternalFilesDir(null);
+	        	
+	        	if(cache == null)
+	        	{
+	        		ApplicationManager.getInstance().getActivity().getCacheDir();
+	        	}
+	        	 File file = new File(cache, name+".serialized");
+	        	 file.delete();
+	        }catch(Exception e) {
+	        	Log.error(e.getMessage());
+	        	Log.error(e);
+	        	
+			}
+		}
+	}
 }
