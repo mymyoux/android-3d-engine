@@ -6,10 +6,14 @@ import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import android.app.Activity;
+
 import android.opengl.GLU;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.View;
 import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.managers.ApplicationManager;
+import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Scene;
 import dimyoux.engine.utils.Color;
@@ -33,6 +37,7 @@ public class EngineActivity extends Activity implements IRenderer{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ApplicationManager.initialization(this);
       	Log.tagName = this.getClass().getSimpleName();
         _preinitScene();

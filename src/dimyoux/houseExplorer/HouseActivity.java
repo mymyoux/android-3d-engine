@@ -31,7 +31,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 			float[] pos =Light.getLight(0).getPosition();
 			pos[0]-=0.5;
 			pos[1]++;
-			Light.getLight(0).setPosition(new Coord3D(pos));
+		//	Light.getLight(0).setPosition(new Coord3D(pos));
 		//Log.debug("frame");
 	}
 	@Override
@@ -83,6 +83,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		ObjParser parser = new ObjParser();*/
 		long debut = System.currentTimeMillis();
 		long fin = debut;
+		/*
 		if(!root.load("house"))
 		{
 			Log.error("no loading");
@@ -96,7 +97,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		{
 			fin = System.currentTimeMillis();
 			Log.warning("house scene loaded!!!!!!");
-		}
+		}*/
 		Log.verbose("Total load time : "+(fin - debut)/1000);
 	}
 	@Override

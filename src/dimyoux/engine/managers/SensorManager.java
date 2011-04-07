@@ -5,10 +5,15 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import android.R;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.view.MotionEvent;
+import android.view.GestureDetector;
+import android.view.View;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import dimyoux.engine.core.Signal;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
@@ -17,8 +22,12 @@ import dimyoux.engine.utils.Log;
 /**
  * [Singleton]Sensor manager
  */
-public class SensorManager implements SensorEventListener 
+public class SensorManager extends SimpleOnGestureListener implements SensorEventListener 
 {
+	/**
+	 * Gesture detector
+	 */
+	private final GestureDetector detector = new GestureDetector(this);
 	/**
 	 * All sensors type
 	 */
@@ -120,6 +129,7 @@ public class SensorManager implements SensorEventListener
 	 */
 	private SensorManager()
 	{
+		
 		signalProximity = new Signal<ISensorProximity>(){
 			@Override
         	protected void _dispatch(ISensorProximity listener, Object... params)
@@ -355,5 +365,81 @@ public class SensorManager implements SensorEventListener
 	{
 		return signalLight;
 	}
+	/*
+	  @Override
+	  public boolean onSingleTapUp(MotionEvent ev) {
+
+	    Log.d("onSingleTapUp"+ev);
+
+	    return true;
+
+	  }
+
+	  @Override
+
+	  public void onShowPress(MotionEvent ev) {
+
+	    Log.d("onShowPress"+ev);
+
+	  }
+
+	  @Override
+
+	  public void onLongPress(MotionEvent ev) {
+
+	    Log.d("onLongPress"+ev);
+
+	  }
+
+	  @Override
+
+	  public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+
+	    Log.d("onScroll"+e1);
+
+	    return true;
+
+	  }
+
+	  @Override
+
+	  public boolean onDown(MotionEvent ev) {
+
+	    Log.d("onDownd"+ev);
+
+	    return true;
+
+	  }
+
+	  @Override
+
+	  public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
+	    Log.d("d"+e1);
+
+	    Log.d("e2"+e2);
+
+	    return true;
+
+	  }
+	  public boolean onDoubleTapEvent(MotionEvent e)
+	  {
+		  Log.warning("doubletapevent:"+e);
+		  return true;
+	  }*/
+	  public boolean onDoubleTap(MotionEvent e)
+	  {
+		  Log.warning("doubletap:"+e);
+		  return true;
+	  }
+	  
+	
+	  
+	  
+	  public boolean onSingleTapConfirmed(MotionEvent e)
+	  {
+		  Log.warning("singletap:"+e);
+		  return true;
+	  }
 }
 
