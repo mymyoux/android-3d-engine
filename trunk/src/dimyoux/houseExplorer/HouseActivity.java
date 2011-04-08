@@ -83,7 +83,6 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		ObjParser parser = new ObjParser();*/
 		long debut = System.currentTimeMillis();
 		long fin = debut;
-		/*
 		if(!root.load("house"))
 		{
 			Log.error("no loading");
@@ -97,7 +96,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		{
 			fin = System.currentTimeMillis();
 			Log.warning("house scene loaded!!!!!!");
-		}*/
+		}
 		Log.verbose("Total load time : "+(fin - debut)/1000);
 	}
 	@Override
