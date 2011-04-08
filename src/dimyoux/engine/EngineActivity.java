@@ -9,16 +9,11 @@ import android.app.Activity;
 
 import android.opengl.GLU;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.View;
 import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.managers.ApplicationManager;
-import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Scene;
-import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
-import dimyoux.engine.utils.math.Coord3D;
 /**
  * The Class TabletActivity.
  */
@@ -147,14 +142,10 @@ public class EngineActivity extends Activity implements IRenderer{
 
 		//lighting
 	    gl.glEnable(GL10.GL_LIGHTING);
-	    Light.addLight(
-	    		Light.LightType.POINT_LIGHT, 
-	    		new Coord3D(0, 0, 10), // position 
-	    		new Color(0.2f, 0.2f, 0.2f),   			// ambient color
-	    		Color.WHITE,   			// diffuse color
-	    		Color.WHITE);  			// specular color
-	    Light.enable();
+	   
 	    //call to overridden function
 	    onSurfaceCreated(gl, config);
+	    Light.enable();
+
 	}
 } 
