@@ -376,7 +376,6 @@ public class FileManager {
 		if(name != null && name.length()>0)
 		{
 	        try {
-	        	ObjectInputStream deserialise;
 	        	File cache = ApplicationManager.getInstance().getActivity().getExternalFilesDir(null);
 	        	
 	        	if(cache == null)

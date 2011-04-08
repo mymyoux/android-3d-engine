@@ -2,7 +2,6 @@ package dimyoux.houseExplorer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.view.MotionEvent;
 
 import dimyoux.engine.EngineActivity;
 import dimyoux.engine.core.signals.ISensorLight;
@@ -14,7 +13,7 @@ import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Node;
-import dimyoux.engine.scene.Scene;
+import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.parsers.ObjParser;
@@ -90,9 +89,17 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		ObjParser parser = new ObjParser();*/
 		long debut = System.currentTimeMillis();
 		long fin = debut;
+		//light
 		
+		 	// specular color
 		if(!root.load("house"))
 		{
+			Light.addLight(
+		    		Light.LightType.POINT_LIGHT, 
+		    		new Coord3D(0, 0, 10), // position 
+		    		new Color(0.2f, 0.2f, 0.2f),   			// ambient color
+		    		Color.WHITE,   			// diffuse color
+		    		Color.WHITE);  		
 			Log.error("no loading");
 			node =parser.load("house_obj");
 			node.y -=5;

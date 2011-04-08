@@ -1,7 +1,6 @@
 package dimyoux.engine.scene;
 
 import java.io.IOException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -224,6 +223,7 @@ public class Scene implements Serializable {
 	{
 		out.defaultWriteObject();
 		out.writeObject(Material.getMaterialList());
+		out.writeObject(Light.getAllLight());
 	}
 
 	/**
@@ -236,6 +236,7 @@ public class Scene implements Serializable {
 	{
 		in.defaultReadObject();
 		Material.getMaterialList().putAll((Map<String, Material>)in.readObject());
+		Light.getAllLight().addAll((List<Light>)in.readObject());
 	}
 	/**
 	 * Saves the current scene
@@ -243,6 +244,7 @@ public class Scene implements Serializable {
 	 */
 	public void save(String name)
 	{
+		
 		FileManager.getInstance().serialize(this, name);
 	}
 	/**

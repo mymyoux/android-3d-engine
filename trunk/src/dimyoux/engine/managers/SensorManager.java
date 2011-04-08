@@ -5,14 +5,11 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import android.R;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.view.MotionEvent;
-import android.view.GestureDetector;
-import android.view.View;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import dimyoux.engine.core.Signal;
 import dimyoux.engine.core.signals.ISensorLight;
@@ -26,10 +23,6 @@ import dimyoux.engine.utils.Log;
  */
 public class SensorManager extends SimpleOnGestureListener implements SensorEventListener 
 {
-	/**
-	 * Gesture detector
-	 */
-	private final GestureDetector detector = new GestureDetector(this);
 	/**
 	 * All sensors type
 	 */

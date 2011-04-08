@@ -2,7 +2,6 @@ package dimyoux.engine.core;
 
 
 import dimyoux.engine.managers.SensorManager;
-import dimyoux.engine.utils.Log;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.GestureDetector;

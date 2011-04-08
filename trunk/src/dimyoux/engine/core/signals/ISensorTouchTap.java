@@ -1,7 +1,5 @@
 package dimyoux.engine.core.signals;
 
-import android.view.MotionEvent;
-
 /**
  * Signal interface for single tap event
  */

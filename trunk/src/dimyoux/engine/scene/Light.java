@@ -1,6 +1,8 @@
 package dimyoux.engine.scene;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
@@ -11,8 +13,12 @@ import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.math.Coord4D;
 
-public class Light {
+public class Light implements Serializable{
 	
+	/**
+	 * Serial version
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Type of the light 
 	 * (point, spot or directional)
@@ -22,7 +28,7 @@ public class Light {
 	}
 	
 	// Lights of the scene [static]
-	static private ArrayList<Light> lights = new ArrayList<Light> ();
+	static private List<Light> lights = new ArrayList<Light> ();
 	static private int lightsCount = 0;
 	
 	// Number of the light
@@ -547,5 +553,13 @@ public class Light {
 			return lights.get(id);
 		}
 		return null;
+	}
+	/**
+	 * Return all lights
+	 * @return Lights
+	 */
+	static public List<Light> getAllLight()
+	{
+		return lights;
 	}
 }
