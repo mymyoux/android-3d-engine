@@ -18,6 +18,8 @@ import dimyoux.engine.core.Signal;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
+import dimyoux.engine.core.signals.ISensorTouchDoubleTap;
+import dimyoux.engine.core.signals.ISensorTouchTap;
 import dimyoux.engine.utils.Log;
 /**
  * [Singleton]Sensor manager
@@ -91,6 +93,12 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 	    add(TYPE_PRESSURE);
 	    add(TYPE_PROXIMITY);
 	    add(TYPE_TEMPERATURE);
+	    //gravity
+	    add(9);
+	    //linear acceleration
+	    add(10);
+	    //rotation vector
+	    add(11);
 	}}; 
 	/**
 	 * Names of Sensors Types
@@ -106,22 +114,35 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 		put(TYPE_PRESSURE, "pressure");
 		put(TYPE_PROXIMITY, "proximity");
 		put(TYPE_TEMPERATURE, "temperature");
+		put(9, "gravity");
+		put(10, "linear acceleration");
+		put(11, "rotation vector");
 	}};
 	/**
-	 * Dispatch an signal when the proximity sensor status changes
+	 * Dispatches a signal when the proximity sensor status changes
 	 * Signal<ISensorProximity>.dispatch(Boolean);
 	 */
 	private Signal<ISensorProximity> signalProximity;
 	/**
-	 * Dispatch an signal when orientation sensors status changed
+	 * Dispatches a signal when orientation sensors status changed
 	 * Signal<ISensorOrientation>.dispatch(float(yaw), float(pitch), float(roll));
 	 */
 	private Signal<ISensorOrientation> signalOrientation;
 	/**
-	 * Dispatch an signal when light sensors status changed
+	 * Dispatches a signal when light sensors status changed
 	 * Signal<ISensorLight>.dispatch(float(light));
 	 */
 	private Signal<ISensorLight> signalLight;
+	/**
+	 * Dispatches a signal when the user tap on the screen
+	 * Signal<ISensorTouchTap>.dispatch();
+	 */
+	private Signal<ISensorTouchTap> signalTap;
+	/**
+	 * Dispatches a signal when the user double tap on the screen
+	 * Signal<ISensorTouchDoubleTap>.dispatch();
+	 */
+	private Signal<ISensorTouchDoubleTap> signalDoubleTap;
 	private float[] mag;
 	private float[] acc;
 	/**
@@ -151,6 +172,20 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
         	{
         		listener.onLightChanged((Float)params[0]);
         	}
+		};
+		signalTap = new Signal<ISensorTouchTap>(){
+			@Override
+			protected void _dispatch(ISensorTouchTap listener, Object... params)
+			{
+				listener.onTap((Float)params[0], (Float) params[1], (Float) params[2], (Float) params[3]);
+			}
+		};
+		signalDoubleTap = new Signal<ISensorTouchDoubleTap>(){
+			@Override
+			protected void _dispatch(ISensorTouchDoubleTap listener, Object... params)
+			{
+				listener.onDoubleTap((Float) params[0], (Float) params[1], (Float) params[2], (Float) params[3]);
+			}
 		};
 		mag = new float[3];
 		acc = new float[3];
@@ -365,6 +400,24 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 	{
 		return signalLight;
 	}
+	/**
+	 * Dispatches an signal when the user taps the screen
+	 * Signal<ISensorTouchTap>.dispatch(MotionEvent event);
+	 * @return Signal<ISensorTouchTap>.dispatch(MotionEvent event);
+	 */
+	public Signal<ISensorTouchTap> getSignalTap()
+	{
+		return signalTap;
+	}
+	/**
+	 * Dispatches an signal when the user double taps the screen
+	 * Signal<ISensorTouchDoubleTap>.dispatch(MotionEvent event);
+	 * @return Signal<ISensorTouchDoubleTap>.dispatch(MotionEvent event);
+	 */
+	public Signal<ISensorTouchDoubleTap> getSignalDoubleTap()
+	{
+		return signalDoubleTap;
+	}
 	/*
 	  @Override
 	  public boolean onSingleTapUp(MotionEvent ev) {
@@ -427,18 +480,26 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 		  Log.warning("doubletapevent:"+e);
 		  return true;
 	  }*/
-	  public boolean onDoubleTap(MotionEvent e)
+	
+	   /**
+	   * Called then the user double taps the screen
+	   * @param event MotionEvent
+	   */
+	  public boolean onDoubleTap(MotionEvent event)
 	  {
-		  Log.warning("doubletap:"+e);
+		  signalDoubleTap.dispatch(event.getX(), event.getY(), event.getPressure(), event.getSize());
 		  return true;
 	  }
 	  
 	
 	  
-	  
-	  public boolean onSingleTapConfirmed(MotionEvent e)
+	  /**
+	   * Called then the user single taps the screen
+	   * @param event MotionEvent
+	   */
+	  public boolean onSingleTapConfirmed(MotionEvent event)
 	  {
-		  Log.warning("singletap:"+e);
+		  signalTap.dispatch(event.getX(), event.getY(), event.getPressure(), event.getSize());
 		  return true;
 	  }
 }

@@ -2,21 +2,26 @@ package dimyoux.houseExplorer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import android.view.MotionEvent;
+
 import dimyoux.engine.EngineActivity;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
 import dimyoux.engine.core.signals.ISensorProximity;
+import dimyoux.engine.core.signals.ISensorTouchDoubleTap;
+import dimyoux.engine.core.signals.ISensorTouchTap;
 import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.managers.SensorManager;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Node;
+import dimyoux.engine.scene.Scene;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.parsers.ObjParser;
 /**
  * Example application : A house explorer 
  */
-public class HouseActivity extends EngineActivity implements ISensorProximity, ISensorOrientation, ISensorLight {
+public class HouseActivity extends EngineActivity implements ISensorProximity, ISensorOrientation, ISensorLight, ISensorTouchDoubleTap, ISensorTouchTap {
 	/**
 	 * Called when a frame is drawn
 	 * @param gl GL10 controller
@@ -53,6 +58,8 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
     	SensorManager.getInstance().getSignalOrientation().add(this);
     	SensorManager.getInstance().getSignalLight().add(this);
     	SensorManager.getInstance().getSignalProximity().add(this);
+    	SensorManager.getInstance().getSignalTap().add(this);
+    	SensorManager.getInstance().getSignalDoubleTap().add(this);
     	
 
     }
@@ -83,6 +90,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		ObjParser parser = new ObjParser();*/
 		long debut = System.currentTimeMillis();
 		long fin = debut;
+		
 		if(!root.load("house"))
 		{
 			Log.error("no loading");
@@ -94,6 +102,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 			Log.verbose(FileManager.getInstance().deserialize("house"));
 		}else
 		{
+			node = root.getChildNode(0);
 			fin = System.currentTimeMillis();
 			Log.warning("house scene loaded!!!!!!");
 		}
@@ -106,5 +115,17 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	@Override
 	public void onLightChanged(float light) {
 		Log.info("Light level : "+light);
+	}
+	
+	@Override
+	public void onTap(float x, float y, float pressure, float size) {
+		// TODO Auto-generated method stub
+		Log.verbose("Single tap");
+	}
+	@Override
+	public void onDoubleTap(float x, float y, float pressure, float size) {
+		// TODO Auto-generated method stub
+		Log.verbose("Double tap");
+		node.z+=3;	
 	}
 }
