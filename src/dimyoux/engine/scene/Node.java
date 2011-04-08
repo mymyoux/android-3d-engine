@@ -7,6 +7,7 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL11;
 
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.math.Coord3D;
 /**
  * Node
  */
@@ -15,9 +16,19 @@ public class Node implements Serializable {
 	 * Serial version
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public static final byte AXIS_X = 0x01;
+	public static final byte AXIS_Y = 0x02;
+	public static final byte AXIS_Z = 0x03;
+	
 	public float x;
 	public float y;
 	public float z;
+	
+	public float angleX;
+	public float angleY;
+	public float angleZ;
+	
 	/**
 	 * Entity (can be null)
 	 */
@@ -225,6 +236,10 @@ public class Node implements Serializable {
 		GL11 gl = Scene.gl;
 		gl.glPushMatrix();
 		gl.glTranslatef(x, y, z);
+		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
+		gl.glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+		
 		for(final Node node : childNodes)
 		{
 			node.draw();
@@ -242,5 +257,85 @@ public class Node implements Serializable {
 	public String toString()
 	{
 		return "[Node childrens=\""+childNodes.size()+"\" Entity=\""+entity+"\"]";
+	}
+	
+	/**
+	 * Moves the node to the specified location
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 */
+	public void setPosition(float x, float y, float z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	/**
+	 * Moves the node to the specified location
+	 * @param point the wanted location
+	 */
+	public void setPosition(Coord3D point)
+	{
+		this.x = point.x;
+		this.y = point.y;
+		this.z = point.z;
+	}
+	
+	/**
+	 * Translates the node of the specified values
+	 * @param x X
+	 * @param y Y
+	 * @param z Z
+	 */
+	public void translate(float x, float y, float z)
+	{
+		this.x += x;
+		this.y += y;
+		this.z += z;
+	}
+
+	/**
+	 * Translates the node of the specified values
+	 * @param point the point
+	 */
+	public void translate(Coord3D point)
+	{
+		this.x += point.x;
+		this.y += point.y;
+		this.z += point.z;
+	}
+	
+	/**
+	 * Rotates the node of the specified angles on the 3 axes
+	 * @param angleX the X angle
+	 * @param angleY the Y angle
+	 * @param angleZ the Z angle
+	 */
+	public void rotate(float angleX, float angleY, float angleZ)
+	{
+		this.angleX += angleX;
+		this.angleY += angleY;
+		this.angleZ += angleZ;
+	}
+	
+	/**
+	 * Rotates the node of the specified angle and on the specified axis
+	 * @param angle the angle
+	 * @param axis the axis {AXIS_X; AXIS_Y; AXIS_Z}
+	 */
+	public void rotate(float angle, byte axis)
+	{
+		if (axis != AXIS_X && axis != AXIS_Y && axis != AXIS_Z)
+		{
+			return;
+		}
+		
+		switch(axis)
+		{
+		case AXIS_X: rotate(angle, 0.0f, 0.0f); break;
+		case AXIS_Y: rotate(0.0f, angle, 0.0f); break;
+		case AXIS_Z: rotate(0.0f, 0.0f, angle); break;
+		}
 	}
 }
