@@ -7,6 +7,10 @@ import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
+
+import dimyoux.engine.opengl.GLConstants;
 import dimyoux.engine.utils.Buffer;
 import dimyoux.engine.utils.parsers.Material;
 
@@ -263,4 +267,217 @@ public class Mesh implements Serializable {
 		}
 		return setCurrentMaterial(material.name);
 	}
+	
+	/**
+	 * Called for drawing
+	 */
+	public void draw()
+	{
+		GL11 gl = Scene.gl;
+		
+		gl.glPushMatrix();
+		if(this.hasVerticesBuffer())
+		{
+			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+		}
+		if(this.hasColorsBuffer())
+		{
+			gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
+		}
+		if(this.hasNormalsBuffer())
+		{
+			gl.glEnableClientState(GL10.GL_NORMAL_ARRAY);
+		}
+		if(this.hasTexCoordsBuffer() && this.hasTexture())
+		{
+			gl.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+			gl.glEnable(GL10.GL_TEXTURE_2D);
+		}
+		
+		
+		if(this.hasMaterial())
+		{
+			
+			if(this.getCurrentMaterial().hasDiffuseColor())
+			{
+			    
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_DIFFUSE, this.getCurrentMaterial().diffuseColor.toFloatBuffer());
+			}
+			if(this.getCurrentMaterial().hasAmbientColor())
+			{
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_AMBIENT, this.getCurrentMaterial().ambientColor.toFloatBuffer());
+			}
+			if(this.getCurrentMaterial().hasSpecularColor())
+			{	 
+				gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SPECULAR, this.getCurrentMaterial().specularColor.toFloatBuffer());
+			}
+			
+			gl.glMaterialfv(GL10.GL_FRONT_AND_BACK, GL10.GL_SHININESS, Buffer.toFloatBuffer(this.getCurrentMaterial().shininess));
+			if(this.hasMaterial())
+			{
+			//	gl.glEnable(GL10.GL_COLOR_MATERIAL);
+			}
+    	    	    	    
+		}
+		if(GLConstants.USE_VBO)
+		{
+			bufferize();
+			gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.verticesBufferIndex);
+			gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
+			
+		     // enable non-mandatory arrays if found
+			if(this.hasColorsBuffer()) {
+				gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.colorsBufferIndex);
+				gl.glColorPointer(4, GL11.GL_FLOAT, 0, 0);
+				
+			}
+			if(this.hasNormalsBuffer()) {
+				gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.normalsBufferIndex);
+				gl.glNormalPointer(GL11.GL_FLOAT, 0, 0);
+			}
+			if(this.hasTexCoordsBuffer() && this.hasTexture()) {
+				if(!this.getCurrentMaterial().textureSent)
+				{
+					this.getCurrentMaterial().sendTexture();
+				}
+				
+				gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.texCoordsBufferIndex);
+				gl.glTexCoordPointer(this.texCoordsSize, GL11.GL_FLOAT, 0, 0);
+				gl.glBindTexture(GL10.GL_TEXTURE_2D, this.getCurrentMaterial().textureIndex);
+				
+			}
+			gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, this.indexesBufferIndex);
+			
+			gl.glDrawElements(GL10.GL_TRIANGLES, this.indexesBuffer.capacity(), GL11.GL_UNSIGNED_SHORT, 0);
+		     
+			gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
+			gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
+		}else
+		{
+			if(this.hasVerticesBuffer())
+			{
+				gl.glVertexPointer(3, GL10.GL_FLOAT, 0, this.verticesBuffer);
+			}
+			if(this.hasNormalsBuffer()) 
+			{
+				gl.glNormalPointer(GL11.GL_FLOAT, 0, this.normalsBuffer);
+			}
+			if(this.hasColorsBuffer())
+			{
+				gl.glColorPointer(4, GL10.GL_FLOAT, 0, this.colorsBuffer);
+			}
+			
+			if(this.hasTexCoordsBuffer() && this.hasTexture())
+			{
+				gl.glTexCoordPointer(this.texCoordsSize, GL10.GL_FLOAT, 0, this.texCoordsBuffer);
+				if(!this.getCurrentMaterial().textureSent)
+				{
+					this.getCurrentMaterial().sendTexture();
+				}
+					gl.glBindTexture(GL10.GL_TEXTURE_2D, this.getCurrentMaterial().textureIndex);
+			}
+		
+			gl.glDrawElements(GL10.GL_TRIANGLES, this.indexesBuffer.capacity(), 
+					GL10.GL_UNSIGNED_SHORT, this.indexesBuffer);
+		}	
+		if(this.hasMaterial())
+		{
+		//	gl.glDisable(GL10.GL_COLOR_MATERIAL);
+		}
+		if(this.hasVerticesBuffer())
+		{
+			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		}
+		if(this.hasColorsBuffer())
+		{
+			gl.glDisableClientState(GL10.GL_COLOR_ARRAY);
+		}
+		if(this.hasNormalsBuffer())
+		{
+			gl.glDisableClientState(GL10.GL_NORMAL_ARRAY);
+		}
+		if(this.hasTexCoordsBuffer() && this.hasTexture())
+		{
+			gl.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+			gl.glDisable(GL10.GL_TEXTURE_2D);
+		}
+		
+		gl.glPopMatrix();
+	}
+	
+	/**
+	 * Bufferizes this mesh if it is not already 
+	 */
+	private void bufferize()
+	{
+		GL11 gl = Scene.gl;
+		
+		if(!this.isBuffered())
+		{
+			//IntBuffer buffer = Buffer.createIntBuffer(1);
+			int[] buffer = new int[1];
+			//vertices
+			if(this.hasVerticesBuffer())
+			{
+				//Log.verbose("Creating vertices buffer");
+				gl.glGenBuffers(1, buffer, 0);
+				this.verticesBufferIndex = buffer[0];
+				gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.verticesBufferIndex);
+				this.verticesBuffer.rewind();
+				gl.glBufferData(GL11.GL_ARRAY_BUFFER,this.verticesBuffer.capacity()*Buffer.FLOAT_SIZE, this.verticesBuffer, GL11.GL_STATIC_DRAW);
+			}
+			//normals
+			if(this.hasNormalsBuffer())
+			{
+			//	Log.verbose("Creating normals buffer");
+				gl.glGenBuffers(1, buffer, 0);
+				this.normalsBufferIndex = buffer[0];
+				gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.normalsBufferIndex);
+				this.normalsBuffer.rewind();
+				gl.glBufferData(GL11.GL_ARRAY_BUFFER,this.normalsBuffer.capacity()*Buffer.FLOAT_SIZE, this.normalsBuffer, GL11.GL_STATIC_DRAW);
+			}
+			//colors
+			if(this.hasColorsBuffer())
+			{
+				//Log.verbose("Creating colors buffer");
+				gl.glGenBuffers(1, buffer, 0);
+				this.colorsBufferIndex = buffer[0];
+				gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.colorsBufferIndex);
+				this.colorsBuffer.rewind();
+				//TODO : maybe colors will be a BytesBuffer so will use this.colorsBuffer.capacity()*Buffer.BYTE_SIZE instead
+				gl.glBufferData(GL11.GL_ARRAY_BUFFER,this.colorsBuffer.capacity()*Buffer.FLOAT_SIZE, this.colorsBuffer, GL11.GL_STATIC_DRAW);
+			}
+			//texture coordinates
+			if(this.hasTexCoordsBuffer())
+			{
+			//	Log.verbose("Creating texture coordinates buffer");
+				gl.glGenBuffers(1, buffer, 0);
+				this.texCoordsBufferIndex = buffer[0];
+				gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, this.texCoordsBufferIndex);
+				this.texCoordsBuffer.rewind();
+				gl.glBufferData(GL11.GL_ARRAY_BUFFER,this.texCoordsBuffer.capacity()*Buffer.FLOAT_SIZE, this.texCoordsBuffer, GL11.GL_STATIC_DRAW);
+			}
+			
+			//indexes
+			if(this.hasIndexesBuffer())
+			{
+			//	Log.verbose("Creating indexes buffer");
+				gl.glGenBuffers(1, buffer, 0);
+				this.indexesBufferIndex = buffer[0];
+				gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, this.indexesBufferIndex);
+				this.indexesBuffer.rewind();
+				//TODO : maybe colors will be a CharVuffer so will use this.colorsBuffer.capacity()*Buffer.CHAR_SIZE instead
+				gl.glBufferData(GL11.GL_ELEMENT_ARRAY_BUFFER,this.indexesBuffer.capacity()*Buffer.SHORT_SIZE, this.indexesBuffer, GL11.GL_STATIC_DRAW);
+				
+				
+			}
+			//end of array binding
+			gl.glBindBuffer(GL11.GL_ELEMENT_ARRAY_BUFFER, 0);
+			//end of element array binding
+			gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
+			
+		//	Log.verbose("Entity is buffered");
+		}
+	}
+
 }
