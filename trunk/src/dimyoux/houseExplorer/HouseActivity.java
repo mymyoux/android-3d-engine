@@ -133,6 +133,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	public void onDoubleTap(float x, float y, float pressure, float size) {
 		// TODO Auto-generated method stub
 		Log.verbose("Double tap");
-		node.z+=3;	
+		//node.z+=3;	
+		node.rotate(-5, Node.AXIS_Y);
 	}
 }
