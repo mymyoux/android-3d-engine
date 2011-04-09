@@ -1,11 +1,13 @@
 package dimyoux.engine.scene;
 
-import java.util.Hashtable;
-import java.util.Map;
+
+
 
 import javax.microedition.khronos.opengles.GL11;
 
 import android.opengl.GLU;
+import dimyoux.engine.utils.HashMapList;
+import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.math.Matrix;
 /**
@@ -17,8 +19,16 @@ public class Camera {
 	/**
 	 * Cameras map (key = name, value = Camera)
 	 */
-	static private Map<String, Camera> cameras = new Hashtable<String, Camera> ();
+	static private HashMapList<String, Camera> cameras = new HashMapList<String, Camera> ();
 	
+	/**
+	 * Position node
+	 */
+	private Node positionNode;
+	/**
+	 * Target node
+	 */
+	private Node targetNode;
 	/**
 	 * Name of the camera
 	 */
@@ -40,7 +50,18 @@ public class Camera {
 	 * Camera's up vector
 	 */
 	private float[] upVector;
-	
+	/**
+	 * Target's position [x, y, z]
+	 */
+	private float[] target;
+	/**
+	 * Flag when the camera needs an update
+	 */
+	private boolean invalidated;
+	/**
+	 * Active camera
+	 */
+	static private Camera activeCamera; 
 	/**
 	 * Constructor
 	 * @param name name of the camera
@@ -56,10 +77,23 @@ public class Camera {
 		
 		position = new float[] {0.0f, 0.0f, 0.0f}; // camera initial position
 		upVector = new float[] {0.0f, 1.0f, 0.0f}; // camera pointing upward
-		
+		target = new float[] {1.0f, 0.0f, 1.0f}; // camera initial target
 		cameras.put(camName, this);
+		if(activeCamera == null)
+		{
+			setActiveCamera(this);
+		}
+		
 	}
-	
+	/**
+	 * Returns the specified camera, or null if it doesn't exist
+	 * @param id ID
+	 * @return the specified camera
+	 */
+	static public Camera get(int id)
+	{
+		return cameras.get(id);
+	}
 	/**
 	 * Returns the specified camera, or null if it doesn't exist
 	 * @param name the name of the camera
@@ -76,7 +110,73 @@ public class Camera {
 	 */
 	static public void remove(String name)
 	{
-		cameras.remove(name);
+		Camera camera = cameras.remove(name);
+		if(camera != null && camera.equals(activeCamera))
+		{
+			activeCamera = null;
+		}
+	}
+	/**
+	 * Removes the specified camera, or does nothing if the ID isn't correct
+	 * @param id ID
+	 */
+	static public void remove(int id)
+	{
+		Camera camera = cameras.remove(id);
+		if(camera != null && camera.equals(activeCamera))
+		{
+			activeCamera = null;
+		}
+	}
+	/**
+	 * Returns the number of cameras
+	 * @return Number of cameras 
+	 */
+	static public int GetNumCamera()
+	{
+		return cameras.size();
+	}
+	/**
+	 * Returns the active camera
+	 * @return Active Camera or null
+	 */
+	static public Camera getActiveCamera()
+	{
+		return activeCamera;
+	}
+	/**
+	 * Sets this camera to active
+	 * @param id ID Camera
+	 */
+	static public void setActiveCamera(int id)
+	{
+		setActiveCamera(get(id));
+	}
+	/**
+	 * Sets this camera to active
+	 * @param name Name's Camera
+	 */
+	static public void setActiveCamera(String name)
+	{
+		setActiveCamera(get(name));
+	}
+	/**
+	 * Sets this camera to active
+	 * @param camera Camera
+	 */
+	static public void setActiveCamera(Camera camera)
+	{
+		activeCamera = camera;
+	}	
+	/**
+	 * Updates Camera view
+	 */
+	static public void update()
+	{
+		if(activeCamera != null)
+		{
+			activeCamera._update();
+		}
 	}
 	
 	/**
@@ -260,6 +360,7 @@ public class Camera {
 			
 			if (position != null && upVector != null)
 			{
+				
 				GLU.gluLookAt(
 					gl, 																 // OpenGL context
 					position[0], position[1], position[2], 								 // cam position
@@ -278,6 +379,53 @@ public class Camera {
 					position[0], position[1], position[2], 								 // cam position
 					destination.get(0, 0), destination.get(1, 0), destination.get(2, 0), // cam reference point
 					upVector[0], upVector[1], upVector[2]); 							 // cam up vector
+			}
+		}
+	}
+	public void attachTargetNode(Node targetNode)
+	{
+		this.targetNode = targetNode;
+		invalidated = true;
+	}
+	public void attachPositionNode(Node positionNode)
+	{
+		this.positionNode = positionNode;
+		invalidated = true;
+	}
+	/**
+	 * Updates camera position and orientation
+	 */
+	private void _update()
+	{
+		if(invalidated)
+		{
+			
+			if(positionNode != null)
+			{
+				position[0] = positionNode.getWorldX();
+				position[1] = positionNode.getWorldY();
+				position[2] = positionNode.getWorldZ();
+			}
+			if(targetNode != null)
+			{
+				target[0] = targetNode.getWorldX();
+				target[1] = targetNode.getWorldY();
+				target[2] = targetNode.getWorldZ();
+			}
+			if(position != null && upVector != null && target!= null)
+			{
+				//Log.verbose(position[0]+" "+position[1]+" "+ position[2]);
+				if(targetNode != null)
+				{
+					Log.verbose(targetNode.getPosition());
+				}
+				GL11 gl = Scene.gl;
+				GLU.gluLookAt(
+						gl, 																 // OpenGL context
+						position[0], position[1], position[2], 								 // cam position
+						target[0], target[1], target[2], // cam reference point
+						upVector[0], upVector[1], upVector[2]); 	
+				//invalidated = false;
 			}
 		}
 	}

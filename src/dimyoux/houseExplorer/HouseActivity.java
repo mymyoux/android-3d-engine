@@ -11,6 +11,7 @@ import dimyoux.engine.core.signals.ISensorTouchDoubleTap;
 import dimyoux.engine.core.signals.ISensorTouchTap;
 import dimyoux.engine.managers.FileManager;
 import dimyoux.engine.managers.SensorManager;
+import dimyoux.engine.scene.Camera;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Node;
 import dimyoux.engine.utils.Color;
@@ -114,6 +115,11 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 			Log.warning("house scene loaded!!!!!!");
 		}
 		Log.verbose("Total load time : "+(fin - debut)/1000);
+		Camera camera = new Camera("Principale");
+		camera.attachPositionNode(node);
+		camera.attachTargetNode(node.getChildNode(0));
+
+		
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

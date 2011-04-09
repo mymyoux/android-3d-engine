@@ -11,6 +11,7 @@ import android.opengl.GLU;
 import android.os.Bundle;
 import dimyoux.engine.core.interfaces.IRenderer;
 import dimyoux.engine.managers.ApplicationManager;
+import dimyoux.engine.scene.Camera;
 import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Scene;
 import dimyoux.engine.utils.Log;
@@ -103,6 +104,7 @@ public class EngineActivity extends Activity implements IRenderer{
 		// TODO Auto-generated method stub
 		Scene.gl = (GL11)gl;
 		root.draw();
+		Camera.update();
 		onDrawFrame(gl);
 	}
 	@Override

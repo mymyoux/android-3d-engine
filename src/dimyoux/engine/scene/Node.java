@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL11;
 
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
+import dimyoux.engine.utils.math.Matrix;
 /**
  * Node
  */
@@ -337,5 +338,69 @@ public class Node implements Serializable {
 		case AXIS_Y: rotate(0.0f, angle, 0.0f); break;
 		case AXIS_Z: rotate(0.0f, 0.0f, angle); break;
 		}
+	}
+	public Matrix getPosition()
+	{
+		float[] position = new float[3];
+		position[0] = x;
+		position[1] = y;
+		position[2] = z;
+		Matrix pos = new Matrix(position);
+		if(hasParentNode())
+		{
+			pos.multiply(parentNode.getRotation());		
+			pos.sum(parentNode.getPosition());
+		}
+		return pos;
+	}
+	public float getWorldX()
+	{
+		return getPosition().get(0,0);
+	}
+	public float getWorldY()
+	{
+		return getPosition().get(0,1);
+	}
+	public float getWorldZ()
+	{
+		return getPosition().get(0,2);
+	}
+	public Matrix getWorldPosition()
+	{
+		float[] position= new float[3];
+		position[0] = x;
+		position[1] = y;
+		position[2] = z;
+		return new Matrix(position);
+	}
+	public Matrix getRotation()
+	{
+		Matrix rot = new Matrix(3, 3);
+		rot.set(0,0,1);
+		rot.set(1,1,(float)Math.cos(angleX));
+		rot.set(1,2,(float)-Math.sin(angleX));
+		rot.set(2,1,(float)Math.sin(angleX));
+		rot.set(2,2,(float)Math.cos(angleX));
+		Matrix rot2 = new Matrix(3, 3);
+		rot2.set(1,1,1);
+		rot2.set(0,0,(float)Math.cos(angleY));
+		rot2.set(0,2,(float)-Math.sin(angleY));
+		rot2.set(2,0,(float)Math.sin(angleY));
+		rot2.set(2,2,(float)Math.cos(angleY));
+		if(rot.multiply(rot2))
+		{
+			rot2 = new Matrix(3, 3);
+			rot2.set(2,2,1);
+			rot2.set(0,0,(float)Math.cos(angleZ));
+			rot2.set(0,1,(float)-Math.sin(angleZ));
+			rot2.set(1,0,(float)Math.sin(angleZ));
+			rot2.set(1,1,(float)Math.cos(angleZ));
+			if(rot.multiply(rot2))
+			{
+				return rot;
+			}
+		}
+		
+		return null;
 	}
 }
