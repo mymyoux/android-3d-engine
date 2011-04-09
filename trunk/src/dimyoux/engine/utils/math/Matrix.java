@@ -293,7 +293,8 @@ public class Matrix implements Cloneable {
 	 */
 	public boolean multiply(Matrix m)
 	{
-		if (this.getNumRows() != m.getNumColumns() || this.getNumColumns() != m.getNumRows())
+		//TODO:To verify this !!
+		if (this.getNumRows() != m.getNumColumns() && this.getNumColumns() != m.getNumRows())
 		{
 			return false;
 		}

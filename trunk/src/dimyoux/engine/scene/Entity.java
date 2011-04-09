@@ -3,14 +3,6 @@ package dimyoux.engine.scene;
 import java.io.Serializable;
 
 
-import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
-
-
-import dimyoux.engine.opengl.GLConstants;
-import dimyoux.engine.utils.Buffer;
-
-
 /**
  * Entity
  */
