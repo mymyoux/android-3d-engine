@@ -100,4 +100,8 @@ public class Coord2D {
 			return false;
 		}
 	}
+	public Coord2D clone()
+	{
+		return new Coord2D(x, y);
+	}
 }
