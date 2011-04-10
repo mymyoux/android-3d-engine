@@ -112,4 +112,9 @@ public class Coord4D extends Coord3D {
 			return false;
 		}
 	}
+	
+	public Coord4D clone()
+	{
+		return new Coord4D(x, y, z, w);
+	}
 }

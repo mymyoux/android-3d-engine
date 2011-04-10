@@ -67,6 +67,9 @@ public class ObjParser {
 					Entity entity = new Entity();
 					node.attachEntity(entity);
 					entity.setMesh(((MeshBuilder)meshes.values().toArray()[0]).toMesh());
+					node.x = ((MeshBuilder)meshes.values().toArray()[0]).translation.x;
+					node.y = ((MeshBuilder)meshes.values().toArray()[0]).translation.y;
+					node.z = ((MeshBuilder)meshes.values().toArray()[0]).translation.z;
 					Log.verbose("Parsing file "+FileManager.getInstance().getFileName(id)+" is finished");
 					Log.verbose("Get Mesh : "+entity.getMesh());
 				}else
@@ -80,6 +83,9 @@ public class ObjParser {
 						node.attachChildNode(_node);
 						_node.attachEntity(entity);
 						entity.setMesh(mesh.toMesh());
+						_node.x = mesh.translation.x;
+						_node.y = mesh.translation.y;
+						_node.z = mesh.translation.z;
 					}
 					Log.verbose("Parsing file "+FileManager.getInstance().getFileName(id)+" is finished");
 					Log.verbose("Get "+node.getNumChildNodes()+" meshes");
@@ -237,22 +243,22 @@ public class ObjParser {
 								{
 									if(face.hasVertices())
 									{
-										mesh.vertices.add(vertices.get(face.vertices.get(i)-1));
+										mesh.vertices.add(vertices.get(face.vertices.get(i)-1).clone());
 										face.vertices.set(i, mesh.vertices.size()-1);
 									}
 									if(face.hasTexturesCoordinates())
 									{
-										mesh.textureCoordinates.add(textures.get(face.textures.get(i)-1));
+										mesh.textureCoordinates.add(textures.get(face.textures.get(i)-1).clone());
 										face.textures.set(i, mesh.textureCoordinates.size()-1);
 									}
 									if(face.hasNormals())
 									{
-										mesh.normals.add(normals.get(face.normals.get(i)-1));
+										mesh.normals.add(normals.get(face.normals.get(i)-1).clone());
 										face.normals.set(i, mesh.normals.size()-1);
 									}
 									if(face.hasColors())
 									{
-										mesh.colors.add(colors.get(face.colors.get(i)-1));
+										mesh.colors.add(colors.get(face.colors.get(i)-1).clone());
 										face.colors.set(i, mesh.colors.size()-1);
 									}
 								}
@@ -290,22 +296,22 @@ public class ObjParser {
 						{
 							if(face.hasVertices())
 							{
-								mesh.vertices.add(vertices.get(face.vertices.get(i)-1));
+								mesh.vertices.add(vertices.get(face.vertices.get(i)-1).clone());
 								face.vertices.set(i, mesh.vertices.size()-1);
 							}
 							if(face.hasTexturesCoordinates())
 							{
-								mesh.textureCoordinates.add(textures.get(face.textures.get(i)-1));
+								mesh.textureCoordinates.add(textures.get(face.textures.get(i)-1).clone());
 								face.textures.set(i, mesh.textureCoordinates.size()-1);
 							}
 							if(face.hasNormals())
 							{
-								mesh.normals.add(normals.get(face.normals.get(i)-1));
+								mesh.normals.add(normals.get(face.normals.get(i)-1).clone());
 								face.normals.set(i, mesh.normals.size()-1);
 							}
 							if(face.hasColors())
 							{
-								mesh.colors.add(colors.get(face.colors.get(i)-1));
+								mesh.colors.add(colors.get(face.colors.get(i)-1).clone());
 								face.colors.set(i, mesh.colors.size()-1);
 							}
 						}
@@ -337,6 +343,7 @@ public class ObjParser {
 				for(final MeshBuilder _mesh : meshes.values())
 				{
 					_mesh.optimize();
+					_mesh.normalize();
 					countVertices +=_mesh.vertices.size();
 					countNormals +=_mesh.normals.size();
 					countTextures +=_mesh.textureCoordinates.size();

@@ -46,6 +46,10 @@ public class MeshBuilder
 	 */
 	public Material material;
 	/**
+	 * Translation from normalization
+	 */
+	protected Coord3D translation;
+	/**
 	 * Constructor
 	 */
 	public MeshBuilder()
@@ -55,6 +59,7 @@ public class MeshBuilder
 		textureCoordinates = new ArrayList<Coord2D>();
 		faces = new ArrayList<Face>();
 		colors = new ArrayList<Color>();
+		translation = new Coord3D();
 	}
 	/**
 	 * Returns a string containing a concise, human-readable description of this object.
@@ -266,6 +271,35 @@ public class MeshBuilder
 			mesh.name = this.name;			
 		}
 		return mesh;
+	}
+	/**
+	 * Translates the mesh to (0, 0, 0)
+	 */
+	public void normalize()
+	{
+		Log.verbose("normalization");
+		float x = 0, y = 0, z = 0;
+		if(vertices != null && vertices.size()>0)
+		{
+			for(final Coord3D coord : vertices)
+			{
+				x += coord.x;
+				y += coord.y;
+				z += coord.z;
+			}
+			x/=vertices.size();
+			y/=vertices.size();
+			z/=vertices.size();
+			for(Coord3D coord : vertices)
+			{
+				coord.x -= x;
+				coord.y -= y;
+				coord.z -= z;
+			}
+			translation.x = x;
+			translation.y = y;
+			translation.z = z;
+		}
 	}
 	//TODO:optimize function
 	public void optimize()

@@ -36,7 +36,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 			float[] pos =Light.getLight(0).getPosition();
 			pos[0]-=0.5;
 			pos[1]++;
-		//	Light.getLight(0).setPosition(new Coord3D(pos));
+			Light.getLight(0).setPosition(new Coord3D(pos));
 		//Log.debug("frame");
 	}
 	@Override
@@ -93,31 +93,32 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		//light
 		
 		 	// specular color
-		if(!root.load("house"))
-		{
-			Light.addLight(
-		    		Light.LightType.POINT_LIGHT, 
-		    		new Coord3D(0, 0, 10), // position 
-		    		new Color(0.2f, 0.2f, 0.2f),   			// ambient color
-		    		Color.WHITE,   			// diffuse color
-		    		Color.WHITE);  		
-			Log.error("no loading");
-			node =parser.load("house_obj");
-			node.y -=5;
-			root.attachChildNode(node);
-			fin = System.currentTimeMillis();
-			root.save("house");
-			Log.verbose(FileManager.getInstance().deserialize("house"));
-		}else
-		{
-			node = root.getChildNode(0);
-			fin = System.currentTimeMillis();
-			Log.warning("house scene loaded!!!!!!");
-		}
-		Log.verbose("Total load time : "+(fin - debut)/1000);
-		Camera camera = new Camera("Principale");
-		camera.attachPositionNode(node);
-		camera.attachTargetNode(node.getChildNode(0));
+	//	root.clearSave("house");
+		 if(!root.load("house"))
+         {
+                 Light.addLight(
+                         Light.LightType.POINT_LIGHT, 
+                         new Coord3D(0, 0, 10), // position 
+                         new Color(0.2f, 0.2f, 0.2f),                    // ambient color
+                         Color.WHITE,                    // diffuse color
+                         Color.WHITE);           
+                 Log.error("no loading");
+                 node =parser.load("house_obj");
+                 node.y -=5;
+                 root.attachChildNode(node);
+                 fin = System.currentTimeMillis();
+                 root.save("house");
+                 Log.verbose(FileManager.getInstance().deserialize("house"));
+         }else
+         {
+                 node = root.getChildNode(0);
+                 fin = System.currentTimeMillis();
+                 Log.warning("house scene loaded!!!!!!");
+         }
+         Log.verbose("Total load time : "+(fin - debut)/1000);
+         Camera camera = new Camera("Principale");
+         camera.attachPositionNode(node);
+         camera.attachTargetNode(node.getChildNode(0));
 
 		
 	}

@@ -107,4 +107,9 @@ public class Coord3D extends Coord2D{
 			return false;
 		}
 	}
+	
+	public Coord3D clone()
+	{
+		return new Coord3D(x, y, z);
+	}
 }
