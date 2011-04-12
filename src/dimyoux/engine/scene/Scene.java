@@ -161,6 +161,7 @@ public class Scene implements Serializable {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
+		Camera.update();
 		// Translates 4 units into the screen.
 		gl.glTranslatef(0, 0, -20); 
 		// Draw our square.

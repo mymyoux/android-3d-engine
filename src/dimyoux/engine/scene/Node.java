@@ -9,6 +9,7 @@ import javax.microedition.khronos.opengles.GL11;
 import dimyoux.engine.utils.Log;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.math.Matrix;
+import dimyoux.engine.utils.math.Math;
 /**
  * Node
  */
@@ -236,10 +237,11 @@ public class Node implements Serializable {
 	{
 		GL11 gl = Scene.gl;
 		gl.glPushMatrix();
-		gl.glTranslatef(x, y, z);
+		
 		gl.glRotatef(angleX, 1.0f, 0.0f, 0.0f);
 		gl.glRotatef(angleY, 0.0f, 1.0f, 0.0f);
 		gl.glRotatef(angleZ, 0.0f, 0.0f, 1.0f);
+		gl.glTranslatef(x, y, z);
 		
 		for(final Node node : childNodes)
 		{
@@ -319,6 +321,19 @@ public class Node implements Serializable {
 		this.angleY += angleY;
 		this.angleZ += angleZ;
 	}
+
+	/**
+	 * Rotates the node of the specified angles on the 3 axes
+	 * @param angleX the X angle
+	 * @param angleY the Y angle
+	 * @param angleZ the Z angle
+	 */
+	public void rotateTo(float angleX, float angleY, float angleZ)
+	{
+		this.angleX = angleX;
+		this.angleY = angleY;
+		this.angleZ = angleZ;
+	}
 	
 	/**
 	 * Rotates the node of the specified angle and on the specified axis
@@ -339,6 +354,26 @@ public class Node implements Serializable {
 		case AXIS_Z: rotate(0.0f, 0.0f, angle); break;
 		}
 	}
+
+	/**
+	 * Rotates the node of the specified angle and on the specified axis
+	 * @param angle the angle
+	 * @param axis the axis {AXIS_X; AXIS_Y; AXIS_Z}
+	 */
+	public void rotateTo(float angle, byte axis)
+	{
+		if (axis != AXIS_X && axis != AXIS_Y && axis != AXIS_Z)
+		{
+			return;
+		}
+		
+		switch(axis)
+		{
+		case AXIS_X: rotateTo(angle, angleY, angleZ); break;
+		case AXIS_Y: rotateTo(angleX, angle, angleZ); break;
+		case AXIS_Z: rotateTo(angleX, angleY, angle); break;
+		}
+	}
 	public Matrix getPosition()
 	{
 		float[] position = new float[3];
@@ -346,9 +381,11 @@ public class Node implements Serializable {
 		position[1] = y;
 		position[2] = z;
 		Matrix pos = new Matrix(position);
+		
 		if(hasParentNode())
 		{
-			pos.multiply(parentNode.getRotation());		
+			pos.multiply(parentNode.getRotation());
+			pos.multiply(getRotation());
 			pos.sum(parentNode.getPosition());
 		}
 		return pos;
@@ -377,24 +414,24 @@ public class Node implements Serializable {
 	{
 		Matrix rot = new Matrix(3, 3);
 		rot.set(0,0,1);
-		rot.set(1,1,(float)Math.cos(angleX));
-		rot.set(1,2,(float)-Math.sin(angleX));
-		rot.set(2,1,(float)Math.sin(angleX));
-		rot.set(2,2,(float)Math.cos(angleX));
+		rot.set(1,1,(float)Math.cosd(angleX));
+		rot.set(1,2,(float)-Math.sind(angleX));
+		rot.set(2,1,(float)Math.sind(angleX));
+		rot.set(2,2,(float)Math.cosd(angleX));
 		Matrix rot2 = new Matrix(3, 3);
 		rot2.set(1,1,1);
-		rot2.set(0,0,(float)Math.cos(angleY));
-		rot2.set(0,2,(float)-Math.sin(angleY));
-		rot2.set(2,0,(float)Math.sin(angleY));
-		rot2.set(2,2,(float)Math.cos(angleY));
+		rot2.set(0,0,(float)Math.cosd(angleY));
+		rot2.set(0,2,(float)-Math.sind(angleY));
+		rot2.set(2,0,(float)Math.sind(angleY));
+		rot2.set(2,2,(float)Math.cosd(angleY));
 		if(rot.multiply(rot2))
 		{
 			rot2 = new Matrix(3, 3);
 			rot2.set(2,2,1);
-			rot2.set(0,0,(float)Math.cos(angleZ));
-			rot2.set(0,1,(float)-Math.sin(angleZ));
-			rot2.set(1,0,(float)Math.sin(angleZ));
-			rot2.set(1,1,(float)Math.cos(angleZ));
+			rot2.set(0,0,(float)Math.cosd(angleZ));
+			rot2.set(0,1,(float)-Math.sind(angleZ));
+			rot2.set(1,0,(float)Math.sind(angleZ));
+			rot2.set(1,1,(float)Math.cosd(angleZ));
 			if(rot.multiply(rot2))
 			{
 				return rot;

@@ -22,11 +22,15 @@ import dimyoux.engine.utils.parsers.ObjParser;
  * Example application : A house explorer 
  */
 public class HouseActivity extends EngineActivity implements ISensorProximity, ISensorOrientation, ISensorLight, ISensorTouchDoubleTap, ISensorTouchTap {
+
+	private Node node;
+	private Node camPositionNode;
+	private Node camTargetNode;
+	
 	/**
 	 * Called when a frame is drawn
 	 * @param gl GL10 controller
 	 */
-	private Node node;
 	public void onDrawFrame(GL10 gl) 
 	{
 		/*
@@ -41,7 +45,9 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	}
 	@Override
 	public void onOrientationChanged(float yaw, float pitch, float roll) {
-		//Log.info(yaw + ";" + pitch + ";" + roll);
+		camTargetNode.rotateTo(pitch, Node.AXIS_X);
+		camTargetNode.rotateTo(-yaw, Node.AXIS_Y);
+		camTargetNode.rotateTo(roll, Node.AXIS_Z);
 	}
 
 	@Override
@@ -103,24 +109,34 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
                          Color.WHITE,                    // diffuse color
                          Color.WHITE);           
                  Log.error("no loading");
-                 node =parser.load("house_obj");
+                 node = parser.load("house_obj");
                  node.y -=5;
                  root.attachChildNode(node);
+                 //node.rotate(90, Node.AXIS_X);
                  fin = System.currentTimeMillis();
                  root.save("house");
                  Log.verbose(FileManager.getInstance().deserialize("house"));
          }else
          {
                  node = root.getChildNode(0);
+                 //node.rotate(90, Node.AXIS_X);
                  fin = System.currentTimeMillis();
                  Log.warning("house scene loaded!!!!!!");
          }
          Log.verbose("Total load time : "+(fin - debut)/1000);
-         Camera camera = new Camera("Principale");
-         camera.attachPositionNode(node);
-         camera.attachTargetNode(node.getChildNode(0));
+         
+         camPositionNode = new Node();
+         node.attachChildNode(camPositionNode);
+         camPositionNode.setPosition(0, 5, -17);
+         camTargetNode = new Node();
+         camTargetNode.setPosition(0, 0, -70);
 
-		
+         camPositionNode.attachChildNode(camTargetNode);
+         
+         Camera camera = new Camera("Principale");
+         camera.attachPositionNode(camPositionNode);
+         camera.attachTargetNode(camTargetNode); 
+
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -139,8 +155,13 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	@Override
 	public void onDoubleTap(float x, float y, float pressure, float size) {
 		// TODO Auto-generated method stub
-		Log.verbose("Double tap");
+		Log.verbose("Double tap"); 
 		//node.z+=3;	
-		node.rotate(-5, Node.AXIS_Y);
+		//node.rotate(-5, Node.AXIS_Y);
+		//camNode.rotate(-5, Node.AXIS_Y);
+		//camPositionNode.translate(0, 0, 5);
+		camTargetNode.rotate(90, Node.AXIS_Y);
+		//Log.w("rotate: " + camTargetNode.angleX + " " + camTargetNode.angleY + " " + camTargetNode.angleZ);
+		Log.w("targetPos: "  + camTargetNode.getPosition());
 	}
 }
