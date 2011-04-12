@@ -77,7 +77,7 @@ public class Camera {
 		
 		position = new float[] {0.0f, 0.0f, 0.0f}; // camera initial position
 		upVector = new float[] {0.0f, 1.0f, 0.0f}; // camera pointing upward
-		target = new float[] {1.0f, 0.0f, 1.0f}; // camera initial target
+		target 	 = new float[] {1.0f, 0.0f, 1.0f}; // camera initial target
 		cameras.put(camName, this);
 		if(activeCamera == null)
 		{
@@ -399,7 +399,6 @@ public class Camera {
 	{
 		if(invalidated)
 		{
-			
 			if(positionNode != null)
 			{
 				position[0] = positionNode.getWorldX();
@@ -414,17 +413,13 @@ public class Camera {
 			}
 			if(position != null && upVector != null && target!= null)
 			{
-				//Log.verbose(position[0]+" "+position[1]+" "+ position[2]);
-				if(targetNode != null)
-				{
-					Log.verbose(targetNode.getPosition());
-				}
 				GL11 gl = Scene.gl;
+
 				GLU.gluLookAt(
-						gl, 																 // OpenGL context
-						position[0], position[1], position[2], 								 // cam position
-						target[0], target[1], target[2], // cam reference point
-						upVector[0], upVector[1], upVector[2]); 	
+						gl, 									// OpenGL context
+						position[0], position[1], position[2], 	// cam position
+						target[0], target[1], target[2], 		// cam reference point
+						upVector[0], upVector[1], upVector[2]); // cam up vector	
 				//invalidated = false;
 			}
 		}

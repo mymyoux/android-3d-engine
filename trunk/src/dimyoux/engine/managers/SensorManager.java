@@ -315,7 +315,10 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 				{
 					float[] rotation = new float[3];
 					android.hardware.SensorManager.getOrientation(result, rotation);
-					signalOrientation.dispatch(rotation[0], rotation[1], rotation[2]);
+					signalOrientation.dispatch(
+							rotation[0] * dimyoux.engine.utils.math.Math.RAD2DEG, 
+							rotation[1] * dimyoux.engine.utils.math.Math.RAD2DEG, 
+							rotation[2] * dimyoux.engine.utils.math.Math.RAD2DEG);
 					mag = null;
 					acc = null;
 				}
@@ -344,7 +347,10 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 				{
 					float[] rotation = new float[3];
 					android.hardware.SensorManager.getOrientation(result, rotation);
-					signalOrientation.dispatch(rotation[0], rotation[1], rotation[2]);
+					signalOrientation.dispatch(
+							rotation[0] * dimyoux.engine.utils.math.Math.RAD2DEG, 
+							rotation[1] * dimyoux.engine.utils.math.Math.RAD2DEG, 
+							rotation[2] * dimyoux.engine.utils.math.Math.RAD2DEG);
 					mag = null;
 					acc = null;
 				}

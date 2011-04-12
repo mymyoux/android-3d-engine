@@ -103,8 +103,8 @@ public class EngineActivity extends Activity implements IRenderer{
 	public void _onDrawFrame(GL10 gl) {
 		// TODO Auto-generated method stub
 		Scene.gl = (GL11)gl;
+		//Camera.update();
 		root.draw();
-		Camera.update();
 		onDrawFrame(gl);
 	}
 	@Override
