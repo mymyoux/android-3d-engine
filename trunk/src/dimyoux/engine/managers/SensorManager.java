@@ -9,8 +9,8 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.view.MotionEvent;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
 import dimyoux.engine.core.Signal;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
@@ -32,7 +32,7 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 	 */
 	public final static int TYPE_ACCELEROMETER = Sensor.TYPE_ACCELEROMETER;
 	/**
-	 * Gyroscope type
+	 * Gyroscope type 
 	 */
 	public final static int TYPE_GYROSCOPE = Sensor.TYPE_GYROSCOPE;
 	/**
@@ -136,8 +136,10 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 	 * Signal<ISensorTouchDoubleTap>.dispatch();
 	 */
 	private Signal<ISensorTouchDoubleTap> signalDoubleTap;
+	
 	private float[] mag;
 	private float[] acc;
+	
 	/**
 	 * Constructor
 	 */
@@ -156,7 +158,7 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 			@Override
         	protected void _dispatch(ISensorOrientation listener, Object... params)
         	{
-        		listener.onOrientationChanged((Float)params[0],(Float)params[1],(Float)params[2]);
+        		listener.onOrientationChanged((Float)params[0],(Float)params[1],(Float)params[2], (Long)params[3]);
         	}
 		};
 		signalLight = new Signal<ISensorLight>(){
@@ -206,7 +208,7 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 			{
 				if((size(TYPE_GYROSCOPE) > 0 && i!=TYPE_ACCELEROMETER && i!=TYPE_MAGNETIC_FIELD && i!=TYPE_ORIENTATION)|| (size(TYPE_GYROSCOPE)==0 && size(TYPE_MAGNETIC_FIELD)>0 && size(TYPE_ACCELEROMETER)>0 && i!=TYPE_ORIENTATION) || ((size(TYPE_MAGNETIC_FIELD)==0 || size(TYPE_ACCELEROMETER)==0) && size(TYPE_GYROSCOPE)==0 && i!=TYPE_ACCELEROMETER))
 				{
-					_androidSensorManager.registerListener(this, _androidSensorManager.getSensorList(i).get(0), android.hardware.SensorManager.SENSOR_DELAY_GAME);
+					_androidSensorManager.registerListener(this, _androidSensorManager.getSensorList(i).get(0), android.hardware.SensorManager.SENSOR_DELAY_FASTEST);
 				}
 			}
 		}
@@ -295,6 +297,7 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 		case TYPE_ACCELEROMETER:
 			//Log.debug("acceleration : " + event.values[0] + ";" + event.values[1] + ";" + event.values[2]);
 			acc = event.values.clone();
+			
 			if((event.values[0]==1 && event.values[1] == 0 && event.values[2] == 0) || (event.values[0]==0 && event.values[1] == 1 && event.values[2] == 0) || (event.values[0]==0 && event.values[1] == 0 && event.values[2] == 1) )
 			{
 				_androidSensorManager.unregisterListener(this, getSensor(TYPE_ACCELEROMETER));
@@ -318,7 +321,8 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 					signalOrientation.dispatch(
 							rotation[0] * dimyoux.engine.utils.math.Math.RAD2DEG, 
 							rotation[1] * dimyoux.engine.utils.math.Math.RAD2DEG, 
-							rotation[2] * dimyoux.engine.utils.math.Math.RAD2DEG);
+							rotation[2] * dimyoux.engine.utils.math.Math.RAD2DEG,
+							event.timestamp);
 					mag = null;
 					acc = null;
 				}
@@ -350,7 +354,8 @@ public class SensorManager extends SimpleOnGestureListener implements SensorEven
 					signalOrientation.dispatch(
 							rotation[0] * dimyoux.engine.utils.math.Math.RAD2DEG, 
 							rotation[1] * dimyoux.engine.utils.math.Math.RAD2DEG, 
-							rotation[2] * dimyoux.engine.utils.math.Math.RAD2DEG);
+							rotation[2] * dimyoux.engine.utils.math.Math.RAD2DEG,
+							event.timestamp);
 					mag = null;
 					acc = null;
 				}
