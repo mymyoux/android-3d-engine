@@ -49,6 +49,15 @@ public class Signal<T extends ISignal>{
 			listenersOnce.add(listener);
 		}
 	}
+	/**
+	 * Indicates if the listener is already recorded
+	 * @param listener Listener
+	 * @return true if the listener is recorded
+	 */
+	public boolean contains(T listener)
+	{
+		return listeners.contains(listener) || listenersOnce.contains(listener);
+	}
 	
 	/**
 	 * clear all listeners.
