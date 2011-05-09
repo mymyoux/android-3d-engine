@@ -33,15 +33,6 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	 */
 	public void onDrawFrame(GL10 gl) 
 	{
-		/*
-		node.x +=0.001;
-			node.getParentNode().y +=0.001;
-			node.getParentNode().z+=0.005;*/
-			float[] pos =Light.getLight(0).getPosition();
-			pos[0]-=0.5;
-			pos[1]++;
-			Light.getLight(0).setPosition(new Coord3D(pos));
-		//Log.debug("frame");
 	}
 	@Override
 	public void onOrientationChanged(float yaw, float pitch, float roll) {
@@ -53,53 +44,34 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	@Override
 	public void onProximityEvent(Boolean present) 
 	{
+		if(present && !SensorManager.getInstance().getSignalOrientation().contains(this))
+		{
+			SensorManager.getInstance().getSignalOrientation().add(this);
+		}else
+		{
+			if(!present && SensorManager.getInstance().getSignalOrientation().contains(this))
+			{
+				SensorManager.getInstance().getSignalOrientation().remove(this);
+			}
+		}
 		Log.info("Present:"+present);
 	}
 	@Override
 	public void preinitScene()
     {
     	Log.info("Démarrage de l'application houseExplorer");
-    	
-    	// Sensors configuration
-    	SensorManager.getInstance().getSignalOrientation().add(this);
+       	// Sensors configuration
+    	//SensorManager.getInstance().getSignalOrientation().add(this);
     	SensorManager.getInstance().getSignalLight().add(this);
     	SensorManager.getInstance().getSignalProximity().add(this);
     	SensorManager.getInstance().getSignalTap().add(this);
     	SensorManager.getInstance().getSignalDoubleTap().add(this);
-    	
-
     }
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		
-		/*  = new Node();
-		root.attachChildNode(node);
-		Entity entity = new Entity();
-	//	node.attachEntity(entity);
-		Log.debug("Scene created");
 		ObjParser parser = new ObjParser();
-		node = parser.load("camaro_obj");
-		//Log.error(mesh.faces.get(1).toLongString());
-		//entity.setMesh(mesh.toMesh());
-			*/
-		
-		ObjParser parser = new ObjParser();
-		/*node = parser.load("house_obj");
-		root.attachChildNode(node);
-		node = parser.load("camaro_obj");
-		root.attachChildNode(node);
-		root.attachChildNode( parser.load("camaro_obj"));
-		root.getChildNode(1).x += 2;
-		//root.getChildNode(1).getEntity().getMesh().currentMaterial = null;
-		node.attachChildNode(parser.load("test_obj"));
-		node = node.getChildNode(0);
-		ObjParser parser = new ObjParser();*/
 		long debut = System.currentTimeMillis();
 		long fin = debut;
-		//light
-		
-		 	// specular color
-	//	root.clearSave("house");
 		 if(!root.load("house"))
          {
                  Light.addLight(
@@ -136,7 +108,6 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
          Camera camera = new Camera("Principale");
          camera.attachPositionNode(camPositionNode);
          camera.attachTargetNode(camTargetNode); 
-
 	}
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -151,17 +122,13 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	public void onTap(float x, float y, float pressure, float size) {
 		// TODO Auto-generated method stub
 		Log.verbose("Single tap");
+	
 	}
 	@Override
 	public void onDoubleTap(float x, float y, float pressure, float size) {
 		// TODO Auto-generated method stub
 		Log.verbose("Double tap"); 
-		//node.z+=3;	
-		//node.rotate(-5, Node.AXIS_Y);
-		//camNode.rotate(-5, Node.AXIS_Y);
-		//camPositionNode.translate(0, 0, 5);
 		camTargetNode.rotate(90, Node.AXIS_Y);
-		//Log.w("rotate: " + camTargetNode.angleX + " " + camTargetNode.angleY + " " + camTargetNode.angleZ);
 		Log.w("targetPos: "  + camTargetNode.getPosition());
 	}
 }
