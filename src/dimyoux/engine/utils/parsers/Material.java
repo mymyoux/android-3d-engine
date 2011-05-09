@@ -120,7 +120,7 @@ public class Material implements Serializable {
 		Log.warning(textureBitmap.getWidth());
 		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, textureBitmap, 0);
 		textureSent = true;
-		Log.warning("texture sended:"+textureIndex);
+		Log.warning("texture sent:"+textureIndex);
 	}
 	/**
 	 * Returns a string containing a concise, human-readable description of this object.
