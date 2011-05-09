@@ -2,7 +2,6 @@ package dimyoux.houseExplorer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-
 import dimyoux.engine.EngineActivity;
 import dimyoux.engine.core.signals.ISensorLight;
 import dimyoux.engine.core.signals.ISensorOrientation;
@@ -16,6 +15,8 @@ import dimyoux.engine.scene.Light;
 import dimyoux.engine.scene.Node;
 import dimyoux.engine.utils.Color;
 import dimyoux.engine.utils.Log;
+import dimyoux.engine.utils.filters.AveragingFilter;
+import dimyoux.engine.utils.filters.FIRFilter;
 import dimyoux.engine.utils.math.Coord3D;
 import dimyoux.engine.utils.parsers.ObjParser;
 /**
@@ -35,25 +36,38 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 	{
 	}
 	@Override
-	public void onOrientationChanged(float yaw, float pitch, float roll) {
-		camTargetNode.rotateTo(pitch, Node.AXIS_X);
-		camTargetNode.rotateTo(-yaw, Node.AXIS_Y);
-		camTargetNode.rotateTo(roll, Node.AXIS_Z);
+	public void onOrientationChanged(float yaw, float pitch, float roll, long timestamp) {
+		//Log.d("yaw  : " + yaw);
+		//Log.d("pitch: " + pitch);
+		//Log.d("roll : " + roll);
+		camTargetNode.rotateTo(-roll, Node.AXIS_X);
+		camTargetNode.rotateTo(yaw, Node.AXIS_Y);
+		//camTargetNode.rotateTo(-pitch, Node.AXIS_Z);
 	}
 
 	@Override
 	public void onProximityEvent(Boolean present) 
 	{
-		if(present && !SensorManager.getInstance().getSignalOrientation().contains(this))
+		/*
+		//if(present && !SensorManager.getInstance().getSignalOrientation().contains(this))
+		//if(present && !FIRFilter.getInstance().getSignalOrientation().contains(this))
+		if(present && !AveragingFilter.getInstance().getSignalOrientation().contains(this))
 		{
-			SensorManager.getInstance().getSignalOrientation().add(this);
+			//SensorManager.getInstance().getSignalOrientation().add(this);
+			//FIRFilter.getInstance().getSignalOrientation().add(this);
+			AveragingFilter.getInstance().getSignalOrientation().add(this);
 		}else
 		{
-			if(!present && SensorManager.getInstance().getSignalOrientation().contains(this))
+			//if(!present && SensorManager.getInstance().getSignalOrientation().contains(this))
+			//if(!present && FIRFilter.getInstance().getSignalOrientation().contains(this))
+			if(!present && AveragingFilter.getInstance().getSignalOrientation().contains(this))
 			{
-				SensorManager.getInstance().getSignalOrientation().remove(this);
+				//SensorManager.getInstance().getSignalOrientation().remove(this); 
+				//FIRFilter.getInstance().getSignalOrientation().remove(this);
+				AveragingFilter.getInstance().getSignalOrientation().remove(this);
 			}
 		}
+		*/
 		Log.info("Present:"+present);
 	}
 	@Override
@@ -62,6 +76,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
     	Log.info("Démarrage de l'application houseExplorer");
        	// Sensors configuration
     	//SensorManager.getInstance().getSignalOrientation().add(this);
+    	AveragingFilter.getInstance().getSignalOrientation().add(this);
     	SensorManager.getInstance().getSignalLight().add(this);
     	SensorManager.getInstance().getSignalProximity().add(this);
     	SensorManager.getInstance().getSignalTap().add(this);
@@ -92,17 +107,20 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
          {
                  node = root.getChildNode(0);
                  //node.rotate(90, Node.AXIS_X);
+                 //node.y -= 5;
                  fin = System.currentTimeMillis();
                  Log.warning("house scene loaded!!!!!!");
          }
          Log.verbose("Total load time : "+(fin - debut)/1000);
          
+         //node.rotate(180, Node.AXIS_X);
+         
          camPositionNode = new Node();
-         node.attachChildNode(camPositionNode);
-         camPositionNode.setPosition(0, 5, -17);
+         //node.attachChildNode(camPositionNode);
+         //camPositionNode.setPosition(0, 5, -17);
+         camPositionNode.setPosition(0, 0, 0);
          camTargetNode = new Node();
-         camTargetNode.setPosition(0, 0, -70);
-
+         camTargetNode.setPosition(0, -10, 0);
          camPositionNode.attachChildNode(camTargetNode);
          
          Camera camera = new Camera("Principale");

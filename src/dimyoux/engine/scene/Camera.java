@@ -76,7 +76,7 @@ public class Camera {
 		modelView.setIdentity();
 		
 		position = new float[] {0.0f, 0.0f, 0.0f}; // camera initial position
-		upVector = new float[] {0.0f, 1.0f, 0.0f}; // camera pointing upward
+		upVector = new float[] {1.0f, 0.0f, 0.0f}; // camera pointing upward
 		target 	 = new float[] {1.0f, 0.0f, 1.0f}; // camera initial target
 		cameras.put(camName, this);
 		if(activeCamera == null)
@@ -298,7 +298,7 @@ public class Camera {
 			GLU.gluLookAt(
 					gl, 									// OpenGL context
 					position[0], position[1], position[2], 	// cam position
-					point.x, point.y, point.z, 								// cam reference point
+					point.x, point.y, point.z, 				// cam reference point
 					upVector[0], upVector[1], upVector[2]); // cam up vector
 		}
 	}

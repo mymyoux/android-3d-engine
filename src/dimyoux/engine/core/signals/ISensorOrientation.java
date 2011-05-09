@@ -1,4 +1,6 @@
 package dimyoux.engine.core.signals;
+
+
 /**
  * Signal interface for change of orientation
  */
@@ -10,5 +12,5 @@ public interface ISensorOrientation extends ISignal {
 	 * @param roll Roll value
 	 *  
 	 */
-	public void onOrientationChanged(float yaw, float pitch, float roll);
+	public void onOrientationChanged(float yaw, float pitch, float roll, long timestamp);
 }
