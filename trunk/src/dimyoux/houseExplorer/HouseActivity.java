@@ -91,10 +91,11 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
          {
                  Light.addLight(
                          Light.LightType.POINT_LIGHT, 
-                         new Coord3D(0, 0, 10), // position 
+                         new Coord3D(0, -1, 0), // position 
                          new Color(0.2f, 0.2f, 0.2f),                    // ambient color
                          Color.WHITE,                    // diffuse color
                          Color.WHITE);           
+                 
                  Log.error("no loading");
                  node = parser.load("house_obj");
                  node.y -=5;
@@ -112,6 +113,13 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
                  Log.warning("house scene loaded!!!!!!");
          }
          Log.verbose("Total load time : "+(fin - debut)/1000);
+         
+         Light.addLight(
+                 Light.LightType.POINT_LIGHT, 
+                 new Coord3D(0, 1, 0), // position 
+                 new Color(0.3f, 0.3f, 0.3f),                    // ambient color
+                 Color.WHITE,                    // diffuse color
+                 Color.WHITE);           
          
          //node.rotate(180, Node.AXIS_X);
          
