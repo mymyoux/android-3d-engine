@@ -60,8 +60,8 @@ public class AveragingFilter extends TimerTask implements ISensorOrientation {
 		
 		timer = new Timer();
 		
-		// Timer period at 83 ms
-		timer.scheduleAtFixedRate(this, 0, 100);
+		// Timer period at 5 ms
+		timer.scheduleAtFixedRate(this, 0, 5);
 	}
 	
 	/**
