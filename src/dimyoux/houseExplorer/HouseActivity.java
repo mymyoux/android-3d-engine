@@ -41,7 +41,7 @@ public class HouseActivity extends EngineActivity implements ISensorProximity, I
 		//Log.d("pitch: " + pitch);
 		//Log.d("roll : " + roll);
 		camTargetNode.rotateTo(-roll, Node.AXIS_X);
-		camTargetNode.rotateTo(yaw, Node.AXIS_Y);
+		camTargetNode.rotateTo(-yaw, Node.AXIS_Y);
 		//camTargetNode.rotateTo(-pitch, Node.AXIS_Z);
 	}
 
